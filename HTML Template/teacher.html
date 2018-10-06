@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Quizzing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1  maximum-scale=1 user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="HandheldFriendly" content="True">
+
+    <link rel="stylesheet" href="css/materialize.css">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/owl.theme.css">
+    <link rel="stylesheet" href="css/owl.transitions.css">
+    <link rel="stylesheet" href="css/fakeLoader.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="shortcut icon" href="img/favicon.png">
+
+</head>
+
+<body>
+<!-- START NAVBAR -->
+<!-- navbar top -->
+<div class="navbar-top">
+    <!-- site brand	 -->
+    <div class="site-brand">
+        <a href=#!"><h1>Quizzing</h1></a>
+    </div>
+    <!-- end site brand	 -->
+    <div class="side-nav-panel-right">
+        <a href="#" data-activates="slide-out-right" class="side-nav-left"><i class="fa fa-user"></i></a>
+    </div>
+</div>
+<!-- end navbar top -->
+
+<!-- side nav right-->
+<div class="side-nav-panel-right">
+    <ul id="slide-out-right" class="side-nav side-nav-panel collapsible">
+<!--        <li class="profil">
+            <img src="img/profile.jpg" alt="">
+            <h2>John Doe</h2>
+        </li>
+        <li><a href="setting.html"><i class="fa fa-cog"></i>Settings</a></li>
+        <li><a href="about-us.html"><i class="fa fa-user"></i>About Us</a></li>
+        <li><a href="contact.html"><i class="fa fa-envelope-o"></i>Contact Us</a></li>
+        <li><a href="login.html"><i class="fa fa-sign-in"></i>Login</a></li>
+        <li><a href="register.html"><i class="fa fa-user-plus"></i>Register</a></li>-->
+    </ul>
+</div>
+<!-- end side nav right-->
+
+<!-- navbar bottom -->
+<div class="navbar-bottom">
+    <div class="row">
+        <div class="col s4">
+            <!--<a href="index.html"><i class="fa fa-home"></i></a>-->
+        </div>
+        <div class="col s4">
+            <a href="#animatedModal2" id="nav-menu"><i class="fa fa-bars"></i></a>
+        </div>
+        <!--<div class="col s4">
+            <a href="contact.html"><i class="fa fa-envelope-o"></i></a>
+        </div>-->
+    </div>
+</div>
+<!-- end navbar bottom -->
+
+<!-- menu -->
+<div class="menus" id="animatedModal2">
+    <div class="close-animatedModal2 close-icon">
+        <i class="fa fa-close"></i>
+    </div>
+    <div class="modal-content">
+        <div class="container">
+            <!--<div class="row">
+                <div class="col s4">
+                    <a href="index.html" class="button-link">
+                        <div class="menu-link">
+                            <div class="icon">
+                                <i class="fa fa-home"></i>
+                            </div>
+                            Home
+                        </div>
+                    </a>
+                </div>
+                <div class="col s4">
+                    <a href="shop.html" class="button-link">
+                        <div class="menu-link">
+                            <div class="icon">
+                                <i class="fa fa-shopping-bag"></i>
+                            </div>
+                            Shop
+                        </div>
+                    </a>
+                </div>
+                <div class="col s4">
+                    <a href="shop-single.html" class="button-link">
+                        <div class="menu-link">
+                            <div class="icon">
+                                <i class="fa fa-eye"></i>
+                            </div>
+                            Single Shop
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4">
+                    <a href="wishlist.html" class="button-link">
+                        <div class="menu-link">
+                            <div class="icon">
+                                <i class="fa fa-heart"></i>
+                            </div>
+                            Wishlist
+                        </div>
+                    </a>
+                </div>
+                <div class="col s4">
+                    <a href="cart.html" class="button-link">
+                        <div class="menu-link">
+                            <div class="icon">
+                                <i class="fa fa-shopping-cart"></i>
+                            </div>
+                            Cart
+                        </div>
+                    </a>
+                </div>
+                <div class="col s4">
+                    <a href="checkout.html" class="button-link">
+                        <div class="menu-link">
+                            <div class="icon">
+                                <i class="fa fa-credit-card"></i>
+                            </div>
+                            Checkout
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4">
+                    <a href="blog.html" class="button-link">
+                        <div class="menu-link">
+                            <div class="icon">
+                                <i class="fa fa-bold"></i>
+                            </div>
+                            Blog
+                        </div>
+                    </a>
+                </div>
+                <div class="col s4">
+                    <a href="blog-single.html" class="button-link">
+                        <div class="menu-link">
+                            <div class="icon">
+                                <i class="fa fa-file-text-o"></i>
+                            </div>
+                            Blog Single
+                        </div>
+                    </a>
+                </div>
+                <div class="col s4">
+                    <a href="error404.html" class="button-link">
+                        <div class="menu-link">
+                            <div class="icon">
+                                <i class="fa fa-hourglass-half"></i>
+                            </div>
+                            404
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4">
+                    <a href="testimonial.html" class="button-link">
+                        <div class="menu-link">
+                            <div class="icon">
+                                <i class="fa fa-support"></i>
+                            </div>
+                            Testimonial
+                        </div>
+                    </a>
+                </div>
+                <div class="col s4">
+                    <a href="about-us.html" class="button-link">
+                        <div class="menu-link">
+                            <div class="icon">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            About Us
+                        </div>
+                    </a>
+                </div>
+                <div class="col s4">
+                    <a href="contact.html" class="button-link">
+                        <div class="menu-link">
+                            <div class="icon">
+                                <i class="fa fa-envelope-o"></i>
+                            </div>
+                            Contact
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4">
+                    <a href="setting.html" class="button-link">
+                        <div class="menu-link">
+                            <div class="icon">
+                                <i class="fa fa-cog"></i>
+                            </div>
+                            Settings
+                        </div>
+                    </a>
+                </div>
+                <div class="col s4">
+                    <a href="login.html" class="button-link">
+                        <div class="menu-link">
+                            <div class="icon">
+                                <i class="fa fa-sign-in"></i>
+                            </div>
+                            Login
+                        </div>
+                    </a>
+                </div>
+                <div class="col s4">
+                    <a href="register.html" class="button-link">
+                        <div class="menu-link">
+                            <div class="icon">
+                                <i class="fa fa-user-plus"></i>
+                            </div>
+                            Register
+                        </div>
+                    </a>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
+<!-- end menu -->
+
+<!-- login -->
+<div class="pages section spa" id="login">
+    <div class="container">
+        <div class="pages-head">
+            <h3>LOGIN</h3>
+        </div>
+        <div class="login">
+            <div class="row">
+                <form class="col s12">
+                    <div class="input-field">
+                        <input type="email" class="validate" placeholder="EMAIL" required>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" class="validate" placeholder="SENHA" required>
+                    </div>
+                    <a href=""><h6>Esqueceu sua senha?</h6></a>
+                    <button class="button-default" id="loginBtn">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end login -->
+
+<!-- dashboard -->
+<div class="section features bg-second spa" id="dashboard" style="display: none">
+    <div class="container">
+        <div class="row">
+
+            <a href="#" id="questionBtn">
+                <div class="col s6">
+                    <div class="content">
+                        <i class="fa fa-edit"></i>
+                        <h5>Questões</h5>
+                        <p>Edite ou crie novas Questões</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="#" id="quizBtn">
+                <div class="col s6">
+                    <div class="content">
+                        <i class="fa fa-send"></i>
+                        <h5>Quiz</h5>
+                        <p>Inicie um Quiz ou veja resultados anteriores</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!--<div class="row">
+            <div class="col s6">
+                <div class="content">
+                    <i class="fa fa-send"></i>
+                    <h5>Faster</h5>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                </div>
+            </div>
+            <div class="col s6">
+                <div class="content">
+                    <i class="fa fa-code"></i>
+                    <h5>Dev Code</h5>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</div>
+<!-- end dashboard -->
+
+<!--- start questions page -->
+
+<div class="section spa" id="questionPage">
+
+    <div class="container">
+        <div class="fixed-action-btn" style="bottom: 150px">
+            <a class="btn-floating red" id="addQuestion">
+                <i class="fa fa-plus"></i>
+            </a>
+            <ul>
+                <li>
+                    <span class="mobile-fab-tip">Multipla escolha</span>
+                    <a class="btn-floating red tooltipped" data-position="left" data-delay="0"
+                       data-tooltip="Multipla escolha" id="multipleChoiceBtn"><i class="fa fa-question"></i></a>
+                </li>
+                <li>
+                    <span class="mobile-fab-tip">Verdadeiro ou Falso</span>
+                    <a class="btn-floating yellow darken-1 tooltipped" data-position="left" data-delay="0"
+                       data-tooltip="Verdadeiro ou Falso"><i class="fa fa-viadeo"></i></a>
+                </li>
+                <li>
+                    <span class="mobile-fab-tip">Discursiva</span>
+                    <a class="btn-floating green tooltipped" data-position="left" data-delay="0"
+                       data-tooltip="Discursiva"><i class="fa fa-file-text"></i></a>
+                </li>
+            </ul>
+        </div>
+
+        <ul class="collection with-header">
+            <li class="collection-header"><h4>Suas Questões</h4></li>
+            <li class="collection-item">
+                <div>Questão 1<a href="#!" class="secondary-content"><i class="fa fa-edit"></i></a></div>
+            </li>
+            <li class="collection-item">
+                <div>Questão 2<a href="#!" class="secondary-content"><i class="fa fa-edit"></i></a></div>
+            </li>
+            <li class="collection-item">
+                <div>Questão 3<a href="#!" class="secondary-content"><i class="fa fa-edit"></i></a></div>
+            </li>
+            <li class="collection-item">
+                <div>Questão 4<a href="#!" class="secondary-content"><i class="fa fa-edit"></i></a></div>
+            </li>
+        </ul>
+    </div>
+
+</div>
+<!--- end questions page -->
+
+<!-- start multiple choice form -->
+
+<div class="card-panel spa" id="multipleChoiceAdd">
+    <h4 class="header2">Multipla Escolha</h4>
+    <div class="row">
+        <form class="col s12">
+            <div class="row">
+                <div class="file-field input-field col s2">
+                    <div class="btn">
+                        <i class="fa fa-file-image-o"></i>
+                        <input type="file">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <span for="question-question" class>Pergunta</span>
+                    <textarea id="question-question" class="materialize-textarea" length="50000"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s1">
+                    <span class="badge">A</span>
+                </div>
+                <div class="input-field col s8">
+                    <textarea class="materialize-textarea" length="50000"></textarea>
+                </div>
+                <div class="input-field col s3">
+                    <input type="checkbox" class="filled-in" id="checkbox1"/>
+                    <label for="checkbox1"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s1">
+                    <span class="badge">B</span>
+                </div>
+                <div class="input-field col s8">
+                    <textarea class="materialize-textarea" length="50000"></textarea>
+                </div>
+                <div class="input-field col s3">
+                    <input type="checkbox" class="filled-in" id="checkbox2"/>
+                    <label for="checkbox2"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <button class="btn cyan waves-effect waves-light right" type="submit" name="action">Salvar
+                        <i class="fa fa-save right"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- end multiple choice form  -->
+
+<!-- start footer -->
+<div class="footer">
+    <div class="container">
+        <!--<div class="about-us-foot">
+            <h6>Quzzing</h6>
+        </div>-->
+        <!--<div class="social-media">
+            <a href=""><i class="fa fa-facebook"></i></a>
+            <a href=""><i class="fa fa-twitter"></i></a>
+            <a href=""><i class="fa fa-google"></i></a>
+            <a href=""><i class="fa fa-linkedin"></i></a>
+            <a href=""><i class="fa fa-instagram"></i></a>
+        </div>-->
+        <div class="copyright">
+            <span>© 2018 All Right Reserved</span>
+        </div>
+    </div>
+</div>
+<!-- end footer -->
+
+<!-- ================================================
+Scripts
+================================================ -->
+
+<!--materialize js-->
+<!-- scripts -->
+
+<script src="js/jquery.min.js"></script>
+<script src="js/materialize.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/fakeLoader.min.js"></script>
+<script src="js/animatedModal.min.js"></script>
+<script src="js/main.js"></script>
+
+<script>
+    $('#loginBtn').click(function () {
+        $('.spa').hide();
+        $(`#dashboard`).show();
+    });
+
+    $('#questionBtn').click(function () {
+        $('.spa').hide();
+        $('#questionPage').show();
+    });
+    $('#multipleChoiceBtn').click(function () {
+        $('.spa').hide();
+        $('#multipleChoiceAdd').show();
+    });
+
+    $(document).ready(function () {
+        $('.spa').hide();
+        $('#login').show();
+    });
+
+</script>
+
+</body>
+
+</html>
