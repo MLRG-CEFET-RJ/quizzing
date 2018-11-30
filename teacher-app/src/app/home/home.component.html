@@ -1,0 +1,26 @@
+<ActionBar class="action-bar">
+    <ActionItem ios:visibility="collapsed"  (tap)="onDrawerButtonTap()">
+        <button text="&#xf0c9;" class="fa action-bar-button"></button>
+    </ActionItem>
+    <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()"
+        ios.position="left">
+    </ActionItem>
+    <Label class="action-bar-title" text="Quizzing"></Label>
+</ActionBar>
+
+<GridLayout rows="*, *" columns="*, *" class="page page-content">
+    <Stacklayout row="0" col="0">
+        <StackLayout class="list-group-item card" (tap)="onCardButtonTap('/questions')">
+            <Label class="fa card-ico" text="&#xf044;"></Label>
+            <Label class="card-title" text="Questão"></Label>
+            <Label class="card-text" text="Edite ou crie Questões"></Label>
+        </StackLayout>
+    </Stacklayout>
+    <Stacklayout row="0" col="1">
+        <StackLayout class="list-group-item card">
+            <Label class="fa card-ico" text="&#xf1d8;"></Label>
+            <Label class="card-title" text="Quiz"></Label>
+            <Label class="card-text" text="Inicie um Quiz"></Label>
+        </StackLayout>
+    </Stacklayout>
+</GridLayout>
