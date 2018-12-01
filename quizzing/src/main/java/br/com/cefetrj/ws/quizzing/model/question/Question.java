@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "question")
+@Table(name = "questions")
 @EntityListeners(AuditingEntityListener.class)
 public class Question implements Serializable
 {
