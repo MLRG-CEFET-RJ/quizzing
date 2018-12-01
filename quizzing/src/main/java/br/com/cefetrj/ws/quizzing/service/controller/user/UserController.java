@@ -37,7 +37,7 @@ public class UserController
 	@Path("/edit")
 	public Response editUser(@Valid User user)
 	{
-		return userService.editUser(user);
+		return userService.updateUser(user);
 	}
 
 	@DELETE

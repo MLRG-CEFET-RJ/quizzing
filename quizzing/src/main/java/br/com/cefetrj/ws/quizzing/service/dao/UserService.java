@@ -49,7 +49,7 @@ public class UserService
 	}
 
 //TODO: Adicionar verificação de login em todos os métodos
-	public Response editUser(User user)
+	public Response updateUser(User user)
 	{
 
 		JSONObject obj = new JSONObject();
