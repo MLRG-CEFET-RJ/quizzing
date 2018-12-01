@@ -20,9 +20,8 @@ public class QuestionController
 	@Autowired
 	QuestionService questionService;
 
-	//TODO: Remover depois de testar
 	@GET
-	@Path("/users")
+	@Path("/questions")
 	public List<Question> getQuestions(@Valid User user)
 	{
 		return questionService.getQuestions(user.getId());
@@ -39,7 +38,7 @@ public class QuestionController
 	@Path("/edit")
 	public Response editUser(@Valid Question question)
 	{
-		return questionService.editQuestion(question);
+		return questionService.updateQuestion(question);
 	}
 
 	@DELETE
