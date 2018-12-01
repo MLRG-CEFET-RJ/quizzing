@@ -1,6 +1,5 @@
 package br.com.cefetrj.ws.quizzing.config;
 
-import br.com.cefetrj.ws.quizzing.service.controller._test.UserRestService;
 import br.com.cefetrj.ws.quizzing.service.controller.activity.ActivityController;
 import br.com.cefetrj.ws.quizzing.service.controller.login.LoginController;
 import br.com.cefetrj.ws.quizzing.service.controller.question.QuestionController;
@@ -15,7 +14,6 @@ public class JerseyConfig extends ResourceConfig
 {
 	public JerseyConfig()
 	{
-		register(UserRestService.class);//TODO: Resgistro de teste. Remover quando não for mais necessário.
 		register(ActivityController.class);
 		register(UserController.class);
 		register(LoginController.class);
