@@ -38,8 +38,4 @@ public class QuestionService
 		return null;
 	}
 
-	public Response editQuestion(Question question)
-	{
-		return null;
-	}
 }
