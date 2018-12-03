@@ -65,8 +65,8 @@ public class UserService
 			try
 			{
 				obj.put("message", "User successfully updated");
-				obj.put("UserName", user.getName());
-				obj.put("UserEmail", user.getEmail());
+				obj.put("UserName", userToUpdate.getName());
+				obj.put("UserEmail", userToUpdate.getEmail());
 			}
 			catch (JSONException e)
 			{
@@ -83,7 +83,7 @@ public class UserService
 	public Response deleteUser(User user)
 	{
 		User userTobedeleted = userRepository.findById(user.getId())
-				.orElseThrow(() -> new RuntimeException("Not find"));
+		                                     .orElseThrow(() -> new RuntimeException("Not find"));
 		userRepository.delete(userTobedeleted);
 		return  Response.status(200).entity("{\"message\": \"User deleted successfully\"}").build();
 	}
