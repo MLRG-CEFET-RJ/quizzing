@@ -23,19 +23,20 @@ public class Question implements Serializable
 	@NotBlank
 	private String question;
 
-
 	@NotBlank
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "option_id")
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	private List<Option> options;
 
-
-	@NotBlank
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "option_id")
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
-	private List<Option> rightOptions;
+	private List<Option> correctOptions;
+
+	@Lob
+	@Column(name="pic")
+	private byte[] pic;
 
 	@NotBlank
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -58,14 +59,14 @@ public class Question implements Serializable
 		this.options = options;
 	}
 
-	public List<Option> getRightOptions()
+	public List<Option> getCorrectOptions()
 	{
-		return rightOptions;
+		return correctOptions;
 	}
 
-	public void setRightOptions(List<Option> rightOptions)
+	public void setCorrectOptions(List<Option> correctOptions)
 	{
-		this.rightOptions = rightOptions;
+		this.correctOptions = correctOptions;
 	}
 
 	public void setId(Long id)
@@ -91,5 +92,15 @@ public class Question implements Serializable
 	public void setUser(User user)
 	{
 		this.user = user;
+	}
+
+	public byte[] getPic()
+	{
+		return pic;
+	}
+
+	public void setPic(byte[] pic)
+	{
+		this.pic = pic;
 	}
 }
