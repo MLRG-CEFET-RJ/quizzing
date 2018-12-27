@@ -19,7 +19,8 @@ public class UserService
 
 	public  Response createUser(User user)
 	{
-		JSONObject obj = new JSONObject();
+		JSONObject responseObj = new JSONObject();
+		User createdUser;
 
 		if( user.getName() == null || user.getEmail() == null || user.getPassword() == null)
 		{
@@ -27,24 +28,24 @@ public class UserService
 		}
 		try
 		{
-			userRepository.save(user);
+			createdUser = userRepository.save(user);
 		}
 		catch (Exception e)
 		{
-			return duplicatedEmailResponse(obj);
+			return duplicatedEmailResponse(responseObj);
 		}
 
 		try
 		{
-			obj.put("message", "User created successfully");
-			obj.put("UserName", user.getName());
-			obj.put("UserEmail", user.getEmail());
+			responseObj.put("message", "User created successfully");
+			responseObj.put("UserName", createdUser.getName());
+			responseObj.put("UserEmail", createdUser.getEmail());
 		}
 		catch (JSONException e)
 		{
-			return Response.status(201).entity(obj.toString()).build();
+			return Response.status(201).entity(responseObj.toString()).build();
 		}
-		return Response.status(201).entity(obj.toString()).build();
+		return Response.status(201).entity(responseObj.toString()).build();
 
 	}
 
@@ -52,7 +53,7 @@ public class UserService
 	public Response updateUser(User user)
 	{
 
-		JSONObject obj = new JSONObject();
+		JSONObject responseObj = new JSONObject();
 		User userToUpdate = userRepository.findById(user.getId())
 		                                  .orElseThrow( () -> new RuntimeException("Not Found") );
 		userToUpdate.setName(user.getName());
@@ -64,27 +65,27 @@ public class UserService
 			userRepository.save(userToUpdate);
 			try
 			{
-				obj.put("message", "User successfully updated");
-				obj.put("UserName", userToUpdate.getName());
-				obj.put("UserEmail", userToUpdate.getEmail());
+				responseObj.put("message", "User successfully updated");
+				responseObj.put("UserName", userToUpdate.getName());
+				responseObj.put("UserEmail", userToUpdate.getEmail());
 			}
 			catch (JSONException e)
 			{
-				return  Response.status(200).entity(obj.toString()).build();
+				return  Response.status(200).entity(responseObj.toString()).build();
 			}
-			return  Response.status(200).entity(obj.toString()).build();
+			return  Response.status(200).entity(responseObj.toString()).build();
 		}
 		catch (Exception e)
 		{
-			return duplicatedEmailResponse(obj);
+			return duplicatedEmailResponse(responseObj);
 		}
 	}
 
 	public Response deleteUser(User user)
 	{
-		User userTobedeleted = userRepository.findById(user.getId())
+		User userToBeDeleted = userRepository.findById(user.getId())
 		                                     .orElseThrow(() -> new RuntimeException("Not find"));
-		userRepository.delete(userTobedeleted);
+		userRepository.delete(userToBeDeleted);
 		return  Response.status(200).entity("{\"message\": \"User deleted successfully\"}").build();
 	}
 
@@ -102,6 +103,10 @@ public class UserService
 	}
 
 
+	User getUserById(Long userId)
+	{
+		return userRepository.getOne(userId);
+	}
 
 	// TODO: Remover depois de testar
 	public List<User> findAll()

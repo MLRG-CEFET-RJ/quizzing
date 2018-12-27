@@ -32,4 +32,9 @@ public class Option implements Serializable
 	{
 		return text;
 	}
+
+	public void setText(String text)
+	{
+		this.text = text;
+	}
 }

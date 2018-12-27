@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "questions")
@@ -27,7 +28,7 @@ public class Question implements Serializable
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "option_id")
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
-	private List<Option> options;
+	private Map<String, Option> options;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "option_id")
@@ -49,12 +50,12 @@ public class Question implements Serializable
 		return id;
 	}
 
-	public List<Option> getOptions()
+	public Map<String, Option> getOptions()
 	{
 		return options;
 	}
 
-	public void setOptions(List<Option> options)
+	public void setOptions(Map<String, Option> options)
 	{
 		this.options = options;
 	}
