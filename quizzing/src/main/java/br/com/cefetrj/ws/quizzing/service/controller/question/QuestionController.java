@@ -3,12 +3,14 @@ package br.com.cefetrj.ws.quizzing.service.controller.question;
 
 import br.com.cefetrj.ws.quizzing.model.question.Question;
 import br.com.cefetrj.ws.quizzing.service.dao.QuestionService;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -32,8 +34,18 @@ public class QuestionController
 
 	@POST
 	@Path("/new")
-	public Response crateQuestion(JSONObject question)
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response crateQuestion(String questionStr)
 	{
+		JSONObject question = null;
+		try
+		{
+			question = new JSONObject(questionStr);
+		}
+		catch (JSONException e)
+		{
+			e.printStackTrace();
+		}
 		return questionService.createQuestion(Long.parseLong(id), question);
 	}
 

@@ -102,7 +102,6 @@ public class UserService
 		return Response.status(409).entity(obj.toString()).build();
 	}
 
-
 	User getUserById(Long userId)
 	{
 		return userRepository.getOne(userId);
