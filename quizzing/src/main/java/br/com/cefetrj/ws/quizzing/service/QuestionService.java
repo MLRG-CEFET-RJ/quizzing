@@ -1,4 +1,4 @@
-package br.com.cefetrj.ws.quizzing.service.dao;
+package br.com.cefetrj.ws.quizzing.service;
 
 import br.com.cefetrj.ws.quizzing.model.question.Question;
 import br.com.cefetrj.ws.quizzing.repository.QuestionRepository;
@@ -15,12 +15,13 @@ import java.util.List;
 @Service
 public class QuestionService
 {
-	@Autowired
-	QuestionRepository questionRepository;
+	private final QuestionRepository questionRepository;
 
 	@Autowired
-	UserService userService;
-
+	public QuestionService(QuestionRepository questionRepository)
+	{
+		this.questionRepository = questionRepository;
+	}
 
 	public List<Question> getQuestions(Long userId)
 	{
@@ -38,6 +39,7 @@ public class QuestionService
 			questionToBeCreated.setUserId(userId);
 			questionToBeCreated.setQuestion(questionObj.getString("Question"));
 			questionToBeCreated.setType(questionObj.getString("Type"));
+			questionToBeCreated.setAnswer(questionObj.getString("Answer"));
 			JSONArray options = questionObj.optJSONArray("Options");
 			if (options != null)
 			{
@@ -72,10 +74,10 @@ public class QuestionService
 
 	public Response updateQuestion(Question question)
 	{
-		Question questionToUpdate = questionRepository.findById(question.getId())
-		                                              .orElseThrow(() -> new RuntimeException("Not find"));
+		Question questionToUpdate = questionRepository.findById(question.getId()).orElseThrow(() -> new RuntimeException("Not find"));
 		questionToUpdate.setQuestion(question.getQuestion());
 		questionToUpdate.setType(question.getType());
+		questionToUpdate.setAnswer(question.getAnswer());
 		questionToUpdate.setPic(question.getPic());
 		String options = question.getOptions();
 		if (options != null)
@@ -84,15 +86,18 @@ public class QuestionService
 		}
 		questionRepository.save(questionToUpdate);
 
-		return  Response.status(200).entity("{\"message\": \"Question successfully updated\"}").build();
+		return Response.status(200).entity("{\"message\": \"Question successfully updated\"}").build();
 	}
 
 	public Response deleteQuestion(Question question)
 	{
-		Question questionToBeDeleted = questionRepository.findById(question.getId())
-		                                                 .orElseThrow(() -> new RuntimeException("Not find"));
+		Question questionToBeDeleted = questionRepository.findById(question.getId()).orElseThrow(() -> new RuntimeException("Not find"));
 		questionRepository.delete(questionToBeDeleted);
 		return Response.status(200).entity("{\"message\": \"Question deleted successfully\"}").build();
 	}
 
+	Question getQuestion(Long id)
+	{
+		return questionRepository.getOne(id);
+	}
 }

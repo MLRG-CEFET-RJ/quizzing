@@ -1,4 +1,4 @@
-package br.com.cefetrj.ws.quizzing.service.dao;
+package br.com.cefetrj.ws.quizzing.service;
 
 import br.com.cefetrj.ws.quizzing.model.user.User;
 import br.com.cefetrj.ws.quizzing.repository.UserRepository;
@@ -14,8 +14,13 @@ import java.util.List;
 @Service
 public class UserService
 {
+	private final UserRepository userRepository;
+
 	@Autowired
-	UserRepository userRepository;
+	public UserService(UserRepository userRepository)
+	{
+		this.userRepository = userRepository;
+	}
 
 	public  Response createUser(User user)
 	{

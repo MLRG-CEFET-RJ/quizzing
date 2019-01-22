@@ -1,7 +1,7 @@
-package br.com.cefetrj.ws.quizzing.service.controller.user;
+package br.com.cefetrj.ws.quizzing.controller.user;
 
 import br.com.cefetrj.ws.quizzing.model.user.User;
-import br.com.cefetrj.ws.quizzing.service.dao.UserService;
+import br.com.cefetrj.ws.quizzing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,8 +15,13 @@ import java.util.List;
 @Produces("application/json")
 public class UserController
 {
+	private final UserService userService;
+
 	@Autowired
-	UserService userService;
+	public UserController(UserService userService)
+	{
+		this.userService = userService;
+	}
 
 	//TODO: Remover depois de testar
 	@GET

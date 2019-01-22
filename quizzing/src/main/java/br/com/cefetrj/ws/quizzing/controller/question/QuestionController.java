@@ -1,8 +1,8 @@
-package br.com.cefetrj.ws.quizzing.service.controller.question;
+package br.com.cefetrj.ws.quizzing.controller.question;
 
 
 import br.com.cefetrj.ws.quizzing.model.question.Question;
-import br.com.cefetrj.ws.quizzing.service.dao.QuestionService;
+import br.com.cefetrj.ws.quizzing.service.QuestionService;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +19,16 @@ import java.util.List;
 @Produces("application/json")
 public class QuestionController
 {
-	@Autowired
-	QuestionService questionService;
+	private final QuestionService questionService;
 
 	@PathParam("id")
 	String id;
+
+	@Autowired
+	public QuestionController(QuestionService questionService)
+	{
+		this.questionService = questionService;
+	}
 
 	@GET
 	@Path("/questions")

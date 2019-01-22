@@ -1,4 +1,4 @@
-package br.com.cefetrj.ws.quizzing.service.controller.search;
+package br.com.cefetrj.ws.quizzing.controller.search;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

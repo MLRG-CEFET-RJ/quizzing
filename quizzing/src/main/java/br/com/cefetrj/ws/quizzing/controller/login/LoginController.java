@@ -1,4 +1,4 @@
-package br.com.cefetrj.ws.quizzing.service.controller.login;
+package br.com.cefetrj.ws.quizzing.controller.login;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
