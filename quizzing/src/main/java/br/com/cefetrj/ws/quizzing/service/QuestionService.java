@@ -5,6 +5,8 @@ import br.com.cefetrj.ws.quizzing.repository.QuestionRepository;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import java.util.List;
 public class QuestionService
 {
 	private final QuestionRepository questionRepository;
+
+	private final Logger LOGGER = LoggerFactory.getLogger(QuizService.class);
 
 	@Autowired
 	public QuestionService(QuestionRepository questionRepository)
@@ -62,19 +66,21 @@ public class QuestionService
 			}
 			catch (JSONException e)
 			{
+				LOGGER.error("Erro ao cria o objeto Json", e);
 				return Response.status(201).entity(responseObj.toString()).build();
 			}
 			return Response.status(201).entity(responseObj.toString()).build();
 		}
 		catch (JSONException e)
 		{
+			LOGGER.error("Erro ao criar o objeto Json", e);
 			return Response.status(500).entity("{\"message\": \"Internal Server Error\"}").build();
 		}
 	}
 
 	public Response updateQuestion(Question question)
 	{
-		Question questionToUpdate = questionRepository.findById(question.getId()).orElseThrow(() -> new RuntimeException("Not find"));
+		Question questionToUpdate = questionRepository.findById(question.getId()).orElseThrow(() -> new RuntimeException("Not found"));
 		questionToUpdate.setQuestion(question.getQuestion());
 		questionToUpdate.setType(question.getType());
 		questionToUpdate.setAnswer(question.getAnswer());

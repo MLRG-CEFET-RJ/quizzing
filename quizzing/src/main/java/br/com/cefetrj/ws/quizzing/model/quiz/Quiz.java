@@ -5,11 +5,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "quiz")
 @EntityListeners(AuditingEntityListener.class)
-public class Quiz
+public class Quiz implements Serializable
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +19,7 @@ public class Quiz
 	@NotNull
 	private Long userId;
 
+	@Lob
 	@NotBlank
 	private String questions;
 

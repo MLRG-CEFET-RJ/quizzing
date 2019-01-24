@@ -43,10 +43,11 @@ public class QuizController
 	}
 
 	@PUT
-	@Path("edit")
-	public Response editQuiz(@Valid Quiz quiz)
+	@Path("edit/{quizId}")
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response editQuiz(@PathParam("quizId") String quizId, String newQuestions)
 	{
-		return quizService.updateQuiz(quiz);
+		return quizService.updateQuiz(quizId, newQuestions);
 	}
 
 	@DELETE

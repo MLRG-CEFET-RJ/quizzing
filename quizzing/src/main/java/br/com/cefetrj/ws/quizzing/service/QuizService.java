@@ -6,6 +6,8 @@ import br.com.cefetrj.ws.quizzing.repository.QuizRespository;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ public class QuizService
 	private final QuizRespository quizRespository;
 
 	private final QuestionService questionService;
+
+	private final Logger LOGGER = LoggerFactory.getLogger(QuizService.class);
 
 	@Autowired
 	public QuizService(QuizRespository quizRespository, QuestionService questionService)
@@ -38,18 +42,15 @@ public class QuizService
 
 		for (String questionId : questionsIds.split(","))
 		{
-			Question question = questionService.getQuestion(Long.parseLong(questionId));// TODO: buscar questões pelo id
-			JSONObject questionObj = new JSONObject();
+			Question question = questionService.getQuestion(Long.parseLong(questionId));
 			try
 			{
-				questionObj.put("Question", question.getQuestion());
-				questionObj.put("Type", question.getType());
-				questionObj.put("Options", question.getOptions());
-				questionObj.put("Pic", question.getPic());
-				questions.put(question);
+				JSONObject questionObj = generateQuestionJSONObj(question);
+				questions.put(questionObj);
 			}
 			catch (JSONException e)
 			{
+				LOGGER.error("Ocorreu um erro ao criar o objeto Json", e);
 				return Response.status(500).entity("{\"message\": \"Internal Server Error\"}").build();
 			}
 		}
@@ -61,15 +62,48 @@ public class QuizService
 
 	}
 
-	public Response updateQuiz(Quiz quiz)
+	public Response updateQuiz(String quizId, String newQuestions)
 	{
-		return null;
+		Quiz quizToBeUpdated = quizRespository.findById(Long.parseLong(quizId)).orElseThrow(() -> new RuntimeException("Not found"));
+		try
+		{
+			JSONObject obj = new JSONObject(newQuestions);
+			JSONArray questions = new JSONArray(obj.getString("questions"));
+			for (String newQuestion : obj.getString("newQuestions").split(","))
+			{
+				Question question = questionService.getQuestion(Long.parseLong(newQuestion));
+				JSONObject questionObj = generateQuestionJSONObj(question);
+				questions.put(questionObj);
+			}
+
+			quizToBeUpdated.setQuestions(questions.toString());
+			quizRespository.save(quizToBeUpdated);
+
+			return Response.status(200).entity("{\"message\": \"Quiz successfully updated\"}").build();
+		}
+		catch (JSONException e)
+		{
+			LOGGER.error("Erro ao criar o objeto Json", e);
+			return Response.status(500).entity("{\"message\": \"Internal Server Error\"}").build();
+		}
 	}
 
 	public Response deleteQuiz(Quiz quiz)
 	{
-		Quiz quizToBeDeleted = quizRespository.findById(quiz.getId()).orElseThrow(() -> new RuntimeException("Not find"));
+		Quiz quizToBeDeleted = quizRespository.findById(quiz.getId()).orElseThrow(() -> new RuntimeException("Not found"));
 		quizRespository.delete(quizToBeDeleted);
 		return Response.status(200).entity("{\"message\": \"Quiz deleted successfully\"}").build();
+	}
+
+	private JSONObject generateQuestionJSONObj(Question question) throws JSONException
+	{
+
+		JSONObject questionObj = new JSONObject();
+		questionObj.put("Question", question.getQuestion());
+		questionObj.put("Type", question.getType());
+		questionObj.put("Options", question.getOptions());
+		questionObj.put("Pic", question.getPic());
+		questionObj.put("Answer", question.getAnswer());
+		return questionObj;
 	}
 }

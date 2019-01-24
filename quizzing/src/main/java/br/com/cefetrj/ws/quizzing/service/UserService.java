@@ -4,6 +4,8 @@ import br.com.cefetrj.ws.quizzing.model.user.User;
 import br.com.cefetrj.ws.quizzing.repository.UserRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import java.util.List;
 public class UserService
 {
 	private final UserRepository userRepository;
+
+	private final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
 	@Autowired
 	public UserService(UserRepository userRepository)
@@ -37,6 +41,7 @@ public class UserService
 		}
 		catch (Exception e)
 		{
+			LOGGER.error("Email já existente", e);
 			return duplicatedEmailResponse(responseObj);
 		}
 
@@ -48,13 +53,14 @@ public class UserService
 		}
 		catch (JSONException e)
 		{
+			LOGGER.error("Erro ao criar o objeto JSON", e);
 			return Response.status(201).entity(responseObj.toString()).build();
 		}
 		return Response.status(201).entity(responseObj.toString()).build();
 
 	}
 
-//TODO: Adicionar verificação de login em todos os métodos
+	//TODO: Adicionar verificação de login em todos os métodos
 	public Response updateUser(User user)
 	{
 
@@ -76,20 +82,21 @@ public class UserService
 			}
 			catch (JSONException e)
 			{
+				LOGGER.error("Erro ao criar o objeto JSON", e);
 				return  Response.status(200).entity(responseObj.toString()).build();
 			}
 			return  Response.status(200).entity(responseObj.toString()).build();
 		}
 		catch (Exception e)
 		{
+			LOGGER.error("Email já existente", e);
 			return duplicatedEmailResponse(responseObj);
 		}
 	}
 
 	public Response deleteUser(User user)
 	{
-		User userToBeDeleted = userRepository.findById(user.getId())
-		                                     .orElseThrow(() -> new RuntimeException("Not find"));
+		User userToBeDeleted = userRepository.findById(user.getId()).orElseThrow(() -> new RuntimeException("Not Found"));
 		userRepository.delete(userToBeDeleted);
 		return  Response.status(200).entity("{\"message\": \"User deleted successfully\"}").build();
 	}
@@ -102,14 +109,10 @@ public class UserService
 		}
 		catch (JSONException e1)
 		{
+			LOGGER.error("Erro ao criar o objeto JSON", e1);
 			return Response.status(409).entity(obj.toString()).build();
 		}
 		return Response.status(409).entity(obj.toString()).build();
-	}
-
-	User getUserById(Long userId)
-	{
-		return userRepository.getOne(userId);
 	}
 
 	// TODO: Remover depois de testar
