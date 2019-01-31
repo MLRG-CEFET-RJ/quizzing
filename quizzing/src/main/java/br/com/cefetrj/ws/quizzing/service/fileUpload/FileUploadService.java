@@ -32,7 +32,7 @@ public class FileUploadService
 		}
 		catch (JSONException e)
 		{
-			LOGGER.error("Ocorreu um erro ao obter o json com os paramentros e o arquivo", e);
+			LOGGER.error("Ocorreu um erro ao obter o json com os parametros e o arquivo", e);
 
 			return Response.status(500).entity("{\"message\": \"Internal Server Error\"}").build();
 		}
