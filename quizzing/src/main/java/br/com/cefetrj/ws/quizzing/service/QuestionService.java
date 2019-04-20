@@ -1,8 +1,8 @@
 package br.com.cefetrj.ws.quizzing.service;
 
 import br.com.cefetrj.ws.quizzing.model.question.Question;
+import br.com.cefetrj.ws.quizzing.model.question.QuestionDTO;
 import br.com.cefetrj.ws.quizzing.repository.QuestionRepository;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -32,50 +33,32 @@ public class QuestionService
 		return questionRepository.findByUserId(userId);
 	}
 
-	public Response createQuestion(Long userId, JSONObject questionObj)
+	public Response createQuestion(Long userId, QuestionDTO questionDTO)
 	{
-		Question questionToBeCreated = new Question();
-		Question createdQuestion;
 		JSONObject responseObj = new JSONObject();
 
+		Question createdQuestion = newQuestion(userId, questionDTO);
 		try
 		{
-			questionToBeCreated.setUserId(userId);
-			questionToBeCreated.setQuestion(questionObj.getString("Question"));
-			questionToBeCreated.setType(questionObj.getString("Type"));
-			questionToBeCreated.setAnswer(questionObj.getString("Answer"));
-			JSONArray options = questionObj.optJSONArray("Options");
-			if (options != null)
-			{
-				questionToBeCreated.setOptions(options.toString());
-			}
-			String pic = questionObj.getString("Image");
-			if (!pic.equals("null"))
-			{
-				questionToBeCreated.setPic(Base64.getDecoder().decode(pic));
-			}
-			else
-			{
-				questionToBeCreated.setPic(null);
-			}
-			createdQuestion = questionRepository.save(questionToBeCreated);
-			try
-			{
-				responseObj.put("message", "Question created successfully");
-				responseObj.put("Question", createdQuestion.getQuestion());
-			}
-			catch (JSONException e)
-			{
-				LOGGER.error("Erro ao cria o objeto Json", e);
-				return Response.status(201).entity(responseObj.toString()).build();
-			}
-			return Response.status(201).entity(responseObj.toString()).build();
+			responseObj.put("message", "Question created successfully");
+			responseObj.put("Question", createdQuestion.getQuestion());
 		}
 		catch (JSONException e)
 		{
 			LOGGER.error("Erro ao criar o objeto Json", e);
-			return Response.status(500).entity("{\"message\": \"Internal Server Error\"}").build();
+			return Response.status(201).entity(responseObj.toString()).build();
 		}
+		return Response.status(201).entity(responseObj.toString()).build();
+	}
+
+	public ArrayList<Long> createMultipleQuestions(Long userId, ArrayList<QuestionDTO> questions)
+	{
+		ArrayList<Long> ids = new ArrayList<>();
+		for (QuestionDTO question : questions)
+		{
+			ids.add(newQuestion(userId, question).getId());
+		}
+		return ids;
 	}
 
 	public Response updateQuestion(Question question)
@@ -105,5 +88,29 @@ public class QuestionService
 	Question getQuestion(Long id)
 	{
 		return questionRepository.getOne(id);
+	}
+
+	private Question newQuestion(Long userId, QuestionDTO questionDTO)
+	{
+		Question questionToBeCreated = new Question();
+		questionToBeCreated.setUserId(userId);
+		questionToBeCreated.setQuestion(questionDTO.getQuestion());
+		questionToBeCreated.setType(questionDTO.getType());
+		questionToBeCreated.setAnswer(questionDTO.getAnsware());
+		String options = questionDTO.getOptions();
+		if (options != null)
+		{
+			questionToBeCreated.setOptions(options);
+		}
+		String pic = questionDTO.getImage();
+		if (!pic.equals("null"))
+		{
+			questionToBeCreated.setPic(Base64.getDecoder().decode(pic));
+		}
+		else
+		{
+			questionToBeCreated.setPic(null);
+		}
+		return questionRepository.save(questionToBeCreated);
 	}
 }

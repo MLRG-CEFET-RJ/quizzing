@@ -6,16 +6,14 @@ import br.com.cefetrj.sc.exception.EntidadeInconsistenteException;
 import br.com.cefetrj.sc.exception.ProvaNaoEncontradaException;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.Serializable;
 import java.util.List;
 
 
-public class Prova implements Serializable,
-                              EntidadeVerificavel
+public class Prova implements EntidadeVerificavel
 {
 
-	private static final long serialVersionUID = 6404730707564474905L;
 	private List<Questao> questoes;
+
 	private String nomeArquivo;
 
 	private byte[] arquivoProva;
