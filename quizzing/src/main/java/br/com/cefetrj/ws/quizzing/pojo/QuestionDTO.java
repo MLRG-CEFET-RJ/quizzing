@@ -1,4 +1,4 @@
-package br.com.cefetrj.ws.quizzing.model.question;
+package br.com.cefetrj.ws.quizzing.pojo;
 
 import org.json.JSONArray;
 

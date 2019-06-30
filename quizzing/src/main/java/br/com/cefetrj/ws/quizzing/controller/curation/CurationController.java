@@ -1,6 +1,6 @@
 package br.com.cefetrj.ws.quizzing.controller.curation;
 
-import br.com.cefetrj.ws.quizzing.model.question.QuestionDTO;
+import br.com.cefetrj.ws.quizzing.pojo.QuestionDTO;
 import br.com.cefetrj.ws.quizzing.service.QuestionService;
 import br.com.cefetrj.ws.quizzing.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;

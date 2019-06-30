@@ -1,4 +1,4 @@
-package br.com.cefetrj.ws.quizzing.repository;
+package br.com.cefetrj.ws.quizzing.repository.jpaRepository;
 
 import br.com.cefetrj.ws.quizzing.model.question.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
