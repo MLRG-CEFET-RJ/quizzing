@@ -1,8 +1,10 @@
 package br.com.cefetrj.ws.quizzing.service;
 
 import br.com.cefetrj.ws.quizzing.model.question.Question;
-import br.com.cefetrj.ws.quizzing.model.question.QuestionDTO;
-import br.com.cefetrj.ws.quizzing.repository.QuestionRepository;
+import br.com.cefetrj.ws.quizzing.model.question.QuestionSolr;
+import br.com.cefetrj.ws.quizzing.pojo.QuestionDTO;
+import br.com.cefetrj.ws.quizzing.repository.jpaRepository.QuestionRepository;
+import br.com.cefetrj.ws.quizzing.repository.solrRepository.SolrQuestionRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -20,12 +22,15 @@ public class QuestionService
 {
 	private final QuestionRepository questionRepository;
 
+	private final SolrQuestionRepository solrQuestionRepository;
+
 	private final Logger LOGGER = LoggerFactory.getLogger(QuizService.class);
 
 	@Autowired
-	public QuestionService(QuestionRepository questionRepository)
+	public QuestionService(QuestionRepository questionRepository, SolrQuestionRepository solrQuestionRepository)
 	{
 		this.questionRepository = questionRepository;
+		this.solrQuestionRepository = solrQuestionRepository;
 	}
 
 	public List<Question> getQuestions(Long userId)
@@ -74,6 +79,7 @@ public class QuestionService
 			questionToUpdate.setOptions(options);
 		}
 		questionRepository.save(questionToUpdate);
+		solrQuestionRepository.save(new QuestionSolr(questionToUpdate));
 
 		return Response.status(200).entity("{\"message\": \"Question successfully updated\"}").build();
 	}
@@ -82,6 +88,7 @@ public class QuestionService
 	{
 		Question questionToBeDeleted = questionRepository.findById(question.getId()).orElseThrow(() -> new RuntimeException("Not find"));
 		questionRepository.delete(questionToBeDeleted);
+		solrQuestionRepository.delete(new QuestionSolr(questionToBeDeleted));
 		return Response.status(200).entity("{\"message\": \"Question deleted successfully\"}").build();
 	}
 
@@ -111,6 +118,10 @@ public class QuestionService
 		{
 			questionToBeCreated.setPic(null);
 		}
-		return questionRepository.save(questionToBeCreated);
+
+		Question createdQuestion = questionRepository.save(questionToBeCreated);
+		solrQuestionRepository.save(new QuestionSolr(createdQuestion));
+
+		return createdQuestion;
 	}
 }

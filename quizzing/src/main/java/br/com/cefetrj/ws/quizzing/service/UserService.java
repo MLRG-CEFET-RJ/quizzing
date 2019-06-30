@@ -1,7 +1,7 @@
 package br.com.cefetrj.ws.quizzing.service;
 
 import br.com.cefetrj.ws.quizzing.model.user.User;
-import br.com.cefetrj.ws.quizzing.repository.UserRepository;
+import br.com.cefetrj.ws.quizzing.repository.jpaRepository.UserRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;

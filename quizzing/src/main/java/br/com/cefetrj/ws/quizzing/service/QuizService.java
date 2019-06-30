@@ -2,7 +2,7 @@ package br.com.cefetrj.ws.quizzing.service;
 
 import br.com.cefetrj.ws.quizzing.model.question.Question;
 import br.com.cefetrj.ws.quizzing.model.quiz.Quiz;
-import br.com.cefetrj.ws.quizzing.repository.QuizRespository;
+import br.com.cefetrj.ws.quizzing.repository.jpaRepository.QuizRespository;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
