@@ -1,7 +1,5 @@
 package br.com.cefetrj.ws.quizzing.pojo;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 
 public class QuestionDTO
@@ -9,15 +7,15 @@ public class QuestionDTO
 	private String question;
 	private String type;
 	private String image;
-	private String answare;
+	private String answer;
 	private ArrayList<OptionsDTO> options;
 
-	public QuestionDTO(String question, String type, String image, String answare, ArrayList<OptionsDTO> options)
+	public QuestionDTO(String question, String type, String image, String answer, ArrayList<OptionsDTO> options)
 	{
 		this.question = question;
 		this.type = type;
 		this.image = image;
-		this.answare = answare;
+		this.answer = answer;
 		this.options = options;
 	}
 
@@ -41,19 +39,19 @@ public class QuestionDTO
 		this.image = image;
 	}
 
-	public String getAnsware()
+	public String getAnswer()
 	{
-		return answare;
+		return answer;
 	}
 
-	public void setAnsware(String answare)
+	public void setAnswer(String answer)
 	{
-		this.answare = answare;
+		this.answer = answer;
 	}
 
-	public String getOptions()
+	public ArrayList<OptionsDTO> getOptions()
 	{
-		return new JSONArray(this.options).toString();
+		return options;
 	}
 
 	public void setOptions(ArrayList<OptionsDTO> options)

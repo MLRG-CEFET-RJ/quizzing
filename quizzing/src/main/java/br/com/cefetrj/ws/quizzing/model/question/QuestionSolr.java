@@ -39,6 +39,20 @@ public class QuestionSolr
 		this.answer = question.getAnswer();
 	}
 
+	public QuestionSolr(Long id, String question, String options, byte[] pic, String type, String answer)
+	{
+		this.id = id;
+		this.question = question;
+		this.options = options;
+		this.pic = pic;
+		this.type = type;
+		this.answer = answer;
+	}
+
+	public QuestionSolr()
+	{
+	}
+
 	public Long getId()
 	{
 		return id;

@@ -2,9 +2,12 @@ package br.com.cefetrj.ws.quizzing.service;
 
 import br.com.cefetrj.ws.quizzing.model.question.Question;
 import br.com.cefetrj.ws.quizzing.model.question.QuestionSolr;
+import br.com.cefetrj.ws.quizzing.pojo.OptionsDTO;
 import br.com.cefetrj.ws.quizzing.pojo.QuestionDTO;
 import br.com.cefetrj.ws.quizzing.repository.jpaRepository.QuestionRepository;
 import br.com.cefetrj.ws.quizzing.repository.solrRepository.SolrQuestionRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -33,7 +36,12 @@ public class QuestionService
 		this.solrQuestionRepository = solrQuestionRepository;
 	}
 
-	public List<Question> getQuestions(Long userId)
+	public List<QuestionSolr> getQuestions(String str)
+	{
+		return solrQuestionRepository.findAllByQuestion(str);
+	}
+
+	public List<Question> getUserQuestions(Long userId)
 	{
 		return questionRepository.findByUserId(userId);
 	}
@@ -41,14 +49,14 @@ public class QuestionService
 	public Response createQuestion(Long userId, QuestionDTO questionDTO)
 	{
 		JSONObject responseObj = new JSONObject();
-
-		Question createdQuestion = newQuestion(userId, questionDTO);
 		try
 		{
+		Question createdQuestion = newQuestion(userId, questionDTO);
+
 			responseObj.put("message", "Question created successfully");
 			responseObj.put("Question", createdQuestion.getQuestion());
 		}
-		catch (JSONException e)
+		catch (JSONException | JsonProcessingException e)
 		{
 			LOGGER.error("Erro ao criar o objeto Json", e);
 			return Response.status(201).entity(responseObj.toString()).build();
@@ -61,7 +69,14 @@ public class QuestionService
 		ArrayList<Long> ids = new ArrayList<>();
 		for (QuestionDTO question : questions)
 		{
-			ids.add(newQuestion(userId, question).getId());
+			try
+			{
+				ids.add(newQuestion(userId, question).getId());
+			}
+			catch (JsonProcessingException e)
+			{
+				LOGGER.error("Erro ao criar o objeto Json: {}", question.toString(), e);
+			}
 		}
 		return ids;
 	}
@@ -97,14 +112,16 @@ public class QuestionService
 		return questionRepository.getOne(id);
 	}
 
-	private Question newQuestion(Long userId, QuestionDTO questionDTO)
+	private Question newQuestion(Long userId, QuestionDTO questionDTO) throws JsonProcessingException
 	{
 		Question questionToBeCreated = new Question();
 		questionToBeCreated.setUserId(userId);
 		questionToBeCreated.setQuestion(questionDTO.getQuestion());
 		questionToBeCreated.setType(questionDTO.getType());
-		questionToBeCreated.setAnswer(questionDTO.getAnsware());
-		String options = questionDTO.getOptions();
+		questionToBeCreated.setAnswer(questionDTO.getAnswer());
+		ArrayList<OptionsDTO> optionsList = questionDTO.getOptions();
+		ObjectMapper mapper = new ObjectMapper();
+		String options = mapper.writeValueAsString(optionsList);
 		if (options != null)
 		{
 			questionToBeCreated.setOptions(options);

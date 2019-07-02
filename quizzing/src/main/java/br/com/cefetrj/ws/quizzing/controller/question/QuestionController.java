@@ -30,9 +30,9 @@ public class QuestionController
 
 	@GET
 	@Path("/questions")
-	public List<Question> getQuestions()
+	public List<Question> getUserQuestions()
 	{
-		return questionService.getQuestions(Long.parseLong(id));
+		return questionService.getUserQuestions(Long.parseLong(id));
 	}
 
 	@POST
