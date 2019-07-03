@@ -1,10 +1,14 @@
 package br.com.cefetrj.ws.quizzing.model.question;
 
+import br.com.cefetrj.ws.quizzing.model.tag.Tag;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 @SolrDocument(collection = "question")
 public class QuestionSolr
@@ -29,6 +33,9 @@ public class QuestionSolr
 	@Indexed
 	private String answer;
 
+	@Indexed
+	private String tags;
+
 	public QuestionSolr(Question question)
 	{
 		this.id = question.getId();
@@ -37,9 +44,10 @@ public class QuestionSolr
 		this.pic = question.getPic();
 		this.type = question.getType();
 		this.answer = question.getAnswer();
+		this.tags = getStringTags(question);
 	}
 
-	public QuestionSolr(Long id, String question, String options, byte[] pic, String type, String answer)
+	public QuestionSolr(Long id, String question, String options, byte[] pic, String type, String answer, String tags)
 	{
 		this.id = id;
 		this.question = question;
@@ -47,6 +55,7 @@ public class QuestionSolr
 		this.pic = pic;
 		this.type = type;
 		this.answer = answer;
+		this.tags = tags;
 	}
 
 	public QuestionSolr()
@@ -113,9 +122,31 @@ public class QuestionSolr
 		this.answer = answer;
 	}
 
+	public String getTags()
+	{
+		return tags;
+	}
+
+	public void setTags(String tags)
+	{
+		this.tags = tags;
+	}
+
 	@Override
 	public String toString()
 	{
 		return "QuestionSolr{" + "id=" + id + ", question='" + question + '\'' + ", options='" + options + '\'' + ", pic=" + Arrays.toString(pic) + ", type='" + type + '\'' + ", answer='" + answer + '\'' + '}';
+	}
+
+
+	private String getStringTags(Question question)
+	{
+		Set<Tag> tags = question.getTags();
+		List<String> tagsList = new ArrayList<>();
+		for (Tag tag : tags)
+		{
+			tagsList.add(tag.getName());
+		}
+		return String.join(",", tagsList);
 	}
 }

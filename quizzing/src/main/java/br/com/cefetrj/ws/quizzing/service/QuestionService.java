@@ -2,40 +2,42 @@ package br.com.cefetrj.ws.quizzing.service;
 
 import br.com.cefetrj.ws.quizzing.model.question.Question;
 import br.com.cefetrj.ws.quizzing.model.question.QuestionSolr;
+import br.com.cefetrj.ws.quizzing.model.tag.Tag;
 import br.com.cefetrj.ws.quizzing.pojo.OptionsDTO;
 import br.com.cefetrj.ws.quizzing.pojo.QuestionDTO;
 import br.com.cefetrj.ws.quizzing.repository.jpaRepository.QuestionRepository;
+import br.com.cefetrj.ws.quizzing.repository.jpaRepository.TagRepository;
 import br.com.cefetrj.ws.quizzing.repository.solrRepository.SolrQuestionRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class QuestionService
 {
 	private final QuestionRepository questionRepository;
 
+	private final TagRepository tagRepository;
+
 	private final SolrQuestionRepository solrQuestionRepository;
 
 	private final Logger LOGGER = LoggerFactory.getLogger(QuizService.class);
 
 	@Autowired
-	public QuestionService(QuestionRepository questionRepository, SolrQuestionRepository solrQuestionRepository)
+	public QuestionService(QuestionRepository questionRepository, TagRepository tagRepository, SolrQuestionRepository solrQuestionRepository)
 	{
 		this.questionRepository = questionRepository;
+		this.tagRepository = tagRepository;
 		this.solrQuestionRepository = solrQuestionRepository;
 	}
 
+	//TODO: Implementar método de busca com outros campos
 	public List<QuestionSolr> getQuestions(String str)
 	{
 		return solrQuestionRepository.findAllByQuestion(str);
@@ -48,20 +50,8 @@ public class QuestionService
 
 	public Response createQuestion(Long userId, QuestionDTO questionDTO)
 	{
-		JSONObject responseObj = new JSONObject();
-		try
-		{
 		Question createdQuestion = newQuestion(userId, questionDTO);
-
-			responseObj.put("message", "Question created successfully");
-			responseObj.put("Question", createdQuestion.getQuestion());
-		}
-		catch (JSONException | JsonProcessingException e)
-		{
-			LOGGER.error("Erro ao criar o objeto Json", e);
-			return Response.status(201).entity(responseObj.toString()).build();
-		}
-		return Response.status(201).entity(responseObj.toString()).build();
+		return Response.status(201).entity(createdQuestion).build();
 	}
 
 	public ArrayList<Long> createMultipleQuestions(Long userId, ArrayList<QuestionDTO> questions)
@@ -69,32 +59,16 @@ public class QuestionService
 		ArrayList<Long> ids = new ArrayList<>();
 		for (QuestionDTO question : questions)
 		{
-			try
-			{
-				ids.add(newQuestion(userId, question).getId());
-			}
-			catch (JsonProcessingException e)
-			{
-				LOGGER.error("Erro ao criar o objeto Json: {}", question.toString(), e);
-			}
+			ids.add(newQuestion(userId, question).getId());
 		}
 		return ids;
 	}
 
-	public Response updateQuestion(Question question)
+	public Response updateQuestion(QuestionDTO questionDTO)
 	{
-		Question questionToUpdate = questionRepository.findById(question.getId()).orElseThrow(() -> new RuntimeException("Not found"));
-		questionToUpdate.setQuestion(question.getQuestion());
-		questionToUpdate.setType(question.getType());
-		questionToUpdate.setAnswer(question.getAnswer());
-		questionToUpdate.setPic(question.getPic());
-		String options = question.getOptions();
-		if (options != null)
-		{
-			questionToUpdate.setOptions(options);
-		}
-		questionRepository.save(questionToUpdate);
-		solrQuestionRepository.save(new QuestionSolr(questionToUpdate));
+		Question questionToUpdate = questionRepository.findById(questionDTO.getId()).orElseThrow(() -> new RuntimeException("Not found"));
+		Question question = updateObj(questionToUpdate, questionDTO);
+		saveQuestion(question);
 
 		return Response.status(200).entity("{\"message\": \"Question successfully updated\"}").build();
 	}
@@ -112,33 +86,85 @@ public class QuestionService
 		return questionRepository.getOne(id);
 	}
 
-	private Question newQuestion(Long userId, QuestionDTO questionDTO) throws JsonProcessingException
+	private Question newQuestion(Long userId, QuestionDTO questionDTO)
 	{
-		Question questionToBeCreated = new Question();
-		questionToBeCreated.setUserId(userId);
-		questionToBeCreated.setQuestion(questionDTO.getQuestion());
-		questionToBeCreated.setType(questionDTO.getType());
-		questionToBeCreated.setAnswer(questionDTO.getAnswer());
-		ArrayList<OptionsDTO> optionsList = questionDTO.getOptions();
-		ObjectMapper mapper = new ObjectMapper();
-		String options = mapper.writeValueAsString(optionsList);
-		if (options != null)
+		Question questionToBeCreated = dto2Obj(userId, questionDTO);
+		return saveQuestion(questionToBeCreated);
+	}
+
+	private Question saveQuestion(Question questionToSave)
+	{
+		Question createdQuestion = questionRepository.save(questionToSave);
+		try
 		{
-			questionToBeCreated.setOptions(options);
+			solrQuestionRepository.save(new QuestionSolr(createdQuestion));
 		}
+		catch (Exception e)
+		{
+			LOGGER.error("Ocorreu um erro ao indexar a questão {}", createdQuestion, e);
+		}
+		return createdQuestion;
+	}
+
+	private Question dto2Obj(Long userId, QuestionDTO questionDTO)
+	{
+		Question question = new Question();
+		question.setUserId(userId);
+		return buildQuestionFromDTO(question, questionDTO);
+	}
+
+	private Question updateObj(Question question, QuestionDTO questionDTO)
+	{
+		return buildQuestionFromDTO(question, questionDTO);
+	}
+
+	private Question buildQuestionFromDTO(Question question, QuestionDTO questionDTO)
+	{
+		question.setQuestion(questionDTO.getQuestion());
+		question.setType(questionDTO.getType());
+		question.setAnswer(questionDTO.getAnswer());
+		ArrayList<OptionsDTO> optionsList = questionDTO.getOptions();
+		question.setOptions(getOptionsFroDTO(optionsList));
 		String pic = questionDTO.getImage();
 		if (!pic.equals("null"))
 		{
-			questionToBeCreated.setPic(Base64.getDecoder().decode(pic));
+			question.setPic(Base64.getDecoder().decode(pic));
 		}
 		else
 		{
-			questionToBeCreated.setPic(null);
+			question.setPic(null);
 		}
 
-		Question createdQuestion = questionRepository.save(questionToBeCreated);
-		solrQuestionRepository.save(new QuestionSolr(createdQuestion));
+		Set<Tag> tags = question.getTags();
+		for (String tag : questionDTO.getTags().split(","))
+		{
+			Optional<Tag> optionalTag = tagRepository.findByName(tag);
+			if (optionalTag.isPresent())
+			{
+				Tag t = optionalTag.get();
+				tags.add(t);
+				t.getQuestions().add(question);
+			}
+			else
+			{
+				Tag t = new Tag(tag);
+				tags.add(t);
+				t.getQuestions().add(question);
+			}
+		}
+		return question;
+	}
 
-		return createdQuestion;
+	private String getOptionsFroDTO(ArrayList<OptionsDTO> optionsList)
+	{
+		ObjectMapper mapper = new ObjectMapper();
+		try
+		{
+			return mapper.writeValueAsString(optionsList);
+		}
+		catch (JsonProcessingException e)
+		{
+			return null;
+		}
 	}
 }

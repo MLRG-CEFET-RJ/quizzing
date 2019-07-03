@@ -12,4 +12,6 @@ import java.util.List;
 public interface SolrQuestionRepository extends SolrCrudRepository<QuestionSolr, String>
 {
 	List<QuestionSolr> findAllByQuestion(String query);
+
+	List<QuestionSolr> findAllByTags(String query);
 }

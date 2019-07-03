@@ -1,11 +1,15 @@
 package br.com.cefetrj.ws.quizzing.model.question;
 
+import br.com.cefetrj.ws.quizzing.model.tag.Tag;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "questions")
@@ -33,6 +37,25 @@ public class Question implements Serializable
 
 	@NotBlank
 	private String answer;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable(name = "question_tags", joinColumns = {@JoinColumn(name = "question_id")}, inverseJoinColumns = {@JoinColumn(name = "tag_id")})
+	private Set<Tag> tags = new HashSet<>();
+
+	public Question(@NotBlank String question, String options, byte[] pic, @NotNull Long userId, @NotBlank String type, @NotBlank String answer, Set<Tag> tags)
+	{
+		this.question = question;
+		this.options = options;
+		this.pic = pic;
+		this.userId = userId;
+		this.type = type;
+		this.answer = answer;
+		this.tags = tags;
+	}
+
+	public Question()
+	{
+	}
 
 	public Long getId()
 	{
@@ -102,5 +125,42 @@ public class Question implements Serializable
 	public void setAnswer(String answer)
 	{
 		this.answer = answer;
+	}
+
+	public Set<Tag> getTags()
+	{
+		return tags;
+	}
+
+	public void setTags(Set<Tag> tags)
+	{
+		this.tags = tags;
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (!(o instanceof Question))
+		{
+			return false;
+		}
+		Question question = (Question) o;
+		return getId().equals(question.getId());
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(getId());
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Question{" + "id=" + id + ", question='" + question + '\'' + ", userId=" + userId + ", type='" + type + '\'' + '}';
 	}
 }

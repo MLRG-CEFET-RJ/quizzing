@@ -5,6 +5,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -66,4 +67,30 @@ public class User implements Serializable
 		this.password = password;
 	}
 
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (!(o instanceof User))
+		{
+			return false;
+		}
+		User user = (User) o;
+		return getId().equals(user.getId()) && getName().equals(user.getName()) && getEmail().equals(user.getEmail()) && getPassword().equals(user.getPassword());
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(getId(), getName(), getEmail(), getPassword());
+	}
+
+	@Override
+	public String toString()
+	{
+		return "User{" + "id=" + id + ", name='" + name + '\'' + ", email='" + email + '\'' + '}';
+	}
 }

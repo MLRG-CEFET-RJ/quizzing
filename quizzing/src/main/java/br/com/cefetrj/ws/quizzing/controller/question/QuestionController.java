@@ -45,9 +45,9 @@ public class QuestionController
 
 	@PUT
 	@Path("/edit")
-	public Response editQuestion(@Valid Question question)
+	public Response editQuestion(@Valid QuestionDTO questionDTO)
 	{
-		return questionService.updateQuestion(question);
+		return questionService.updateQuestion(questionDTO);
 	}
 
 	@DELETE
