@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+import static javax.ws.rs.core.Response.Status.*;
+
 @Service
 public class QuizService
 {
@@ -51,14 +53,14 @@ public class QuizService
 			catch (JSONException e)
 			{
 				LOGGER.error("Ocorreu um erro ao criar o objeto Json", e);
-				return Response.status(500).entity("{\"message\": \"Internal Server Error\"}").build();
+				return Response.status(INTERNAL_SERVER_ERROR).entity("{\"message\": \"Internal Server Error\"}").build();
 			}
 		}
 		quizToBeCreated.setUserId(userId);
 		quizToBeCreated.setQuestions(questions.toString());
 		quizRespository.save(quizToBeCreated);
 
-		return Response.status(201).entity("{\"message\": \"Quiz created successfully\"}").build();
+		return Response.status(CREATED).entity("{\"message\": \"Quiz created successfully\"}").build();
 
 	}
 
@@ -79,12 +81,12 @@ public class QuizService
 			quizToBeUpdated.setQuestions(questions.toString());
 			quizRespository.save(quizToBeUpdated);
 
-			return Response.status(200).entity("{\"message\": \"Quiz successfully updated\"}").build();
+			return Response.status(OK).entity("{\"message\": \"Quiz successfully updated\"}").build();
 		}
 		catch (JSONException e)
 		{
 			LOGGER.error("Erro ao criar o objeto Json", e);
-			return Response.status(500).entity("{\"message\": \"Internal Server Error\"}").build();
+			return Response.status(INTERNAL_SERVER_ERROR).entity("{\"message\": \"Internal Server Error\"}").build();
 		}
 	}
 
@@ -92,7 +94,7 @@ public class QuizService
 	{
 		Quiz quizToBeDeleted = quizRespository.findById(quiz.getId()).orElseThrow(() -> new RuntimeException("Not found"));
 		quizRespository.delete(quizToBeDeleted);
-		return Response.status(200).entity("{\"message\": \"Quiz deleted successfully\"}").build();
+		return Response.status(OK).entity("{\"message\": \"Quiz deleted successfully\"}").build();
 	}
 
 	private JSONObject generateQuestionJSONObj(Question question) throws JSONException

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+import static javax.ws.rs.core.Response.Status.*;
+
 
 @Service
 public class UserService
@@ -33,7 +35,7 @@ public class UserService
 
 		if( user.getName() == null || user.getEmail() == null || user.getPassword() == null)
 		{
-			return Response.status(400).entity("Please provide all mandatory inputs").build();
+			return Response.status(BAD_REQUEST).entity("Please provide all mandatory inputs").build();
 		}
 		try
 		{
@@ -54,9 +56,9 @@ public class UserService
 		catch (JSONException e)
 		{
 			LOGGER.error("Erro ao criar o objeto JSON", e);
-			return Response.status(201).entity(responseObj.toString()).build();
+			return Response.status(CREATED).entity(responseObj.toString()).build();
 		}
-		return Response.status(201).entity(responseObj.toString()).build();
+		return Response.status(CREATED).entity(responseObj.toString()).build();
 
 	}
 
@@ -83,9 +85,9 @@ public class UserService
 			catch (JSONException e)
 			{
 				LOGGER.error("Erro ao criar o objeto JSON", e);
-				return  Response.status(200).entity(responseObj.toString()).build();
+				return Response.status(OK).entity(responseObj.toString()).build();
 			}
-			return  Response.status(200).entity(responseObj.toString()).build();
+			return Response.status(OK).entity(responseObj.toString()).build();
 		}
 		catch (Exception e)
 		{
@@ -98,7 +100,7 @@ public class UserService
 	{
 		User userToBeDeleted = userRepository.findById(user.getId()).orElseThrow(() -> new RuntimeException("Not Found"));
 		userRepository.delete(userToBeDeleted);
-		return  Response.status(200).entity("{\"message\": \"User deleted successfully\"}").build();
+		return Response.status(OK).entity("{\"message\": \"User deleted successfully\"}").build();
 	}
 
 	private Response duplicatedEmailResponse(JSONObject obj)
@@ -110,9 +112,9 @@ public class UserService
 		catch (JSONException e1)
 		{
 			LOGGER.error("Erro ao criar o objeto JSON", e1);
-			return Response.status(409).entity(obj.toString()).build();
+			return Response.status(BAD_REQUEST).entity(obj.toString()).build();
 		}
-		return Response.status(409).entity(obj.toString()).build();
+		return Response.status(BAD_REQUEST).entity(obj.toString()).build();
 	}
 
 	// TODO: Remover depois de testar

@@ -10,16 +10,16 @@ services:
       MYSQL_PASSWORD: quizzing
     volumes:
       - mysql-data:/var/lib/mysql
-    ports:
-      - "3307:3306"
+    expose:
+      - 3306
     healthcheck:
       test: "/etc/init.d/mysql status"
       interval: 1s
       retries: 120
   solr:
     image: solr:8.1.1
-    ports:
-      - "8983:8983"
+    expose:
+      - 8983
     volumes:
       - data:/opt/solr/server/solr/mycores
     entrypoint:
@@ -31,6 +31,7 @@ services:
     restart: always
     ports:
       - "8090:8090"
+      - "5005:5005"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/quizzing?allowPublicKeyRetrieval=true&useSSL=false&seTimezone=true&serverTimezone=UTC
       - SPRING_DATA_SOLR_HOST=http://solr:8983/solr

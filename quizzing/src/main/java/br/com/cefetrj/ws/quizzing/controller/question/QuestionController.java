@@ -3,6 +3,7 @@ package br.com.cefetrj.ws.quizzing.controller.question;
 
 import br.com.cefetrj.ws.quizzing.model.question.Question;
 import br.com.cefetrj.ws.quizzing.pojo.QuestionDTO;
+import br.com.cefetrj.ws.quizzing.pojo.RatingDTO;
 import br.com.cefetrj.ws.quizzing.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,5 +56,12 @@ public class QuestionController
 	public Response deleteQuestion(@Valid Question question)
 	{
 		return questionService.deleteQuestion(question);
+	}
+
+	@POST
+	@Path("/rate")
+	public Response rateQuestion(@Valid RatingDTO rating)
+	{
+		return questionService.rateQuestion(Long.parseLong(id), rating);
 	}
 }

@@ -36,6 +36,9 @@ public class QuestionSolr
 	@Indexed
 	private String tags;
 
+	@Indexed
+	private int rating;
+
 	public QuestionSolr(Question question)
 	{
 		this.id = question.getId();
@@ -130,6 +133,16 @@ public class QuestionSolr
 	public void setTags(String tags)
 	{
 		this.tags = tags;
+	}
+
+	public int getRating()
+	{
+		return rating;
+	}
+
+	public void setRating(int rating)
+	{
+		this.rating = rating;
 	}
 
 	@Override
