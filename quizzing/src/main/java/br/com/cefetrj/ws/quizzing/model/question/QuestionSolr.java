@@ -34,7 +34,7 @@ public class QuestionSolr
 	private String answer;
 
 	@Indexed
-	private String tags;
+	private String tags = "";
 
 	@Indexed
 	private int rating;

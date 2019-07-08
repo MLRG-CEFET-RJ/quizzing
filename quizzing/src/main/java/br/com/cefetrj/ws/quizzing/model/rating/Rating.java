@@ -2,7 +2,7 @@ package br.com.cefetrj.ws.quizzing.model.rating;
 
 import br.com.cefetrj.ws.quizzing.constants.RatingEnum;
 import br.com.cefetrj.ws.quizzing.model.question.Question;
-import br.com.cefetrj.ws.quizzing.model.user.User;
+import br.com.cefetrj.ws.quizzing.model.user.ApplicationUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -10,12 +10,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "ratings")
 @EntityListeners(AuditingEntityListener.class)
-public class Rating
+public class Rating implements Serializable
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,19 +36,19 @@ public class Rating
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	private User user;
+	private ApplicationUser user;
 
 	public Rating()
 	{
 	}
 
-	public Rating(User user, Question question)
+	public Rating(ApplicationUser user, Question question)
 	{
 		this.user = user;
 		this.question = question;
 	}
 
-	public Rating(@NotNull RatingEnum rating, Question question, User user)
+	public Rating(@NotNull RatingEnum rating, Question question, ApplicationUser user)
 	{
 		this.rating = rating;
 		this.question = question;
@@ -84,12 +85,12 @@ public class Rating
 		this.question = question;
 	}
 
-	public User getUser()
+	public ApplicationUser getUser()
 	{
 		return user;
 	}
 
-	public void setUser(User user)
+	public void setUser(ApplicationUser user)
 	{
 		this.user = user;
 	}

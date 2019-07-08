@@ -2,16 +2,20 @@ package br.com.cefetrj.ws.quizzing.service;
 
 import br.com.cefetrj.ws.quizzing.model.question.Question;
 import br.com.cefetrj.ws.quizzing.model.quiz.Quiz;
+import br.com.cefetrj.ws.quizzing.model.user.ApplicationUser;
+import br.com.cefetrj.ws.quizzing.pojo.Id;
+import br.com.cefetrj.ws.quizzing.pojo.QuizDTO;
 import br.com.cefetrj.ws.quizzing.repository.jpaRepository.QuizRespository;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.ws.rs.core.Response.Status.*;
@@ -21,91 +25,103 @@ public class QuizService
 {
 	private final QuizRespository quizRespository;
 
-	private final QuestionService questionService;
+	private final UserService userService;
+	private QuestionService questionService;
 
 	private final Logger LOGGER = LoggerFactory.getLogger(QuizService.class);
 
 	@Autowired
-	public QuizService(QuizRespository quizRespository, QuestionService questionService)
+	public QuizService(QuizRespository quizRespository, UserService userService, QuestionService questionService)
 	{
 		this.quizRespository = quizRespository;
+		this.userService = userService;
 		this.questionService = questionService;
 	}
 
-	public List<Quiz> getQuizzes(Long userId)
+	public List<Quiz> getQuizzes(String userAuthorization)
 	{
-		return quizRespository.findByUserId(userId);
+		ApplicationUser user = userService.getUserByAuthorization(userAuthorization);
+		return quizRespository.findByUserId(user.getId());
 	}
 
-	public Response createQuiz(Long userId, String questionsIds)
+	public Response createQuiz(String userAuthorization, QuizDTO quizDTO)
 	{
-		Quiz quizToBeCreated = new Quiz();
-		JSONArray questions = new JSONArray();
-
-		for (String questionId : questionsIds.split(","))
-		{
-			Question question = questionService.getQuestion(Long.parseLong(questionId));
-			try
-			{
-				JSONObject questionObj = generateQuestionJSONObj(question);
-				questions.put(questionObj);
-			}
-			catch (JSONException e)
-			{
-				LOGGER.error("Ocorreu um erro ao criar o objeto Json", e);
-				return Response.status(INTERNAL_SERVER_ERROR).entity("{\"message\": \"Internal Server Error\"}").build();
-			}
-		}
-		quizToBeCreated.setUserId(userId);
-		quizToBeCreated.setQuestions(questions.toString());
-		quizRespository.save(quizToBeCreated);
-
-		return Response.status(CREATED).entity("{\"message\": \"Quiz created successfully\"}").build();
-
-	}
-
-	public Response updateQuiz(String quizId, String newQuestions)
-	{
-		Quiz quizToBeUpdated = quizRespository.findById(Long.parseLong(quizId)).orElseThrow(() -> new RuntimeException("Not found"));
 		try
 		{
-			JSONObject obj = new JSONObject(newQuestions);
-			JSONArray questions = new JSONArray(obj.getString("questions"));
-			for (String newQuestion : obj.getString("newQuestions").split(","))
-			{
-				Question question = questionService.getQuestion(Long.parseLong(newQuestion));
-				JSONObject questionObj = generateQuestionJSONObj(question);
-				questions.put(questionObj);
-			}
+			ApplicationUser user = userService.getUserByAuthorization(userAuthorization);
+			Quiz quizToBeCreated = new Quiz();
+			quizToBeCreated.setUser(user);
+			quizToBeCreated.setName(quizDTO.getName());
+			ObjectMapper mapper = new ObjectMapper();
+			String questions = mapper.writeValueAsString(getQuestionsList(quizDTO.getIds()));
 
-			quizToBeUpdated.setQuestions(questions.toString());
-			quizRespository.save(quizToBeUpdated);
+			quizToBeCreated.setQuestions(questions);
+			quizRespository.save(quizToBeCreated);
 
-			return Response.status(OK).entity("{\"message\": \"Quiz successfully updated\"}").build();
+			return Response.status(CREATED).entity("{\"message\": \"Quiz created successfully\"}").build();
 		}
-		catch (JSONException e)
+		catch (JsonProcessingException e)
 		{
-			LOGGER.error("Erro ao criar o objeto Json", e);
+			LOGGER.error("Ocorreu um erro ao gerar o quiz {}", quizDTO, e);
 			return Response.status(INTERNAL_SERVER_ERROR).entity("{\"message\": \"Internal Server Error\"}").build();
 		}
 	}
 
-	public Response deleteQuiz(Quiz quiz)
+	public Response updateQuiz(String userAuthorization, QuizDTO quizDTO)
 	{
-		Quiz quizToBeDeleted = quizRespository.findById(quiz.getId()).orElseThrow(() -> new RuntimeException("Not found"));
-		quizRespository.delete(quizToBeDeleted);
-		return Response.status(OK).entity("{\"message\": \"Quiz deleted successfully\"}").build();
+		ApplicationUser user = userService.getUserByAuthorization(userAuthorization);
+		Quiz quizToBeUpdated = quizRespository.findById(quizDTO.getId()).orElseThrow(() -> new NotFoundException("Quiz not found"));
+		if (quizToBeUpdated.getUser().equals(user))
+		{
+			try
+			{
+				quizToBeUpdated.setName(quizDTO.getName());
+
+				ObjectMapper mapper = new ObjectMapper();
+				String questions = mapper.writeValueAsString(getQuestionsList(quizDTO.getIds()));
+				quizToBeUpdated.setQuestions(questions);
+				return Response.status(OK).entity(quizRespository.save(quizToBeUpdated)).build();
+
+			}
+			catch (JsonProcessingException e)
+			{
+				LOGGER.error("Ocorreu um erro ao gerar o quiz {}", quizDTO, e);
+				return Response.status(INTERNAL_SERVER_ERROR).entity("{\"message\": \"Internal Server Error\"}").build();
+			}
+		}
+		else
+		{
+			return Response.status(UNAUTHORIZED).entity("{\"message\": \"This User can not update this Quiz\"}").build();
+		}
 	}
 
-	private JSONObject generateQuestionJSONObj(Question question) throws JSONException
+	public Response deleteQuiz(String userAuthorization, Quiz quiz)
 	{
-
-		JSONObject questionObj = new JSONObject();
-		questionObj.put("Question", question.getQuestion());
-		questionObj.put("Type", question.getType());
-		questionObj.put("Options", question.getOptions());
-		questionObj.put("Pic", question.getPic());
-		questionObj.put("Answer", question.getAnswer());
-		return questionObj;
+		ApplicationUser user = userService.getUserByAuthorization(userAuthorization);
+		Quiz quizToBeDeleted = quizRespository.findById(quiz.getId()).orElseThrow(() -> new NotFoundException("Quiz not found"));
+		if (quizToBeDeleted.getUser().equals(user))
+		{
+			quizRespository.delete(quizToBeDeleted);
+			return Response.status(OK).entity("{\"message\": \"Quiz deleted successfully\"}").build();
+		}
+		else
+		{
+			return Response.status(UNAUTHORIZED).entity("{\"message\": \"This User can not delete this Quiz\"}").build();
+		}
 	}
+
+	private List<Question> getQuestionsList(ArrayList<Id> ids)
+	{
+		List<Question> questions = new ArrayList<>();
+		for (Id id : ids)
+		{
+			Question question = questionService.getQuestionById(id.getId());
+			if (null != question)
+			{
+				questions.add(question);
+			}
+		}
+		return questions;
+	}
+
 }

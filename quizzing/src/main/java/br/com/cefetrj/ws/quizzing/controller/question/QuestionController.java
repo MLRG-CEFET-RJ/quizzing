@@ -1,6 +1,5 @@
 package br.com.cefetrj.ws.quizzing.controller.question;
 
-
 import br.com.cefetrj.ws.quizzing.model.question.Question;
 import br.com.cefetrj.ws.quizzing.pojo.QuestionDTO;
 import br.com.cefetrj.ws.quizzing.pojo.RatingDTO;
@@ -10,18 +9,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
 @RestController
-@Path("/question/{id}")
+@Path("/question")
 @Produces("application/json")
 public class QuestionController
 {
 	private final QuestionService questionService;
-
-	@PathParam("id")
-	String id;
 
 	@Autowired
 	public QuestionController(QuestionService questionService)
@@ -31,37 +29,42 @@ public class QuestionController
 
 	@GET
 	@Path("/questions")
-	public List<Question> getUserQuestions()
+	public List<Question> getUserQuestions(@Context HttpHeaders httpheaders)
 	{
-		return questionService.getUserQuestions(Long.parseLong(id));
+		String authorizationHeader = httpheaders.getHeaderString("Authorization");
+		return questionService.getUserQuestions(authorizationHeader);
 	}
 
 	@POST
 	@Path("/new")
 	@Consumes("application/json")
-	public Response crateQuestion(@Valid QuestionDTO questionDTO)
+	public Response createQuestion(@Context HttpHeaders httpheaders, @Valid QuestionDTO questionDTO)
 	{
-		return questionService.createQuestion(Long.parseLong(id), questionDTO);
+		String authorizationHeader = httpheaders.getHeaderString("Authorization");
+		return questionService.createQuestion(authorizationHeader, questionDTO);
 	}
 
 	@PUT
 	@Path("/edit")
-	public Response editQuestion(@Valid QuestionDTO questionDTO)
+	public Response editQuestion(@Context HttpHeaders httpheaders, @Valid QuestionDTO questionDTO)
 	{
-		return questionService.updateQuestion(questionDTO);
+		String authorizationHeader = httpheaders.getHeaderString("Authorization");
+		return questionService.updateQuestion(authorizationHeader, questionDTO);
 	}
 
 	@DELETE
 	@Path("/delete")
-	public Response deleteQuestion(@Valid Question question)
+	public Response deleteQuestion(@Context HttpHeaders httpheaders, @Valid Question question)
 	{
-		return questionService.deleteQuestion(question);
+		String authorizationHeader = httpheaders.getHeaderString("Authorization");
+		return questionService.deleteQuestion(authorizationHeader, question);
 	}
 
 	@POST
 	@Path("/rate")
-	public Response rateQuestion(@Valid RatingDTO rating)
+	public Response rateQuestion(@Context HttpHeaders httpheaders, @Valid RatingDTO rating)
 	{
-		return questionService.rateQuestion(Long.parseLong(id), rating);
+		String authorizationHeader = httpheaders.getHeaderString("Authorization");
+		return questionService.rateQuestion(authorizationHeader, rating);
 	}
 }

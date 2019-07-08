@@ -1,10 +1,13 @@
 package br.com.cefetrj.ws.quizzing.model.quiz;
 
+import br.com.cefetrj.ws.quizzing.model.user.ApplicationUser;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -17,12 +20,29 @@ public class Quiz implements Serializable
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
-	private Long userId;
+	@NotBlank
+	private String name;
+
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "user_id", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private ApplicationUser user;
 
 	@Lob
 	@NotBlank
 	private String questions;
+
+	public Quiz()
+	{
+	}
+
+	public Quiz(@NotBlank String name, ApplicationUser user, @NotBlank String questions)
+	{
+		this.name = name;
+		this.user = user;
+		this.questions = questions;
+	}
 
 	public Long getId()
 	{
@@ -34,14 +54,24 @@ public class Quiz implements Serializable
 		this.id = id;
 	}
 
-	public Long getUserId()
+	public String getName()
 	{
-		return userId;
+		return name;
 	}
 
-	public void setUserId(Long userId)
+	public void setName(String name)
 	{
-		this.userId = userId;
+		this.name = name;
+	}
+
+	public ApplicationUser getUser()
+	{
+		return user;
+	}
+
+	public void setUser(ApplicationUser user)
+	{
+		this.user = user;
 	}
 
 	public String getQuestions()
@@ -66,18 +96,18 @@ public class Quiz implements Serializable
 			return false;
 		}
 		Quiz quiz = (Quiz) o;
-		return getId().equals(quiz.getId()) && getUserId().equals(quiz.getUserId()) && getQuestions().equals(quiz.getQuestions());
+		return getId().equals(quiz.getId()) && getName().equals(quiz.getName()) && getUser().equals(quiz.getUser()) && getQuestions().equals(quiz.getQuestions());
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(getId(), getUserId(), getQuestions());
+		return Objects.hash(getId(), getName(), getUser(), getQuestions());
 	}
 
 	@Override
 	public String toString()
 	{
-		return "Quiz{" + "id=" + id + ", userId=" + userId + ", questions='" + questions + '\'' + '}';
+		return "Quiz{" + "id=" + id + ", name='" + name + '\'' + ", user=" + user + '}';
 	}
 }

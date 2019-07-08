@@ -10,7 +10,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
-public class User implements Serializable
+public class ApplicationUser implements Serializable
 {
 
 	@Id
@@ -22,7 +22,7 @@ public class User implements Serializable
 
 	@NotBlank
 	@Column(unique = true)
-	private  String email;
+	private String username;
 
 	@NotBlank
 	private  String password;
@@ -47,14 +47,14 @@ public class User implements Serializable
 		this.name = name;
 	}
 
-	public String getEmail()
+	public String getUsername()
 	{
-		return email;
+		return username;
 	}
 
-	public void setEmail(String email)
+	public void setUsername(String username)
 	{
-		this.email = email;
+		this.username = username;
 	}
 
 	public String getPassword()
@@ -74,23 +74,23 @@ public class User implements Serializable
 		{
 			return true;
 		}
-		if (!(o instanceof User))
+		if (!(o instanceof ApplicationUser))
 		{
 			return false;
 		}
-		User user = (User) o;
-		return getId().equals(user.getId()) && getName().equals(user.getName()) && getEmail().equals(user.getEmail()) && getPassword().equals(user.getPassword());
+		ApplicationUser user = (ApplicationUser) o;
+		return getId().equals(user.getId()) && getName().equals(user.getName()) && getUsername().equals(user.getUsername()) && getPassword().equals(user.getPassword());
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(getId(), getName(), getEmail(), getPassword());
+		return Objects.hash(getId(), getName(), getUsername(), getPassword());
 	}
 
 	@Override
 	public String toString()
 	{
-		return "User{" + "id=" + id + ", name='" + name + '\'' + ", email='" + email + '\'' + '}';
+		return "ApplicationUser{" + "id=" + id + ", name='" + name + '\'' + ", username='" + username + '\'' + '}';
 	}
 }

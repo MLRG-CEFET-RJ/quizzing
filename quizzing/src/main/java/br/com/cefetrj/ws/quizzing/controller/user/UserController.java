@@ -1,6 +1,6 @@
 package br.com.cefetrj.ws.quizzing.controller.user;
 
-import br.com.cefetrj.ws.quizzing.model.user.User;
+import br.com.cefetrj.ws.quizzing.model.user.ApplicationUser;
 import br.com.cefetrj.ws.quizzing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,28 +26,21 @@ public class UserController
 	//TODO: Remover depois de testar
 	@GET
 	@Path("/users")
-	public List<User> getAllUsers()
+	public List<ApplicationUser> getAllUsers()
 	{
 		return userService.findAll();
 	}
 
-	@POST
-	@Path("/new")
-	public Response crateUser(@Valid User user)
-	{
-		return userService.createUser(user);
-	}
-
 	@PUT
 	@Path("/edit")
-	public Response editUser(@Valid User user)
+	public Response editUser(@Valid ApplicationUser user)
 	{
 		return userService.updateUser(user);
 	}
 
 	@DELETE
 	@Path("/delete")
-	public Response deleteUser(@Valid User user)
+	public Response deleteUser(@Valid ApplicationUser user)
 	{
 		return userService.deleteUser(user);
 	}

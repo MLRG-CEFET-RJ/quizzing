@@ -1,7 +1,8 @@
 package br.com.cefetrj.ws.quizzing.service;
 
-import br.com.cefetrj.ws.quizzing.model.user.User;
+import br.com.cefetrj.ws.quizzing.model.user.ApplicationUser;
 import br.com.cefetrj.ws.quizzing.repository.jpaRepository.UserRepository;
+import io.jsonwebtoken.Jwts;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -9,9 +10,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+import static br.com.cefetrj.ws.quizzing.security.SecurityConstants.SECRET;
+import static br.com.cefetrj.ws.quizzing.security.SecurityConstants.TOKEN_PREFIX;
 import static javax.ws.rs.core.Response.Status.*;
 
 
@@ -28,12 +32,12 @@ public class UserService
 		this.userRepository = userRepository;
 	}
 
-	public  Response createUser(User user)
+	public Response createUser(ApplicationUser user)
 	{
 		JSONObject responseObj = new JSONObject();
-		User createdUser;
+		ApplicationUser createdUser;
 
-		if( user.getName() == null || user.getEmail() == null || user.getPassword() == null)
+		if (user.getName() == null || user.getUsername() == null || user.getPassword() == null)
 		{
 			return Response.status(BAD_REQUEST).entity("Please provide all mandatory inputs").build();
 		}
@@ -51,7 +55,7 @@ public class UserService
 		{
 			responseObj.put("message", "User created successfully");
 			responseObj.put("UserName", createdUser.getName());
-			responseObj.put("UserEmail", createdUser.getEmail());
+			responseObj.put("UserEmail", createdUser.getUsername());
 		}
 		catch (JSONException e)
 		{
@@ -62,15 +66,13 @@ public class UserService
 
 	}
 
-	//TODO: Adicionar verificação de login em todos os métodos
-	public Response updateUser(User user)
+	public Response updateUser(ApplicationUser user)
 	{
 
 		JSONObject responseObj = new JSONObject();
-		User userToUpdate = userRepository.findById(user.getId())
-		                                  .orElseThrow( () -> new RuntimeException("Not Found") );
+		ApplicationUser userToUpdate = userRepository.findById(user.getId()).orElseThrow(() -> new NotFoundException("User not Found"));
 		userToUpdate.setName(user.getName());
-		userToUpdate.setEmail(user.getEmail());
+		userToUpdate.setUsername(user.getUsername());
 		userToUpdate.setPassword(user.getPassword());
 
 		try
@@ -80,7 +82,7 @@ public class UserService
 			{
 				responseObj.put("message", "User successfully updated");
 				responseObj.put("UserName", userToUpdate.getName());
-				responseObj.put("UserEmail", userToUpdate.getEmail());
+				responseObj.put("UserEmail", userToUpdate.getUsername());
 			}
 			catch (JSONException e)
 			{
@@ -96,11 +98,17 @@ public class UserService
 		}
 	}
 
-	public Response deleteUser(User user)
+	public Response deleteUser(ApplicationUser user)
 	{
-		User userToBeDeleted = userRepository.findById(user.getId()).orElseThrow(() -> new RuntimeException("Not Found"));
+		ApplicationUser userToBeDeleted = userRepository.findById(user.getId()).orElseThrow(() -> new NotFoundException("User not Found"));
 		userRepository.delete(userToBeDeleted);
 		return Response.status(OK).entity("{\"message\": \"User deleted successfully\"}").build();
+	}
+
+	ApplicationUser getUserByAuthorization(String userAuthorization)
+	{
+		String username = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(userAuthorization.replace(TOKEN_PREFIX, "")).getBody().getSubject();
+		return userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("User not found"));
 	}
 
 	private Response duplicatedEmailResponse(JSONObject obj)
@@ -118,7 +126,7 @@ public class UserService
 	}
 
 	// TODO: Remover depois de testar
-	public List<User> findAll()
+	public List<ApplicationUser> findAll()
 	{
 		return userRepository.findAll();
 	}

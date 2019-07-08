@@ -1,12 +1,16 @@
 package br.com.cefetrj.ws.quizzing.model.question;
 
 import br.com.cefetrj.ws.quizzing.model.tag.Tag;
+import br.com.cefetrj.ws.quizzing.model.user.ApplicationUser;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -29,8 +33,11 @@ public class Question implements Serializable
 	@Column(name = "pic")
 	private byte[] pic;
 
-	@NotNull
-	private Long userId;
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "user_id", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private ApplicationUser user;
 
 	@NotBlank
 	private String type;
@@ -42,12 +49,12 @@ public class Question implements Serializable
 	@JoinTable(name = "question_tags", joinColumns = {@JoinColumn(name = "question_id")}, inverseJoinColumns = {@JoinColumn(name = "tag_id")})
 	private Set<Tag> tags = new HashSet<>();
 
-	public Question(@NotBlank String question, String options, byte[] pic, @NotNull Long userId, @NotBlank String type, @NotBlank String answer, Set<Tag> tags)
+	public Question(@NotBlank String question, String options, byte[] pic, ApplicationUser user, @NotBlank String type, @NotBlank String answer, Set<Tag> tags)
 	{
 		this.question = question;
 		this.options = options;
 		this.pic = pic;
-		this.userId = userId;
+		this.user = user;
 		this.type = type;
 		this.answer = answer;
 		this.tags = tags;
@@ -77,14 +84,14 @@ public class Question implements Serializable
 		this.id = id;
 	}
 
-	public Long getUserId()
+	public ApplicationUser getUser()
 	{
-		return userId;
+		return user;
 	}
 
-	public void setUserId(Long userId)
+	public void setUser(ApplicationUser user)
 	{
-		this.userId = userId;
+		this.user = user;
 	}
 
 	public String getQuestion()
@@ -148,19 +155,21 @@ public class Question implements Serializable
 		{
 			return false;
 		}
-		Question question = (Question) o;
-		return getId().equals(question.getId());
+		Question question1 = (Question) o;
+		return getId().equals(question1.getId()) && getQuestion().equals(question1.getQuestion()) && Objects.equals(getOptions(), question1.getOptions()) && Arrays.equals(getPic(), question1.getPic()) && getUser().equals(question1.getUser()) && getType().equals(question1.getType()) && Objects.equals(getAnswer(), question1.getAnswer());
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(getId());
+		int result = Objects.hash(getId(), getQuestion(), getOptions(), getUser(), getType(), getAnswer());
+		result = 31 * result + Arrays.hashCode(getPic());
+		return result;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "Question{" + "id=" + id + ", question='" + question + '\'' + ", userId=" + userId + ", type='" + type + '\'' + '}';
+		return "Question{" + "id=" + id + ", question='" + question + '\'' + ", options='" + options + '\'' + ", pic=" + Arrays.toString(pic) + ", user=" + user + ", type='" + type + '\'' + ", answer='" + answer + '\'' + '}';
 	}
 }

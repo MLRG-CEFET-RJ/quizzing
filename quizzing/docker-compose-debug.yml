@@ -12,6 +12,8 @@ services:
       - mysql-data:/var/lib/mysql
     expose:
       - 3306
+    ports:
+      - "3307:3306"
     healthcheck:
       test: "/etc/init.d/mysql status"
       interval: 1s
@@ -20,6 +22,8 @@ services:
     image: solr:8.1.1
     expose:
       - 8983
+    ports:
+      - "8983:8983"
     volumes:
       - data:/opt/solr/server/solr/mycores
     entrypoint:
@@ -27,10 +31,13 @@ services:
       - solr-precreate
       - question
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile-debug
     restart: always
     ports:
       - "8090:8090"
+      - "5005:5005"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/quizzing?allowPublicKeyRetrieval=true&useSSL=false&seTimezone=true&serverTimezone=UTC
       - SPRING_DATA_SOLR_HOST=http://solr:8983/solr
