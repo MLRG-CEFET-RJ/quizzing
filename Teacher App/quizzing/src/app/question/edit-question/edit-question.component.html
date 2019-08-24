@@ -1,0 +1,72 @@
+<div class="card-panel main-component" >
+  <form [formGroup]="form" (ngSubmit)="submit()" >
+    
+    <div class="row" >
+      <div class="file-field input-field col s2" >
+        <div class="btn" >
+          <mat-icon >perm_media</mat-icon >
+          <input type="file" accept="image/*" >
+        </div >
+      </div >
+    </div >
+    
+    <div class="row" >
+      <div class="input-field col s12" >
+        <span >Pergunta</span >
+        <textarea placeholder="Digite a pergunta aqui" class="materialize-textarea" formControlName="question" id="question" ></textarea >
+      </div >
+    </div >
+    
+    <div class="row" >
+      <div class="input-field col s2" >
+        <span >Tipo</span >
+        <mat-select class="select-dropdown" formControlName="type" >
+          <mat-option value="MULTIPLE_CHOICE" >
+            Multipla escolha
+          </mat-option >
+          <mat-option value="TRUE_OR_FALSE" >
+            Verdadeiro ou falso
+          </mat-option >
+        </mat-select >
+      </div >
+    </div >
+    <span >Opções:</span >
+    <div *ngFor="let option of t.controls; let i = index; let last = last" >
+      
+      <div class="row" [formGroup]="option" >
+        
+        <div class="input-field col s1" >
+          <span class="badge" >{{letters[i]}}</span >
+        </div >
+        
+        <div class="input-field col s8" >
+          <textarea placeholder="Digite a resposta aqui" class="materialize-textarea" formControlName="option" type="text" ></textarea >
+        </div >
+        
+        <div class="input-field col s3" >
+          <mat-checkbox color="primary" class="filled-in" formControlName="checked" ></mat-checkbox >
+        </div >
+        
+        <input formControlName="id" type="hidden" [(ngModel)]="i" >
+        <input formControlName="letter" type="hidden" [(ngModel)]="letters[i]" >
+      </div >
+      <mat-divider *ngIf="!last" ></mat-divider >
+    
+    </div >
+    
+    <a *ngIf="letters.length < 26" mat-button (click)="addOption()" >
+      <mat-icon >add</mat-icon >
+    </a >
+    <a *ngIf="letters.length > 2" mat-button (click)="removeOption()" >
+      <mat-icon >remove</mat-icon >
+    </a >
+    
+    <div class="row" >
+      <app-chip (getTags)="addTags($event)" ></app-chip >
+    </div >
+  </form >
+  
+  <button mat-button class="btn cyan waves-effect waves-light right" (click)="submit()" >Salvar
+    <mat-icon >save</mat-icon >
+  </button >
+</div >

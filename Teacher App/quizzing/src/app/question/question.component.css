@@ -1,0 +1,23 @@
+mat-grid-tile {
+  background-color: #f0f0f0;
+}
+
+div .row {
+  margin-top: 15px;
+}
+
+.fab {
+  right: 20px;
+  bottom: 10%;
+  left: auto;
+  position: fixed;
+  z-index: 5;
+  display: flex;
+  align-self: flex-end;
+  margin-bottom: 68px;
+}
+
+.main-component {
+  position: relative;
+  margin-bottom: 80px;
+}

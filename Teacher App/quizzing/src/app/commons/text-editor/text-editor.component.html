@@ -1,0 +1,12 @@
+<div class="card" >
+  <div class="card-action" >
+    <a mat-raised-button class="indigo white-text" (click)="render == true ? render = false : render = true" >vizualizar</a >
+    <a mat-raised-button class="indigo white-text" (click)="addSnippet('$ equation $')" >inline</a >
+    <a mat-raised-button class="indigo white-text" (click)="addSnippet('$$ equation $$')" >destaque</a >
+    <a mat-icon-button class="white right" (click)="openDialog()" ><mat-icon color="primary">help</mat-icon></a >
+  </div >
+  <div [formGroup]="form" class="card-content" >
+    <textarea [formControlName]="controlName" class="materialize-textarea" [placeholder]="placeholder" #textArea [(ngModel)]="text" ></textarea >
+    <ng-katex-paragraph *ngIf="render" [paragraph]="text" ></ng-katex-paragraph >
+  </div >
+</div >

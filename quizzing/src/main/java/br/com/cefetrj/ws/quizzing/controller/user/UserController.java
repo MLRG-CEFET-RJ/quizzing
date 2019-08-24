@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 @RestController
 @Path("/user")
@@ -21,14 +20,6 @@ public class UserController
 	public UserController(UserService userService)
 	{
 		this.userService = userService;
-	}
-
-	//TODO: Remover depois de testar
-	@GET
-	@Path("/users")
-	public List<ApplicationUser> getAllUsers()
-	{
-		return userService.findAll();
 	}
 
 	@PUT

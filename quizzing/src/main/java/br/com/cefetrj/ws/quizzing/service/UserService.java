@@ -124,10 +124,4 @@ public class UserService
 		}
 		return Response.status(BAD_REQUEST).entity(obj.toString()).build();
 	}
-
-	// TODO: Remover depois de testar
-	public List<ApplicationUser> findAll()
-	{
-		return userRepository.findAll();
-	}
 }
