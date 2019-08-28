@@ -12,7 +12,7 @@ export class TextEditorComponent implements OnInit
 {
 
   @ViewChild('textArea', null) textArea: ElementRef;
-  @Output() text = '';
+  @Input() @Output() text = '';
   @Input() placeholder: string;
   @Input() controlName: string;
   @Input() form: FormGroup;
@@ -39,7 +39,7 @@ export class TextEditorComponent implements OnInit
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
       title: 'Editor de Texto',
-      text: this.modalContent
+      paragraph: this.modalContent
     };
     this.dialog.open(DialogComponent, dialogConfig);
   }

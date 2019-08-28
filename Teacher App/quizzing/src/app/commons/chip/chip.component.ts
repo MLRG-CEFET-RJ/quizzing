@@ -1,5 +1,5 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {Tag} from '../../_models/tag.model';
 
@@ -10,12 +10,11 @@ import {Tag} from '../../_models/tag.model';
            })
 export class ChipComponent
 {
-  visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  tags: Tag[] = [];
+  @Input() tags: Tag[] = [];
 
   @Output() getTags = new EventEmitter<Tag[]>();
 

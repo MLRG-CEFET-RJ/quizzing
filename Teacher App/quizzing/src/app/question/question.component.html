@@ -1,24 +1,17 @@
-<!--- start questions page -->
 <div class="main-component" >
+  
   <div class="pages section" >
+    
     <div class="pages-head section" >
       <h3 >Suas Questões</h3 >
     </div >
-    <!--- end questions page -->
+    
     <mat-accordion >
       <mat-expansion-panel *ngFor="let question of questions; let i = index, let first = first" [expanded]="first" >
         <mat-expansion-panel-header >
           <mat-panel-title >
             <h6 ># {{ i + 1}}</h6 >
           </mat-panel-title >
-          <mat-panel-description></mat-panel-description >
-          <mat-panel-description></mat-panel-description >
-          <mat-panel-description></mat-panel-description >
-          <mat-panel-description></mat-panel-description >
-          <mat-panel-description></mat-panel-description >
-          <mat-panel-description></mat-panel-description >
-          <mat-panel-description></mat-panel-description >
-          <mat-panel-description></mat-panel-description >
           <mat-panel-description >
             <span *ngFor="let star of getStars(question.rating)" >
               <mat-icon *ngIf="star == 0" >star_border</mat-icon >
@@ -32,6 +25,13 @@
               </mat-icon >
             </a >
           </mat-panel-description >
+          <mat-panel-description >
+            <a mat-button (click)="delete(question)">
+              <mat-icon >
+                delete
+              </mat-icon >
+            </a>
+          </mat-panel-description >
         </mat-expansion-panel-header >
         <div class="row" >
           <div *ngIf="question.image != null" class="col s6" >
@@ -43,10 +43,13 @@
         </div >
       </mat-expansion-panel >
     </mat-accordion >
+    
   </div >
+  
   <div class="fab" >
     <a color="primary" mat-fab class="mat-form-field-can-float" routerLink="add" >
       <mat-icon >add</mat-icon >
     </a >
   </div >
+  
 </div >

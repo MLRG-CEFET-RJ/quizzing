@@ -224,3 +224,8 @@ textarea.materialize-textarea:focus:not([readonly]) {
   opacity: 0.9;
   box-shadow: none;
 }
+
+.main-component {
+  position: relative;
+  margin-bottom: 80px;
+}

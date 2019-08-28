@@ -4,7 +4,9 @@
       <a routerLink="/" ><h1 >{{ title }}</h1 ></a >
     </div >
     <span class="menu-spacer" ></span >
-    <mat-icon (click)="sidenav.toggle()" >person</mat-icon >
+    <a mat-button>
+      <mat-icon (click)="sidenav.toggle()" >person</mat-icon >
+    </a>
   </mat-toolbar-row >
 </mat-toolbar >
 

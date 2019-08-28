@@ -1,1 +1,49 @@
-<p>quiz works!</p>
+<div class="main-component" >
+  <div class="pages section" >
+  
+    <div class="pages-head section" >
+      <h3 >Seus Questionários</h3 >
+    </div >
+  
+    <mat-accordion >
+      <mat-expansion-panel *ngFor="let quiz of quizzes; let i = index, let first = first" [expanded]="first" >
+        <mat-expansion-panel-header >
+          <mat-panel-title >
+            <h6 ># {{ i + 1}}</h6 >
+          </mat-panel-title >
+          <mat-panel-description></mat-panel-description >
+          <mat-panel-description></mat-panel-description >
+          <mat-panel-description></mat-panel-description >
+          <mat-panel-description></mat-panel-description >
+          <mat-panel-description></mat-panel-description >
+          <mat-panel-description></mat-panel-description >
+          <mat-panel-description></mat-panel-description >
+          <mat-panel-description >
+            <a mat-button [routerLink]="['edit', quiz.id]" >
+              <mat-icon >
+                edit
+              </mat-icon >
+            </a >
+          </mat-panel-description >
+          <mat-panel-description >
+            <a mat-button (click)="delete(i)">
+              <mat-icon >
+                delete
+              </mat-icon >
+            </a>
+          </mat-panel-description >
+        </mat-expansion-panel-header >
+        <div class="row" >
+        </div >
+      </mat-expansion-panel >
+    </mat-accordion >
+    
+  </div >
+  
+  <div class="fab" >
+    <a color="primary" mat-fab class="mat-form-field-can-float" routerLink="add" >
+      <mat-icon >add</mat-icon >
+    </a >
+  </div >
+  
+</div >

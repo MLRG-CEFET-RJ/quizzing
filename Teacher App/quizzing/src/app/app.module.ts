@@ -29,6 +29,8 @@ import {ChipComponent} from './commons/chip/chip.component';
 import {TextEditorComponent} from './commons/text-editor/text-editor.component';
 import {KatexModule} from 'ng-katex';
 import {DialogComponent} from './commons/dialog/dialog.component';
+import { AddQuizComponent } from './quiz/add-quiz/add-quiz.component';
+import { EditQuizComponent } from './quiz/edit-quiz/edit-quiz.component';
 
 @NgModule({
             declarations:    [
@@ -40,7 +42,9 @@ import {DialogComponent} from './commons/dialog/dialog.component';
               EditQuestionComponent,
               ChipComponent,
               TextEditorComponent,
-              DialogComponent
+              DialogComponent,
+              AddQuizComponent,
+              EditQuizComponent
             ],
             entryComponents: [DialogComponent],
             imports:         [

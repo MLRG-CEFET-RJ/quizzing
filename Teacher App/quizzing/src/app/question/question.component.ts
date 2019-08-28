@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Question} from './question.model';
+import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
+import {DialogComponent} from '../commons/dialog/dialog.component';
 
 @Component({
              selector:    'app-question',
@@ -21,7 +23,7 @@ export class QuestionComponent implements OnInit
       tags:     null
     },
     {
-      id:       1,
+      id:       2,
       question: 'Dadas as retas 𝑟 ≡ 3𝑥 + 𝑦 − 1 = 0 e 𝑠 ≡ 2𝑥 + 𝑚𝑦 − 8 = 0, qual dos seguintes é um\n' +
                 'valor de m que faz com que as retas r e s formem um ângulo de 45°',
       type:     'TRUE_OR_FALSE',
@@ -32,6 +34,8 @@ export class QuestionComponent implements OnInit
     }
   ];
 
+  constructor(public dialog: MatDialog) { }
+
   getStars(rating: number)
   {
     const stars = new Array(5);
@@ -39,8 +43,34 @@ export class QuestionComponent implements OnInit
     return stars.fill(0, rating);
   }
 
-  constructor() { }
-
   ngOnInit() {}
 
+  delete(q: Question)
+  {
+    let matDialogRef = this.openDialog();
+
+    matDialogRef.afterClosed().subscribe(result => this.d(result, q));
+  }
+
+  d(result: boolean, q: Question)
+  {
+    if (result)
+    {
+      alert(`${q.id} deletada!`);
+    }
+  }
+
+  openDialog(): MatDialogRef<DialogComponent, any>
+  {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      title:     'Apagar Conteúdo',
+      paragraph: 'Tem certeza que desea deletar a questão?',
+      action:    true
+    };
+    dialogConfig.disableClose = true;
+
+    return this.dialog.open(DialogComponent, dialogConfig);
+  }
 }

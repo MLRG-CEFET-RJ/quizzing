@@ -36,7 +36,14 @@ export class EditQuestionComponent implements OnInit
       }
     ],
     rating:   5,
-    tags:     null
+    tags:     [
+      {
+        tag: "a"
+      },
+      {
+        tag: "b"
+      }
+    ]
   };
 
   constructor(private formBuilder: FormBuilder) {}
@@ -47,6 +54,7 @@ export class EditQuestionComponent implements OnInit
       {
         question: [this.question.question, Validators.required],
         type:     [this.question.type, Validators.required],
+        image:    [null],
         options:  new FormArray([])
       }
     );
@@ -101,7 +109,6 @@ export class EditQuestionComponent implements OnInit
   addTags(t: Tag[])
   {
     this.tags = t;
-    console.log(t);
   }
 
   submit()
