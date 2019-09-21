@@ -30,7 +30,7 @@ services:
     build: .
     restart: always
     ports:
-      - "8090:8090"
+      - "8080:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/quizzing?allowPublicKeyRetrieval=true&useSSL=false&seTimezone=true&serverTimezone=UTC
       - SPRING_DATA_SOLR_HOST=http://solr:8983/solr

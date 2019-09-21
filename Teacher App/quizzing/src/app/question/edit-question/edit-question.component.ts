@@ -38,10 +38,10 @@ export class EditQuestionComponent implements OnInit
     rating:   5,
     tags:     [
       {
-        tag: "a"
+        tag: 'a'
       },
       {
-        tag: "b"
+        tag: 'b'
       }
     ]
   };

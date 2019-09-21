@@ -38,7 +38,7 @@
             <img class="responsive-img" src="{{question.image}}" >
           </div >
           <div class="col" [className]="question.image != null ? 's6' : 's12'" >
-            {{ question.question }}
+            <ng-katex-paragraph [paragraph]="question.question"></ng-katex-paragraph>
           </div >
         </div >
       </mat-expansion-panel >

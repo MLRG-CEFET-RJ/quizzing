@@ -1,0 +1,10 @@
+.fab {
+  right: 20px;
+  bottom: 10%;
+  left: auto;
+  position: fixed;
+  z-index: 5;
+  display: flex;
+  align-self: flex-end;
+  margin-bottom: 68px;
+}

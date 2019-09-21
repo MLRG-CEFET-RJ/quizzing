@@ -1,1 +1,66 @@
-<p>edit-quiz works!</p>
+<div class="main-component" *ngIf="!showSearch" >
+  
+  <div class="pages section" >
+    
+    <div class="pages-head section" >
+      <h3 >Editar Questionário</h3 >
+    </div >
+    
+    <form [formGroup]="form" (ngSubmit)="submit()" >
+      <div class="row" >
+        <div class="col s6" >
+          <input type="text" placeholder="Nome" formControlName="name">
+        </div >
+      </div >
+      
+      <div class="row" >
+        <div class="col s6" >
+          <app-chip (getTags)="addTags($event)" [tags]="quiz.tags" ></app-chip >
+        </div >
+      </div >
+      
+      <mat-accordion >
+        <mat-expansion-panel *ngFor="let question of quiz.questions; let i = index, let first = first" [expanded]="first" >
+          <mat-expansion-panel-header >
+            <mat-panel-title style="flex-grow: 8">
+              <h6 ># {{ i + 1}}</h6 >
+            </mat-panel-title >
+            <mat-panel-description >
+              <a mat-button (click)="delete(question)" >
+                <mat-icon >
+                  delete
+                </mat-icon >
+              </a >
+            </mat-panel-description >
+          </mat-expansion-panel-header >
+          <div class="row" >
+            <div *ngIf="question.image != null" class="col s6" >
+              <img class="responsive-img" src="{{question.image}}" >
+            </div >
+            <div class="col" [className]="question.image != null ? 's6' : 's12'" >
+              <ng-katex-paragraph [paragraph]="question.question" ></ng-katex-paragraph >
+            </div >
+          </div >
+        </mat-expansion-panel >
+      </mat-accordion >
+    </form >
+  </div >
+  
+  <div class="fab" >
+    <a color="primary" mat-fab class="mat-form-field-can-float" (click)="toggleSearch()" >
+      <mat-icon >add</mat-icon >
+    </a >
+  </div >
+  
+  <div class="row" >
+    <div class="col s12" >
+      <button mat-button class="btn waves-effect waves-light indigo" (click)="submit()" >
+        Salvar
+      </button >
+    </div >
+  
+  </div >
+
+</div >
+
+<app-search-quiz *ngIf="showSearch" ></app-search-quiz >

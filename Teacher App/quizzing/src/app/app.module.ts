@@ -31,6 +31,7 @@ import {KatexModule} from 'ng-katex';
 import {DialogComponent} from './commons/dialog/dialog.component';
 import { AddQuizComponent } from './quiz/add-quiz/add-quiz.component';
 import { EditQuizComponent } from './quiz/edit-quiz/edit-quiz.component';
+import { SearchQuizComponent } from './quiz/search-quiz/search-quiz.component';
 
 @NgModule({
             declarations:    [
@@ -44,7 +45,8 @@ import { EditQuizComponent } from './quiz/edit-quiz/edit-quiz.component';
               TextEditorComponent,
               DialogComponent,
               AddQuizComponent,
-              EditQuizComponent
+              EditQuizComponent,
+              SearchQuizComponent
             ],
             entryComponents: [DialogComponent],
             imports:         [

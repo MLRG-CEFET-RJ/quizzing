@@ -37,6 +37,7 @@ public class Activity implements Serializable
 	private Quiz quiz;
 
 	private Boolean isEnded = false;
+
 	@Lob
 	private String results;
 

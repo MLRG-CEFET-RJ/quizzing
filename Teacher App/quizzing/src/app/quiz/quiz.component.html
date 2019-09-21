@@ -1,43 +1,49 @@
 <div class="main-component" >
   <div class="pages section" >
-  
+    
     <div class="pages-head section" >
       <h3 >Seus Questionários</h3 >
     </div >
-  
+    
     <mat-accordion >
       <mat-expansion-panel *ngFor="let quiz of quizzes; let i = index, let first = first" [expanded]="first" >
-        <mat-expansion-panel-header >
+        <mat-expansion-panel-header>
           <mat-panel-title >
-            <h6 ># {{ i + 1}}</h6 >
+            <h6 >{{ quiz.name }}</h6 >
           </mat-panel-title >
-          <mat-panel-description></mat-panel-description >
-          <mat-panel-description></mat-panel-description >
-          <mat-panel-description></mat-panel-description >
-          <mat-panel-description></mat-panel-description >
-          <mat-panel-description></mat-panel-description >
-          <mat-panel-description></mat-panel-description >
-          <mat-panel-description></mat-panel-description >
-          <mat-panel-description >
+        </mat-expansion-panel-header >
+        <div class="row">
+          <div class="col s6 m2 offset-m8">
             <a mat-button [routerLink]="['edit', quiz.id]" >
               <mat-icon >
                 edit
               </mat-icon >
             </a >
-          </mat-panel-description >
-          <mat-panel-description >
-            <a mat-button (click)="delete(i)">
+          </div>
+          <div class="col s6 m2">
+            <a mat-button (click)="delete(quiz)" >
               <mat-icon >
                 delete
               </mat-icon >
-            </a>
-          </mat-panel-description >
-        </mat-expansion-panel-header >
+            </a >
+          </div>
+        </div>
         <div class="row" >
+          <div class="quiz col s12 m6 l6 xl6" >
+            <mat-chip-list >
+              <mat-chip color="primary" selected *ngFor="let tag of quiz.tags" >{{ tag.tag }}</mat-chip >
+            </mat-chip-list >
+          </div >
+          <div class="quiz col s12 m6 l6 xl6" >
+            <div class="row" >Nº de questões: {{ quiz.questions.length }}</div >
+            <div class="row" >
+              <button mat-raised-button color="primary" (click)="startActivity(quiz)" > Iniciar atividade</button >
+            </div >
+          </div >
         </div >
       </mat-expansion-panel >
     </mat-accordion >
-    
+  
   </div >
   
   <div class="fab" >
@@ -45,5 +51,5 @@
       <mat-icon >add</mat-icon >
     </a >
   </div >
-  
+
 </div >

@@ -24,13 +24,6 @@ public class ActivityController
 	}
 
 	@GET
-	@Produces("text/plain")
-	public String helloActivity()
-	{
-		return "Hello Activity";
-	}
-
-	@GET
 	@Path("/activities")
 	public List<Activity> getUserActivities()
 	{
