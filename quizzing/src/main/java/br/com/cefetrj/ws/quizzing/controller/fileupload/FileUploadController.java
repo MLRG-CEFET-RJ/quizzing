@@ -1,6 +1,6 @@
 package br.com.cefetrj.ws.quizzing.controller.fileupload;
 
-import br.com.cefetrj.ws.quizzing.service.fileUpload.FileUploadService;
+import br.com.cefetrj.ws.quizzing.service.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -1,4 +1,4 @@
-package br.com.cefetrj.ws.quizzing.service.fileUpload;
+package br.com.cefetrj.ws.quizzing.service;
 
 import br.com.cefetrj.sc.dominio.Prova;
 import org.json.JSONException;
