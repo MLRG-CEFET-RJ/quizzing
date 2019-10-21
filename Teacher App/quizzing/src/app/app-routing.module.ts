@@ -8,6 +8,10 @@ import {EditQuestionComponent} from './question/edit-question/edit-question.comp
 import {TextEditorComponent} from './commons/text-editor/text-editor.component';
 import {AddQuizComponent} from './quiz/add-quiz/add-quiz.component';
 import {EditQuizComponent} from './quiz/edit-quiz/edit-quiz.component';
+import {SearchQuestionComponent} from './question/search-question/search-question.component';
+import { ImportComponent } from './import/import.component';
+
+
 
 
 const routes: Routes = [
@@ -15,10 +19,12 @@ const routes: Routes = [
   {path: 'quiz', component: QuizComponent},
   {path: 'activity', component: ActivityComponent},
   {path: 'question/add', component: AddQuestionComponent},
+  {path: 'question/search', component: SearchQuestionComponent},
   {path: 'question/edit/:id', component: EditQuestionComponent},
   {path: 'quiz/add', component: AddQuizComponent},
   {path: 'quiz/edit/:id', component: EditQuizComponent},
   {path: 'test', component: TextEditorComponent},
+  {path: 'import', component: ImportComponent},
 
   {path: '**', redirectTo: '/'}
 ];

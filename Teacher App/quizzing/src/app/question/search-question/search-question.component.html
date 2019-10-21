@@ -1,0 +1,59 @@
+<div class="main-component" >
+  <div class="container" >
+    <div class="row" >
+      <div class="col s11" >
+        <div class="input-field" >
+          <input type="text" placeholder="Buscar" >
+        </div >
+      </div >
+      <div class="col s1" >
+        <button (click)="search()" mat-button style="margin-top: 20px" >
+          <mat-icon >search</mat-icon >
+        </button >
+      </div >
+    </div >
+    <div class="row" *ngIf="searchResult.length>0" >
+      <mat-accordion >
+        <mat-expansion-panel *ngFor="let question of searchResult; let i = index, let first = first" [expanded]="first" >
+          <mat-expansion-panel-header >
+            <mat-panel-title style="flex-grow: 8" >
+              <h6 ># {{ i + 1}}</h6 >
+            </mat-panel-title >
+            <mat-panel-description >
+              <a mat-button (click)="add(question, quiz);$event.stopPropagation()" >
+                <mat-icon >
+                  add
+                </mat-icon >
+              </a >
+            </mat-panel-description >
+          </mat-expansion-panel-header >
+          <div class="row" >
+            
+            <div *ngIf="question.image != null" class="col s6" >
+              <img class="responsive-img" src="{{question.image}}" >
+            </div >
+            
+            <div class="col" [className]="question.image != null ? 's6' : 's12'" >
+              <div class="row" >
+                <div class="col s12" >
+                  <ng-katex-paragraph [paragraph]="question.question" ></ng-katex-paragraph >
+                </div >
+              </div >
+              <div class="row" *ngFor="let option of question.options" >
+                <div class="input-field col s1" >
+                  <mat-checkbox [checked]="option.checked" color="primary" disabled="true" class="filled-in" ></mat-checkbox >
+                </div >
+                <div class="col s1" >
+                  <span class="badge" >( {{option.letter}} )</span >
+                </div >
+                <div class="col s10" >
+                  <ng-katex-paragraph [paragraph]="option.option" ></ng-katex-paragraph >
+                </div >
+              </div >
+            </div >
+          </div >
+        </mat-expansion-panel >
+      </mat-accordion >
+    </div >
+  </div >
+</div >

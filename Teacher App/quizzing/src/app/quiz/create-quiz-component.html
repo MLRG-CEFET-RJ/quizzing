@@ -1,0 +1,15 @@
+<div mat-dialog-content>
+  <p>Informe o nome do quiz?</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="data.nome">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button (click)="criaQuiz()" cdkFocusInitial>Continuar</button>
+</div>
+
+
+<!-- Copyright 2019 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

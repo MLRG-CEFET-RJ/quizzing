@@ -20,11 +20,12 @@ import {
   MatToolbarModule
 } from '@angular/material';
 import {QuestionComponent} from './question/question.component';
-import {QuizComponent} from './quiz/quiz.component';
+import {QuizComponent, CreateQuizComponent} from './quiz/quiz.component';
 import {ActivityComponent} from './activity/activity.component';
 import {AddQuestionComponent} from './question/add-question/add-question.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {EditQuestionComponent} from './question/edit-question/edit-question.component';
+import {SearchQuestionComponent, AddQuentionInQuizComponent} from './question/search-question/search-question.component';
 import {ChipComponent} from './commons/chip/chip.component';
 import {TextEditorComponent} from './commons/text-editor/text-editor.component';
 import {KatexModule} from 'ng-katex';
@@ -32,6 +33,7 @@ import {DialogComponent} from './commons/dialog/dialog.component';
 import { AddQuizComponent } from './quiz/add-quiz/add-quiz.component';
 import { EditQuizComponent } from './quiz/edit-quiz/edit-quiz.component';
 import { SearchQuizComponent } from './quiz/search-quiz/search-quiz.component';
+import { ImportComponent } from './import/import.component';
 
 @NgModule({
             declarations:    [
@@ -46,9 +48,13 @@ import { SearchQuizComponent } from './quiz/search-quiz/search-quiz.component';
               DialogComponent,
               AddQuizComponent,
               EditQuizComponent,
-              SearchQuizComponent
+              SearchQuizComponent,
+              CreateQuizComponent,
+              AddQuentionInQuizComponent,
+              SearchQuestionComponent,
+              ImportComponent
             ],
-            entryComponents: [DialogComponent],
+            entryComponents: [DialogComponent, CreateQuizComponent, AddQuentionInQuizComponent],
             imports:         [
               BrowserModule,
               AppRoutingModule,
@@ -68,9 +74,9 @@ import { SearchQuizComponent } from './quiz/search-quiz/search-quiz.component';
               KatexModule,
               FormsModule,
               MatDialogModule,
-              MatInputModule
+              MatInputModule,
             ],
-            exports:         [DialogComponent],
+            exports:         [DialogComponent, CreateQuizComponent, AddQuentionInQuizComponent],
             providers:       [],
             bootstrap:       [AppComponent]
           })

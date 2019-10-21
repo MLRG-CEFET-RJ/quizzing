@@ -4,4 +4,5 @@ export interface Activity
 {
   id: number;
   quiz: Quiz;
+  active: boolean;
 }

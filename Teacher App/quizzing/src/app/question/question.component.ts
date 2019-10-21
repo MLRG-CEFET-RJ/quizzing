@@ -65,7 +65,7 @@ export class QuestionComponent implements OnInit
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
       title:     'Apagar Conteúdo',
-      paragraph: 'Tem certeza que desea deletar a questão?',
+      paragraph: 'Tem certeza que deseja deletar a questão?',
       action:    true
     };
     dialogConfig.disableClose = true;
