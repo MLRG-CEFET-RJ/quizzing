@@ -1,0 +1,8 @@
+<h1 mat-dialog-title >{{modalTitle}}</h1 >
+<ng-katex-paragraph mat-dialog-content [paragraph]="paragraph" >
+</ng-katex-paragraph >
+
+<div mat-dialog-actions *ngIf="action">
+  <button mat-button class="btn btn-primary" [mat-dialog-close]="data" cdkFocusInitial>Confirmar</button>
+  <button mat-button class="btn" (click)="onNoClick()">Cancelar</button>
+</div>

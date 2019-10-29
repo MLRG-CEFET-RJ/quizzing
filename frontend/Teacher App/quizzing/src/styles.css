@@ -1,0 +1,231 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+@import "~materialize-css/dist/css/materialize.min.css";
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,600,700,800');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import '~katex/dist/katex.css';
+
+/* ------------------------------
+  General
+---------------------------------*/
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  font-family: 'Open Sans', sans-serif;
+  background: #ffffff;
+  color: #777;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Montserrat', sans-serif;
+  padding: 0;
+  margin: 0;
+  color: #171717;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h2 {
+  font-size: 26px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+h4 {
+  font-size: 22px;
+}
+
+h5 {
+  font-size: 20px;
+}
+
+h6 {
+  font-size: 18px;
+}
+
+a {
+  text-decoration: none;
+  color: #171717;
+}
+
+p {
+  margin: 5px 0;
+}
+
+.section {
+  padding: 35px 0;
+}
+
+.pages {
+
+}
+
+.pages-head {
+  text-align: center;
+  padding: 0 10px 20px 10px;
+  text-transform: uppercase;
+}
+
+.pages-head h3 {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.bg-second {
+  background: #eee;
+}
+
+.section-head {
+  margin: 0 auto 8px auto;
+  text-align: center;
+}
+
+.section-head h4 {
+  margin-bottom: 5px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.section-head .underline {
+  height: 2px;
+  background: #4252b0;
+  width: 30px;
+  margin: 0 auto;
+}
+
+.section-head .divider-top {
+  width: 60px;
+  height: 2px;
+  background: #222;
+  margin: 0 auto;
+}
+
+.section-head .divider-bottom {
+  width: 45px;
+  height: 2px;
+  background: #444;
+  margin: 2px auto 0;
+}
+
+
+input:not([type]),
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=url],
+input[type=time],
+input[type=date],
+input[type=datetime],
+input[type=datetime-local],
+input[type=tel],
+input[type=number],
+input[type=search] {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  outline: none;
+  height: 3rem;
+  width: 100%;
+  font-size: 1rem;
+  margin: 0 0 20px 0;
+  padding: 0 12px;
+  box-shadow: none;
+  box-sizing: border-box;
+  transition: all 0.3s;
+}
+
+textarea.materialize-textarea {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  outline: none;
+  height: auto;
+  width: 100%;
+  font-size: 1rem;
+  margin: 0 0 20px 0;
+  padding: 12px;
+  box-shadow: none;
+  box-sizing: border-box;
+  transition: all 0.3s;
+}
+
+
+input:not([type]):focus:not([readonly]),
+input[type=text]:focus:not([readonly]),
+input[type=password]:focus:not([readonly]),
+input[type=email]:focus:not([readonly]),
+input[type=url]:focus:not([readonly]),
+input[type=time]:focus:not([readonly]),
+input[type=date]:focus:not([readonly]),
+input[type=datetime]:focus:not([readonly]),
+input[type=datetime-local]:focus:not([readonly]),
+input[type=tel]:focus:not([readonly]),
+input[type=number]:focus:not([readonly]),
+input[type=search]:focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
+  border: 1px solid #ccc;
+  box-shadow: none;
+}
+
+::-webkit-input-placeholder {
+  color: #999;
+}
+::-moz-placeholder {
+  color: #999;
+}
+
+:-ms-input-placeholder {
+  color: #999;
+}
+:-moz-placeholder {
+  color: #999;
+}
+
+/* ------------------------------
+  Button
+---------------------------------*/
+.button-default {
+  background: transparent;
+  box-shadow: none;
+  margin: 10px 0 0;
+  padding-left: 15px;
+  padding-right: 15px;
+  line-height: 29px;
+  border: 1px solid #4252b0;
+  font-size: 12px;
+  color: #333;
+}
+
+.button-fullwidth {
+  width: 100%;
+  text-align: center;
+}
+
+.button-default a {
+  color: #ffffff;
+}
+
+.button-default:hover {
+  background: transparent;
+  opacity: 0.9;
+  box-shadow: none;
+}
+
+.main-component {
+  position: relative;
+  margin-bottom: 80px;
+}

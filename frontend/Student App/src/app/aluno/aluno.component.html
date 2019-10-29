@@ -1,0 +1,40 @@
+<div class="main-component" >
+	<div class="pages section" >
+	
+		<div class="pages-head section" >
+		<h3 >{{ activity.quiz.name }}</h3 >
+		</div >
+		
+
+		<mat-accordion >
+			<mat-expansion-panel *ngFor="let question of activity.quiz.questions; let i = index, let first = first" [expanded]="first" >
+				<mat-expansion-panel-header >
+					<mat-panel-title >
+						<h6 ># {{ i + 1}}</h6 >
+					</mat-panel-title >
+				</mat-expansion-panel-header >
+
+				<div class="row">
+					
+					<div class="col" [className]="question.image != null ? 's6' : 's12'" >
+						<ng-katex-paragraph [paragraph]="question.question"></ng-katex-paragraph>
+					</div>
+					<div *ngIf="question.image != null" class="col s6" >
+						<img class="responsive-img" src="{{question.image}}" >
+					</div>
+					<div>
+						<mat-radio-group (change) = "answerQuestion(question.id)" [(ngModel)]="resp">
+							<mat-radio-button *ngFor="let option of question.options" [value]="option">{{option}}</mat-radio-button>
+						</mat-radio-group>
+					</div>
+				</div >
+			</mat-expansion-panel >
+		</mat-accordion >
+
+		<button mat-fab mat-button color="primary" class="btn waves-effect waves-light right" (click)="submit()">
+			Enviar
+		</button>
+		
+	</div >
+
+</div >

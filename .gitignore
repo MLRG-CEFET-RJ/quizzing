@@ -27,3 +27,15 @@ quizzing/\.mvn/
 quizzing/src/main/java/br/com/cefetrj/ws/quizzing/model/_test/
 
 quizzing/src/main/java/br/com/cefetrj/ws/quizzing/service/controller/_test/
+
+backend/student/.mvn/
+
+backend/student/mvnw
+
+backend/student/mvnw.cmd
+
+backend/teacher/mvnw
+
+backend/teacher/mvnw.cmd
+
+backend/teacher/quizzing.log.2019-07-07.0.gz

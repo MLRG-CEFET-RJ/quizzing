@@ -1,0 +1,19 @@
+<div class="main-component" >
+  <div class="pages section" >
+	
+		<div class="pages-head section" >
+			<h3 >Login Aluno</h3 >
+		</div >
+		
+		<div class='center' (change)="validateParameter()">
+			Código: <input [(ngModel)]="codigo" type="text" >
+			Nome: <input [(ngModel)]="name" type="text" >
+			email: <input [(ngModel)]="email" type="email">
+			<button mat-fab mat-button [disabled]="!cansubmit" color="primary" class="btn waves-effect waves-light right" (click)="submit()">
+				Enviar
+			</button>
+		</div>
+
+  	</div>
+
+</div >
