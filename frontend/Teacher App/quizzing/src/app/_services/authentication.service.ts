@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpResponse} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
@@ -14,7 +14,7 @@ export class AuthenticationService
 
   constructor(private http: HttpClient)
   {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(sessionStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -26,27 +26,27 @@ export class AuthenticationService
   login(username, password)
   {
     return this.http.post<any>(`${API}/login`, {username, password}, {observe: 'response'})
-    .pipe(
-      map(
-        response =>
-        {
-          const authorization = response.headers.get('Authorization');
-          const user = atob(authorization.split('.')[1]);
-          console.log(user);
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          localStorage.setItem('Authorization', authorization);
-          this.currentUserSubject.next(JSON.parse(user));
-          return user;
-        }
-      )
-    );
+               .pipe(
+                 map(
+                   response =>
+                   {
+                     const authorization = response.headers.get('Authorization');
+                     const user = atob(authorization.split('.')[1]);
+
+                     // store user details and jwt token in local storage to keep user logged in between page refreshes
+                     sessionStorage.setItem('currentUser', JSON.stringify(user));
+                     sessionStorage.setItem('Authorization', authorization);
+                     this.currentUserSubject.next(JSON.parse(user));
+                     return user;
+                   }
+                 )
+               );
   }
 
   logout()
   {
     // remove user from local storage and set current user to null
-    localStorage.removeItem('currentUser');
+    sessionStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }
 }

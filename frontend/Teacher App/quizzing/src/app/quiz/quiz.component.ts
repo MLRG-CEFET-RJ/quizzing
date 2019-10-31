@@ -19,13 +19,13 @@ export class QuizComponent implements OnInit
 	  name:      'Quiz 1',
 	  tags:      [
 		{
-		  tag: 'tag 1'
+      name: 'tag 1'
 		},
 		{
-		  tag: 'tag 2'
+      name: 'tag 2'
 		},
 		{
-		  tag: 'tag 3'
+      name: 'tag 3'
 		},
 	  ],
 	  questions: [
@@ -56,13 +56,13 @@ export class QuizComponent implements OnInit
 	  name:      'adasdasd asd asd asdasdasd asd asd asd as dasdadasda d asd asd as das asd as da',
 	  tags:      [
 		{
-		  tag: 'tag 1'
+      name: 'tag 1'
 		},
 		{
-		  tag: 'tag 2'
+      name: 'tag 2'
 		},
 		{
-		  tag: 'tag 3'
+      name: 'tag 3'
 		},
 	  ],
 	  questions: [
@@ -130,11 +130,11 @@ export class QuizComponent implements OnInit
 	dialogConfig.data = {
 	  width: '250px'
 	};
-	
+
 	const dialogRef = this.dialog.open(CreateQuizComponent, dialogConfig);
   }
 
-  
+
   startActivity(quiz: Quiz)
   {
 	const dialogConfig = new MatDialogConfig();
@@ -165,7 +165,7 @@ export class CreateQuizComponent
 		public dialogRef: MatDialogRef<CreateQuizComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
-	onNoClick(): void 
+	onNoClick(): void
 	{
 		this.dialogRef.close();
 	}
@@ -175,4 +175,3 @@ export class CreateQuizComponent
 		//salvaNaBase
 	}
 }
-  

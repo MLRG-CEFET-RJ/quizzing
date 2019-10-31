@@ -31,9 +31,6 @@ public class QuestionSolr
 	private String type;
 
 	@Indexed
-	private String answer;
-
-	@Indexed
 	private String tags = "";
 
 	@Indexed
@@ -46,18 +43,16 @@ public class QuestionSolr
 		this.options = question.getOptions();
 		this.pic = question.getPic();
 		this.type = question.getType();
-		this.answer = question.getAnswer();
 		this.tags = getStringTags(question);
 	}
 
-	public QuestionSolr(Long id, String question, String options, byte[] pic, String type, String answer, String tags)
+	public QuestionSolr(Long id, String question, String options, byte[] pic, String type, String tags)
 	{
 		this.id = id;
 		this.question = question;
 		this.options = options;
 		this.pic = pic;
 		this.type = type;
-		this.answer = answer;
 		this.tags = tags;
 	}
 
@@ -115,16 +110,6 @@ public class QuestionSolr
 		this.type = type;
 	}
 
-	public String getAnswer()
-	{
-		return answer;
-	}
-
-	public void setAnswer(String answer)
-	{
-		this.answer = answer;
-	}
-
 	public String getTags()
 	{
 		return tags;
@@ -148,7 +133,7 @@ public class QuestionSolr
 	@Override
 	public String toString()
 	{
-		return "QuestionSolr{" + "id=" + id + ", question='" + question + '\'' + ", options='" + options + '\'' + ", pic=" + Arrays.toString(pic) + ", type='" + type + '\'' + ", answer='" + answer + '\'' + '}';
+		return "QuestionSolr{" + "id=" + id + ", question='" + question + '\'' + ", options='" + options + '\'' + ", pic=" + Arrays.toString(pic) + ", type='" + type + '\'' + '}';
 	}
 
 

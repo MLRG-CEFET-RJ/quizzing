@@ -18,13 +18,13 @@ export class ActivityComponent implements OnInit {
 				name:      'Quiz 1',
 				tags:      [
 				{
-					tag: 'tag 1'
+					name: 'tag 1'
 				},
 				{
-					tag: 'tag 2'
+          name: 'tag 2'
 				},
 				{
-					tag: 'tag 3'
+          name: 'tag 3'
 				},
 				],
 				questions: [
@@ -59,13 +59,13 @@ export class ActivityComponent implements OnInit {
 				name:      'Quiz 2',
 				tags:      [
 				{
-					tag: 'tag 1'
+          name: 'tag 1'
 				},
 				{
-					tag: 'tag 2'
+          name: 'tag 2'
 				},
 				{
-					tag: 'tag 3'
+          name: 'tag 3'
 				},
 				],
 				questions: [
@@ -96,13 +96,13 @@ export class ActivityComponent implements OnInit {
 	];
 	constructor(public dialog: MatDialog) { }
 
-	ngOnInit() 
+	ngOnInit()
 	{
 	}
 
 	stop(index)
 	{
-		
+
 
 		let matDialogRef = this.openDialog();
 

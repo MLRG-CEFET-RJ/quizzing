@@ -11,4 +11,6 @@ import java.util.List;
 public interface QuestionRepository extends JpaRepository<Question, Long>
 {
 	List<Question> findByUser(ApplicationUser user);
+
+	Question findByIdAndUser(Long Id, ApplicationUser user);
 }

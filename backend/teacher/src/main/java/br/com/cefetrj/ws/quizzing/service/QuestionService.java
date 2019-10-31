@@ -62,6 +62,12 @@ public class QuestionService
 		return questionRepository.findByUser(user);
 	}
 
+	public Question getUserQuestion(String userAuthorization, Long id)
+	{
+		ApplicationUser user = getUser(userAuthorization);
+		return questionRepository.findByIdAndUser(id, user);
+	}
+
 	public Response createQuestion(String userAuthorization, QuestionDTO questionDTO)
 	{
 		ApplicationUser user = getUser(userAuthorization);
@@ -160,7 +166,6 @@ public class QuestionService
 	{
 		question.setQuestion(questionDTO.getQuestion());
 		question.setType(questionDTO.getType());
-		question.setAnswer(questionDTO.getAnswer());
 		ArrayList<OptionsDTO> optionsList = questionDTO.getOptions();
 		question.setOptions(getOptionsFromDTO(optionsList));
 		String pic = questionDTO.getImage();
@@ -173,25 +178,24 @@ public class QuestionService
 			question.setPic(null);
 		}
 
-		String tagsStr = questionDTO.getTags();
 		if (null != questionDTO.getTags())
 		{
-			Set<Tag> tags = question.getTags();
-			for (String tag : tagsStr.split(","))
+			Set<Tag> tags = questionDTO.getTags();
+			for (Tag tag : tags)
 			{
-				Optional<Tag> optionalTag = tagRepository.findByName(tag.trim());
+				Tag t;
+				Optional<Tag> optionalTag = tagRepository.findByName(tag.getName());
 				if (optionalTag.isPresent())
 				{
-					Tag t = optionalTag.get();
-					tags.add(t);
+					t = optionalTag.get();
 					t.getQuestions().add(question);
 				}
 				else
 				{
-					Tag t = new Tag(tag);
-					tags.add(t);
+					t = new Tag(tag.getName());
 					t.getQuestions().add(question);
 				}
+				question.getTags().add(t);
 			}
 		}
 		return question;

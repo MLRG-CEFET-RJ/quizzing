@@ -1,6 +1,9 @@
 package br.com.cefetrj.ws.quizzing.pojo;
 
+import br.com.cefetrj.ws.quizzing.model.tag.Tag;
+
 import java.util.ArrayList;
+import java.util.Set;
 
 public class QuestionDTO
 {
@@ -8,17 +11,15 @@ public class QuestionDTO
 	private String question;
 	private String type;
 	private String image;
-	private String answer;
 	private ArrayList<OptionsDTO> options;
-	private String tags;
+	private Set<Tag> tags;
 
-	public QuestionDTO(Long id, String question, String type, String image, String answer, ArrayList<OptionsDTO> options, String tags)
+	public QuestionDTO(Long id, String question, String type, String image, ArrayList<OptionsDTO> options, Set<Tag> tags)
 	{
 		this.id = id;
 		this.question = question;
 		this.type = type;
 		this.image = image;
-		this.answer = answer;
 		this.options = options;
 		this.tags = tags;
 	}
@@ -53,16 +54,6 @@ public class QuestionDTO
 		this.image = image;
 	}
 
-	public String getAnswer()
-	{
-		return answer;
-	}
-
-	public void setAnswer(String answer)
-	{
-		this.answer = answer;
-	}
-
 	public ArrayList<OptionsDTO> getOptions()
 	{
 		return options;
@@ -83,12 +74,12 @@ public class QuestionDTO
 		this.type = type;
 	}
 
-	public String getTags()
+	public Set<Tag> getTags()
 	{
 		return tags;
 	}
 
-	public void setTags(String tags)
+	public void setTags(Set<Tag> tags)
 	{
 		this.tags = tags;
 	}

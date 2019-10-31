@@ -7,7 +7,7 @@
     </div >
     
     <mat-accordion >
-      <mat-expansion-panel *ngFor="let question of questions | async; let i = index, let first = first" [expanded]="first" >
+      <mat-expansion-panel *ngFor="let question of questions; let i = index, let first = first" [expanded]="first" >
         <mat-expansion-panel-header >
           <mat-panel-title >
             <h6 ># {{ i + 1}}</h6 >
@@ -35,7 +35,7 @@
         </mat-expansion-panel-header >
         <div class="row" >
           <div *ngIf="question.image != null" class="col s6" >
-            <img class="responsive-img" src="{{question.image}}" >
+            <img class="responsive-img" src="data:image/png;base64,{{question.image}}" >
           </div >
           <div class="col" [className]="question.image != null ? 's6' : 's12'" >
             <ng-katex-paragraph [paragraph]="question.question"></ng-katex-paragraph>

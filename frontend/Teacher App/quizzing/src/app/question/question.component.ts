@@ -3,7 +3,7 @@ import {Question} from './question.model';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
 import {DialogComponent} from '../commons/dialog/dialog.component';
 import {QuestionService} from './question.service';
-import {Observable} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Component({
              selector:    'app-question',
@@ -13,9 +13,12 @@ import {Observable} from 'rxjs';
 export class QuestionComponent implements OnInit
 {
 
-  questions: Observable<Question[]>;
+  questions: Question[];
 
-  constructor(public dialog: MatDialog, private questionService: QuestionService) { }
+  constructor(public dialog: MatDialog,
+              private questionService: QuestionService,
+              private router: Router)
+  { }
 
   getStars(rating: number)
   {
@@ -26,7 +29,15 @@ export class QuestionComponent implements OnInit
 
   ngOnInit()
   {
-    this.questions = this.questionService.get();
+    this.getUserQuestions();
+  }
+
+  private getUserQuestions()
+  {
+    this.questionService.getQuestions().subscribe(questions =>
+                                                  {
+                                                    this.questions = questions;
+                                                  });
   }
 
   delete(q: Question)
@@ -39,13 +50,7 @@ export class QuestionComponent implements OnInit
   {
     if (result)
     {
-      this.questionService.delete(q).subscribe(
-        data =>
-        {
-          alert(`${q.id} deletada!`);
-        }
-      );
-
+      this.questionService.delete(q).subscribe(() => this.getUserQuestions());
     }
   }
 
@@ -62,4 +67,5 @@ export class QuestionComponent implements OnInit
 
     return this.dialog.open(DialogComponent, dialogConfig);
   }
+
 }

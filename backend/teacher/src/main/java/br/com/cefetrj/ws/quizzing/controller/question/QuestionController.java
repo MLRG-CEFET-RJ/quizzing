@@ -35,6 +35,14 @@ public class QuestionController
 		return questionService.getUserQuestions(authorizationHeader);
 	}
 
+	@GET
+	@Path("/questions/{id}")
+	public Question getUserQuestions(@Context HttpHeaders httpheaders, @PathParam("id") Long id)
+	{
+		String authorizationHeader = httpheaders.getHeaderString("Authorization");
+		return questionService.getUserQuestion(authorizationHeader, id);
+	}
+
 	@POST
 	@Path("/new")
 	@Consumes("application/json")

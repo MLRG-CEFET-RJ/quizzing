@@ -13,14 +13,19 @@ export class QuestionService
 
   constructor(private http: HttpClient) { }
 
-  create(question: Question)
+  create(question: Question): Observable<any>
   {
     return this.http.post(`${API}/question/new`, question, {headers: this.getHeaders()});
   }
 
-  get(): Observable<any>
+  getQuestions(): Observable<Question[]>
   {
-    return this.http.get(`${API}/question/questions`, {headers: this.getHeaders()});
+    return this.http.get<Question[]>(`${API}/question/questions`, {headers: this.getHeaders()});
+  }
+
+  getQuestion(id: string): Observable<Question>
+  {
+    return this.http.get<Question>(`${API}/question/questions/${id}`, {headers: this.getHeaders()});
   }
 
   edit(question: Question)
@@ -45,8 +50,6 @@ export class QuestionService
 
   getHeaders(): HttpHeaders
   {
-    const httpHeaders = new HttpHeaders({'Authorization': localStorage.getItem('Authorization').toString()});
-    console.log(httpHeaders);
-    return httpHeaders;
+    return new HttpHeaders({Authorization: sessionStorage.getItem('Authorization')});
   }
 }

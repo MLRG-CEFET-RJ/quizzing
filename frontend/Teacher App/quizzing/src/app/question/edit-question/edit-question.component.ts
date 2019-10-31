@@ -3,6 +3,8 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Question} from '../question.model';
 import {Option} from '../../_models/option.model';
 import {Tag} from '../../_models/tag.model';
+import {QuestionService} from '../question.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
              selector:    'app-edit-question',
@@ -15,50 +17,32 @@ export class EditQuestionComponent implements OnInit
   form: FormGroup;
   public letters = [];
   tags: Tag[];
-  question: Question = {
-    id:       1,
-    // tslint:disable-next-line:max-line-length
-    question: 'Dadas as retas 𝑟 ≡ 3𝑥 + 𝑦 − 1 = 0 e 𝑠 ≡ 2𝑥 + 𝑚𝑦 − 8 = 0, qual dos seguintes é um valor de m que faz com que as retas r e s formem um ângulo de 45°',
-    type:     'TRUE_OR_FALSE',
-    image:    null,
-    options:  [
-      {
-        id:      '1',
-        option:  'verdadeiro',
-        letter:  'A',
-        checked: false
-      },
-      {
-        id:      '2',
-        option:  'falso',
-        letter:  'B',
-        checked: true
-      }
-    ],
-    rating:   5,
-    tags:     [
-      {
-        tag: 'a'
-      },
-      {
-        tag: 'b'
-      }
-    ]
-  };
+  question: Question;
+  image: string = null;
+  files: FileList;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder,
+              private route: ActivatedRoute,
+              private router: Router,
+              private questionService: QuestionService)
+  {}
 
   ngOnInit()
   {
-    this.form = this.formBuilder.group(
-      {
-        question: [this.question.question, Validators.required],
-        type:     [this.question.type, Validators.required],
-        image:    [null],
-        options:  new FormArray([])
-      }
-    );
-    this.question.options.sort((a, b) => a.letter.charCodeAt(0) - b.letter.charCodeAt(0)).forEach(value => this.getOption(value));
+    this.questionService.getQuestion(this.route.snapshot.params.id).subscribe(question =>
+    {
+      this.question = question;
+      this.question.options = JSON.parse(question.options.toString());
+      this.form = this.formBuilder.group(
+        {
+          question: [this.question.question, Validators.required],
+          type:     [this.question.type, Validators.required],
+          image:    [null],
+          options:  new FormArray([])
+        }
+      );
+      this.question.options.sort((a, b) => a.letter.charCodeAt(0) - b.letter.charCodeAt(0)).forEach(value => this.getOption(value));
+    });
   }
 
   get f() { return this.form.controls; }
@@ -116,11 +100,31 @@ export class EditQuestionComponent implements OnInit
     const form = this.form.value;
 
     const q: Question = new Question();
+    q.id = this.question.id;
     q.tags = this.tags;
     q.type = form.type;
-    q.image = form.image;
+    q.image = this.image;
     q.question = form.question;
     q.options = form.options;
-    console.log(q);
+    this.questionService.edit(q).subscribe(
+      response =>
+      {
+        this.router.navigate(['/question']);
+      }
+    );
+  }
+
+  getFiles(event)
+  {
+    this.files = event.target.files;
+    const reader = new FileReader();
+    reader.onload = this._handleReaderLoaded.bind(this);
+    reader.readAsBinaryString(this.files[0]);
+  }
+
+  _handleReaderLoaded(readerEvt)
+  {
+    const binaryString = readerEvt.target.result;
+    this.image = btoa(binaryString);  // Converting binary string data.
   }
 }

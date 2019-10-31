@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {QuestionComponent} from './question/question.component';
 import {QuizComponent} from './quiz/quiz.component';
 import {ActivityComponent} from './activity/activity.component';
@@ -9,15 +9,16 @@ import {TextEditorComponent} from './commons/text-editor/text-editor.component';
 import {AddQuizComponent} from './quiz/add-quiz/add-quiz.component';
 import {EditQuizComponent} from './quiz/edit-quiz/edit-quiz.component';
 import {SearchQuestionComponent} from './question/search-question/search-question.component';
-import { ImportComponent } from './import/import.component';
+import {ImportComponent} from './import/import.component';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {AuthGuard} from './_helpers/oauth.guard';
-
-
+import {AppComponent} from './app.component';
 
 
 const routes: Routes = [
+  {path: '', component: AppComponent, canActivate: [AuthGuard]},
+
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
 
@@ -36,7 +37,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
+            imports: [RouterModule.forRoot(routes)],
+            exports: [RouterModule]
+          })
+export class AppRoutingModule {}

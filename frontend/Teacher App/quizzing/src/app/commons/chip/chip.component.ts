@@ -25,7 +25,7 @@ export class ChipComponent
 
     if ((value || '').trim())
     {
-      this.tags.push({tag: value.trim()});
+      this.tags.push({name: value.trim()});
     }
 
     if (input)

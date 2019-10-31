@@ -3,6 +3,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Tag} from '../../_models/tag.model';
 import {Question} from '../question.model';
 import {QuestionService} from '../question.service';
+import {Router} from '@angular/router';
 
 @Component({
              selector:    'app-add-question',
@@ -15,9 +16,13 @@ export class AddQuestionComponent implements OnInit
   form: FormGroup;
   public letters = [];
   tags: Tag[];
+  image: string = null;
+  files: FileList;
 
   constructor(private formBuilder: FormBuilder,
-              private questionService: QuestionService) {}
+              private router: Router,
+              private questionService: QuestionService)
+  {}
 
   ngOnInit()
   {
@@ -44,7 +49,7 @@ export class AddQuestionComponent implements OnInit
       this.t.push(this.formBuilder.group(
         {
           option:  ['', Validators.required],
-          id:      [null, Validators.required],
+          id:      ['', Validators.required],
           letter:  [null, Validators.required],
           checked: [false, Validators.required]
         })
@@ -69,13 +74,31 @@ export class AddQuestionComponent implements OnInit
   submit()
   {
     const form = this.form.value;
-
     const q: Question = new Question();
     q.tags = this.tags;
     q.type = form.type;
-    q.image = form.image;
+    q.image = this.image;
     q.question = form.question;
     q.options = form.options;
-    this.questionService.create(q);
+    this.questionService.create(q).subscribe(
+      () =>
+      {
+        this.router.navigate(['/question']);
+      }
+    );
+  }
+
+  getFiles(event)
+  {
+    this.files = event.target.files;
+    const reader = new FileReader();
+    reader.onload = this._handleReaderLoaded.bind(this);
+    reader.readAsBinaryString(this.files[0]);
+  }
+
+  _handleReaderLoaded(readerEvt)
+  {
+    const binaryString = readerEvt.target.result;
+    this.image = btoa(binaryString);  // Converting binary string data.
   }
 }

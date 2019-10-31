@@ -26,6 +26,7 @@ public class Tag implements Serializable
 	@Size(max = 100)
 	@NaturalId
 	private String name;
+
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "tags")
 	@JsonIgnore
 	private Set<Question> questions = new HashSet<>();
@@ -81,7 +82,7 @@ public class Tag implements Serializable
 			return false;
 		}
 		Tag tag1 = (Tag) o;
-		return getId().equals(tag1.getId()) && getName().equals(tag1.getName());
+		return getName().equals(tag1.getName());
 	}
 
 	@Override
