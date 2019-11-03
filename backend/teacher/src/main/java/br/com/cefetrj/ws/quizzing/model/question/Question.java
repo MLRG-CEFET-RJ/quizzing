@@ -44,7 +44,7 @@ public class Question implements Serializable
 	@NotBlank
 	private String type;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.MERGE})
 	@JoinTable(name = "question_tags", joinColumns = {@JoinColumn(name = "question_id")}, inverseJoinColumns = {@JoinColumn(name = "tag_id")})
 	private Set<Tag> tags = new HashSet<>();
 

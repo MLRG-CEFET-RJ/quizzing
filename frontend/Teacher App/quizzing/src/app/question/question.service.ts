@@ -4,6 +4,7 @@ import {API} from '../app.api';
 import {Question} from './question.model';
 import {Rate} from '../_models/rate.model';
 import {Observable} from 'rxjs';
+import {QuestionSolr} from '../_models/questionSolr.model';
 
 @Injectable({
               providedIn: 'root'
@@ -38,9 +39,14 @@ export class QuestionService
     return this.http.delete(`${API}/question/delete/${question.id}`, {headers: this.getHeaders()});
   }
 
-  search(q: string)
+  search(q: string): Observable<QuestionSolr[]>
   {
-    return this.http.get(`${API}/search/questions?q=${q}`, {headers: this.getHeaders()});
+    return this.http.get<QuestionSolr[]>(`${API}/search/questions?q=${q}`, {headers: this.getHeaders()});
+  }
+
+  suggest(q: string): Observable<QuestionSolr[]>
+  {
+    return this.http.get<QuestionSolr[]>(`${API}/search/suggestions?q=${q}`, {headers: this.getHeaders()});
   }
 
   rate(rate: Rate)

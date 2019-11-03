@@ -1,5 +1,6 @@
 package br.com.cefetrj.ws.quizzing.model.quiz;
 
+import br.com.cefetrj.ws.quizzing.model.tag.Tag;
 import br.com.cefetrj.ws.quizzing.model.user.ApplicationUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
@@ -9,7 +10,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "quiz")
@@ -32,6 +35,10 @@ public class Quiz implements Serializable
 	@Lob
 	@NotBlank
 	private String questions;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinColumn(name = "quiz_id")
+	private Set<Tag> tags = new HashSet<>();
 
 	public Quiz()
 	{
@@ -82,6 +89,16 @@ public class Quiz implements Serializable
 	public void setQuestions(String questions)
 	{
 		this.questions = questions;
+	}
+
+	public Set<Tag> getTags()
+	{
+		return tags;
+	}
+
+	public void setTags(Set<Tag> tags)
+	{
+		this.tags = tags;
 	}
 
 	@Override

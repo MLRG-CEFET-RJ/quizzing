@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
@@ -50,10 +51,9 @@ public class QuestionService
 		this.userService = userService;
 	}
 
-	//TODO: Implementar método de busca com outros campos
 	public List<QuestionSolr> getQuestions(String str)
 	{
-		return solrQuestionRepository.findAllByQuestion(str);
+		return solrQuestionRepository.findAllByQuestionOrTagsOrderByRatingDesc(str, str);
 	}
 
 	public List<Question> getUserQuestions(String userAuthorization)
@@ -68,6 +68,7 @@ public class QuestionService
 		return questionRepository.findByIdAndUser(id, user);
 	}
 
+	@Transactional
 	public Response createQuestion(String userAuthorization, QuestionDTO questionDTO)
 	{
 		ApplicationUser user = getUser(userAuthorization);
@@ -75,6 +76,7 @@ public class QuestionService
 		return Response.status(CREATED).entity(createdQuestion).build();
 	}
 
+	@Transactional
 	public Response updateQuestion(String userAuthorization, QuestionDTO questionDTO)
 	{
 		Question questionToUpdate = questionRepository.findById(questionDTO.getId()).orElseThrow(() -> new NotFoundException("Question Not found"));
@@ -248,4 +250,9 @@ public class QuestionService
 		return questionRepository.findById(id).orElse(null);
 	}
 
+	public List<QuestionSolr> getSuggestions(String query)
+	{
+		Collection<String> tags = Arrays.asList(query.split(","));
+		return solrQuestionRepository.findTop5ByTagsInOrderByRatingDesc(tags);
+	}
 }

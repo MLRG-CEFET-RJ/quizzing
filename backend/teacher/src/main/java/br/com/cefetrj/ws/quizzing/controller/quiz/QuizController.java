@@ -51,11 +51,11 @@ public class QuizController
 	}
 
 	@DELETE
-	@Path("/delete")
-	public Response deleteQuiz(@Context HttpHeaders httpheaders, @Valid Quiz quiz)
+	@Path("/delete/{id}")
+	public Response deleteQuiz(@Context HttpHeaders httpheaders, @PathParam("id") Long id)
 	{
 		String authorizationHeader = httpheaders.getHeaderString("Authorization");
-		return quizService.deleteQuiz(authorizationHeader, quiz);
+		return quizService.deleteQuiz(authorizationHeader, id);
 	}
 
 }

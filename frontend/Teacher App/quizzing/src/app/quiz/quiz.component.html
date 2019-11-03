@@ -1,4 +1,4 @@
-<div class="main-component" >
+<div class="main-component" *ngIf="!adding">
   <div class="pages section" >
     
     <div class="pages-head section" >
@@ -13,13 +13,6 @@
           </mat-panel-title >
         </mat-expansion-panel-header >
         <div class="row">
-          <div class="col s6 m2 offset-m8">
-            <a mat-button [routerLink]="['edit', quiz.id]" >
-              <mat-icon >
-                edit
-              </mat-icon >
-            </a >
-          </div>
           <div class="col s6 m2">
             <a mat-button (click)="delete(quiz)" >
               <mat-icon >
@@ -31,7 +24,7 @@
         <div class="row" >
           <div class="quiz col s12 m6 l6 xl6" >
             <mat-chip-list >
-              <mat-chip color="primary" selected *ngFor="let tag of quiz.tags" >{{ tag.tag }}</mat-chip >
+              <mat-chip color="primary" selected *ngFor="let tag of quiz.tags" >{{ tag.name }}</mat-chip >
             </mat-chip-list >
           </div >
           <div class="quiz col s12 m6 l6 xl6" >
@@ -53,3 +46,4 @@
   </div >
 
 </div >
+<app-search-question *ngIf="adding" [quiz]="this.quiz" ></app-search-question >

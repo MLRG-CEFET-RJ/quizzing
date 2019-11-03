@@ -1,13 +1,9 @@
 import {Tag} from './tag.model';
 
-export class QuizDto
+export class QuizModel
 {
+  id: number;
   name: string;
-  ids: Id[];
+  questions: string;
   tags: Tag[];
-}
-
-class Id
-{
-  id: string;
 }

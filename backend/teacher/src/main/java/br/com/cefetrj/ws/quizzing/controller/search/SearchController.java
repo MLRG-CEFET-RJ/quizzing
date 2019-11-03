@@ -30,4 +30,11 @@ public class SearchController
 	{
 		return questionService.getQuestions(query);
 	}
+
+	@GET
+	@Path("/suggestions")
+	public List<QuestionSolr> getSuggestions(@QueryParam("q") String query)
+	{
+		return questionService.getSuggestions(query);
+	}
 }

@@ -95,10 +95,10 @@ public class QuizService
 		}
 	}
 
-	public Response deleteQuiz(String userAuthorization, Quiz quiz)
+	public Response deleteQuiz(String userAuthorization, Long id)
 	{
 		ApplicationUser user = userService.getUserByAuthorization(userAuthorization);
-		Quiz quizToBeDeleted = quizRespository.findById(quiz.getId()).orElseThrow(() -> new NotFoundException("Quiz not found"));
+		Quiz quizToBeDeleted = quizRespository.findById(id).orElseThrow(() -> new NotFoundException("Quiz not found"));
 		if (quizToBeDeleted.getUser().equals(user))
 		{
 			quizRespository.delete(quizToBeDeleted);
