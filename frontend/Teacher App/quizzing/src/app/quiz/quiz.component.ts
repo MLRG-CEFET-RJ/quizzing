@@ -6,6 +6,7 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {QuizService} from './quiz.service';
 import {QuizDto} from '../_models/quizDTO.model';
 import {Tag} from '../_models/tag.model';
+import {ActivityService} from '../activity/activity.service';
 
 
 @Component({
@@ -21,7 +22,8 @@ export class QuizComponent implements OnInit
   adding = false;
 
   constructor(public dialog: MatDialog,
-              private quizService: QuizService)
+              private quizService: QuizService,
+              private activityService: ActivityService)
   { }
 
   ngOnInit()
@@ -77,6 +79,11 @@ export class QuizComponent implements OnInit
                                       });
   }
 
+  saved()
+  {
+    this.adding = false;
+    this.getUserQuizzes();
+  }
 
   startActivity(quiz: Quiz)
   {
@@ -89,7 +96,25 @@ export class QuizComponent implements OnInit
     };
     dialogConfig.disableClose = true;
 
-    return this.dialog.open(DialogComponent, dialogConfig);
+    const matDialogRef = this.dialog.open(DialogComponent, dialogConfig);
+    matDialogRef.afterClosed().subscribe( result => {
+      if (result.action === true)
+      {
+        this.activityService.create(quiz).subscribe( response => {
+          const code = response.code;
+          const dialogConfig2 = new MatDialogConfig();
+          dialogConfig2.autoFocus = true;
+          dialogConfig2.data = {
+            title:     'Atividade Iniciada',
+            paragraph: `O Código da atividade é ${code}`,
+            action:    false
+          };
+          dialogConfig2.disableClose = false;
+
+          return this.dialog.open(DialogComponent, dialogConfig2);
+        });
+      }
+    });
   }
 
   private getUserQuizzes()
@@ -100,6 +125,7 @@ export class QuizComponent implements OnInit
                                               quizzes.forEach(quiz =>
                                                               {
                                                                 const q = new Quiz();
+                                                                q.id = quiz.id;
                                                                 q.name = quiz.name;
                                                                 q.tags = quiz.tags;
                                                                 q.questions = JSON.parse(quiz.questions);

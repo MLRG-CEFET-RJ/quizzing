@@ -6,15 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
 @RestController
-@Path("/activity/{id}")
+@Path("/activity")
 public class ActivityController
 {
-	@PathParam("id")
-	String id;
 	private ActivityService activityService;
 
 	@Autowired
@@ -25,29 +25,33 @@ public class ActivityController
 
 	@GET
 	@Path("/activities")
-	public List<Activity> getUserActivities()
+	public List<Activity> getUserActivities(@Context HttpHeaders httpheaders)
 	{
-		return activityService.getUserQuestions(Long.parseLong(id));
+		String authorizationHeader = httpheaders.getHeaderString("Authorization");
+		return activityService.getUserActivities(authorizationHeader);
 	}
 
 	@POST
-	@Path("/new")
-	public Response createActivity(String quizId)
+	@Path("/new/{id}")
+	public Response createActivity(@Context HttpHeaders httpheaders, @PathParam("id") Long id)
 	{
-		return activityService.createActivity(Long.parseLong(id), Long.parseLong(quizId));
+		String authorizationHeader = httpheaders.getHeaderString("Authorization");
+		return activityService.createActivity(authorizationHeader, id);
 	}
 
 	@DELETE
-	@Path("/delete")
-	public Response getUserActivities(Activity activity)
+	@Path("/delete/{id}")
+	public Response getUserActivities(@Context HttpHeaders httpheaders, @PathParam("id") Long id)
 	{
-		return activityService.deleteActivity(activity);
+		String authorizationHeader = httpheaders.getHeaderString("Authorization");
+		return activityService.deleteActivity(authorizationHeader, id);
 	}
 
 	@POST
-	@Path("/stop")
-	public Response stopActivity(Activity activity)
+	@Path("/stop/{id}")
+	public Response stopActivity(@Context HttpHeaders httpheaders, @PathParam("id") Long id)
 	{
-		return activityService.stopActivity(activity);
+		String authorizationHeader = httpheaders.getHeaderString("Authorization");
+		return activityService.stopActivity(authorizationHeader, id);
 	}
 }

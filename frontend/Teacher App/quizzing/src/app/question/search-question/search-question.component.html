@@ -20,9 +20,22 @@
               <h6 ># {{ i + 1}}</h6 >
             </mat-panel-title >
             <mat-panel-description >
+            <span *ngFor="let star of getStars(question.rating); let i = index" (click)="rate(question.id, i)">
+              <mat-icon *ngIf="star == 0" >star_border</mat-icon >
+              <mat-icon style="color: goldenrod" *ngIf="star == 1" >star</mat-icon >
+            </span >
+            </mat-panel-description >
+            <mat-panel-description [attr.id]="'add_question_' + question.id">
               <a mat-button (click)="add(question.id)" >
                 <mat-icon >
                   add
+                </mat-icon >
+              </a >
+            </mat-panel-description >
+            <mat-panel-description [attr.id]="'remove_question_' + question.id" style="display: none">
+              <a mat-button (click)="remove(question.id)" >
+                <mat-icon >
+                  remove
                 </mat-icon >
               </a >
             </mat-panel-description >
@@ -30,7 +43,7 @@
           <div class="row" >
             
             <div *ngIf="question.pic != null" class="col s6" >
-              <img class="responsive-img" src="{{question.pic}}" >
+              <img class="responsive-img" src="data:image/png;base64,{{question.pic}}" >
             </div >
             
             <div class="col" [className]="question.pic != null ? 's6' : 's12'" >

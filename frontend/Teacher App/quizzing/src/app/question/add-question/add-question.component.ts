@@ -29,7 +29,7 @@ export class AddQuestionComponent implements OnInit
     this.form = this.formBuilder.group(
       {
         question: ['', Validators.required],
-        type:     ['', Validators.required],
+        type:     ['MULTIPLE_CHOICE', Validators.required],
         image:    [null],
         options:  new FormArray([])
       }

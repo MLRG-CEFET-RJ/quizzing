@@ -130,7 +130,7 @@ public class QuestionService
 			}
 			else
 			{
-				return Response.status(UNAUTHORIZED).entity("{\"message\": \"This user can not rate this question\"}").build();
+				return Response.status(BAD_REQUEST).entity("{\"message\": \"This user can not rate this question\"}").build();
 			}
 		}
 		else
@@ -195,6 +195,7 @@ public class QuestionService
 				else
 				{
 					t = new Tag(tag.getName());
+					t = tagRepository.save(t);
 					t.getQuestions().add(question);
 				}
 				question.getTags().add(t);

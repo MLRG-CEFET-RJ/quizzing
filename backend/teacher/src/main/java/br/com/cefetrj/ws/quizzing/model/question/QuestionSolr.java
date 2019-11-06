@@ -6,7 +6,7 @@ import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.Set;
 
@@ -25,7 +25,7 @@ public class QuestionSolr
 	private String options;
 
 	@Indexed
-	private byte[] pic;
+	private String pic;
 
 	@Indexed
 	private String type;
@@ -41,12 +41,12 @@ public class QuestionSolr
 		this.id = question.getId();
 		this.question = question.getQuestion();
 		this.options = question.getOptions();
-		this.pic = question.getPic();
+		this.pic = Base64.getEncoder().encodeToString(question.getPic());
 		this.type = question.getType();
 		this.tags = getStringTags(question);
 	}
 
-	public QuestionSolr(Long id, String question, String options, byte[] pic, String type, String tags)
+	public QuestionSolr(Long id, String question, String options, String pic, String type, String tags)
 	{
 		this.id = id;
 		this.question = question;
@@ -90,12 +90,12 @@ public class QuestionSolr
 		this.options = options;
 	}
 
-	public byte[] getPic()
+	public String getPic()
 	{
 		return pic;
 	}
 
-	public void setPic(byte[] pic)
+	public void setPic(String pic)
 	{
 		this.pic = pic;
 	}
@@ -133,7 +133,7 @@ public class QuestionSolr
 	@Override
 	public String toString()
 	{
-		return "QuestionSolr{" + "id=" + id + ", question='" + question + '\'' + ", options='" + options + '\'' + ", pic=" + Arrays.toString(pic) + ", type='" + type + '\'' + '}';
+		return "QuestionSolr{" + "id=" + id + ", question='" + question + '\'' + ", options='" + options + '\'' + ", pic=" + pic + ", type='" + type + '\'' + '}';
 	}
 
 
