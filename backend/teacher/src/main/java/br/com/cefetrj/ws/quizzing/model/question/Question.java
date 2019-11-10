@@ -28,6 +28,8 @@ public class Question implements Serializable
 	@NotBlank
 	private String question;
 
+	@Lob
+    @Column(name = "options", columnDefinition = "LONGTEXT", length = 5000)
 	private String options;
 
 	@Lob

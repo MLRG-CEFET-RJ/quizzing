@@ -41,7 +41,10 @@ public class QuestionSolr
 		this.id = question.getId();
 		this.question = question.getQuestion();
 		this.options = question.getOptions();
-		this.pic = Base64.getEncoder().encodeToString(question.getPic());
+		if (question.getPic() != null && question.getPic().length > 0)
+		{
+			this.pic = Base64.getEncoder().encodeToString(question.getPic());
+		}
 		this.type = question.getType();
 		this.tags = getStringTags(question);
 	}
