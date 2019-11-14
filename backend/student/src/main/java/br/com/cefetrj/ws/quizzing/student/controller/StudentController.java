@@ -3,35 +3,37 @@ package br.com.cefetrj.ws.quizzing.student.controller;
 import br.com.cefetrj.ws.quizzing.student.request.AnswersRequest;
 import br.com.cefetrj.ws.quizzing.student.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 
 @RestController
-@Path("/rest/student/{name}")
+@Path("/rest/student")
 @Produces("application/json")
 public class StudentController
 {
+	private final StudentService studentService;
+
 	@Autowired
-	StudentService studentService;
-
-	@PathParam("name")
-	String name;
-
-	@POST
-	@Path("/activity/{id}")
-	public Response joinActivity(@PathVariable String id)
+	public StudentController(StudentService studentService)
 	{
-		return studentService.joinActivity(id);
+		this.studentService = studentService;
 	}
 
 	@POST
-	@Path("/activity/{id}/answares")
+	@Path("/activity/{code}")
+	public Response joinActivity(@PathParam("code") String code) throws IOException
+	{
+		return studentService.joinActivity(code);
+	}
+
+	@POST
+	@Path("/{name}/activity/{id}/answers")
 	@Consumes("application/json")
-	public Response submitAnswers(@PathVariable String id, @RequestBody AnswersRequest answers)
+	public Response submitAnswers(@PathParam("name") String name, @PathParam("id") Long id, @Valid AnswersRequest answers)
 	{
 		return studentService.submit(name, id, answers);
 	}

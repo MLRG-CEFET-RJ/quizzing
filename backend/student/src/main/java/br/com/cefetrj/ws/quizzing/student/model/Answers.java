@@ -19,7 +19,7 @@ public class Answers implements Serializable
 
 	private String student;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "activity_id", nullable = false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Activity activity;

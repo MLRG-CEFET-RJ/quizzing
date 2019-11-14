@@ -5,7 +5,7 @@ import { LoginComponent } from './login/login.component';
 
 
 const routes: Routes = [
-  {path: 'aluno', component: AlunoComponent},
+  {path: 'aluno/:code', component: AlunoComponent},
   {path: 'login', component: LoginComponent},
 
   {path: '**', redirectTo: '/'}

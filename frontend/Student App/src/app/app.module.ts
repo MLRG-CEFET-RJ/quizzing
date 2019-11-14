@@ -15,17 +15,18 @@ import {
   MatIconModule,
   MatInputModule,
   MatListModule,
+  MatRadioModule,
   MatSelectModule,
   MatSidenavModule,
-  MatToolbarModule,
-  MatRadioModule
- } from '@angular/material';
+  MatToolbarModule
+} from '@angular/material';
 
-import { KatexModule } from 'ng-katex';
-import { DialogComponent } from './commons/dialog/dialog.component';
-import { FormsModule }   from '@angular/forms';
-import { AlunoComponent } from './aluno/aluno.component';
-import { LoginComponent } from './login/login.component';
+import {KatexModule} from 'ng-katex';
+import {DialogComponent} from './commons/dialog/dialog.component';
+import {FormsModule} from '@angular/forms';
+import {AlunoComponent} from './aluno/aluno.component';
+import {LoginComponent} from './login/login.component';
+import {HttpClientModule} from '@angular/common/http';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { LoginComponent } from './login/login.component';
             ],
             entryComponents: [DialogComponent],
             imports:         [
-              BrowserModule,  
+              HttpClientModule,
+              BrowserModule,
               AppRoutingModule,
               BrowserAnimationsModule,
               MatToolbarModule,

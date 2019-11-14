@@ -1,11 +1,12 @@
 package br.com.cefetrj.ws.quizzing.student.response;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.io.IOException;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class QuestionResponse
 {
+	private Long id;
+
 	private String question;
 
 	private byte[] pic;
@@ -52,5 +53,15 @@ public class QuestionResponse
 	public void setOptions(String options)
 	{
 		this.options = options;
+	}
+
+	public Long getId()
+	{
+		return id;
+	}
+
+	public void setId(Long id)
+	{
+		this.id = id;
 	}
 }

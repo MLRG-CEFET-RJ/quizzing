@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class StudentService
 	@Autowired
 	AnswersRepository answersRepository;
 
-	public Response joinActivity(String code)
+	public Response joinActivity(String code) throws IOException
 	{
 		final List<Activity> activities = activityRepository.findAllByCode(code);
 		final Optional<Activity> activity = activities.stream().filter(a -> !a.getEnded()).findFirst();
