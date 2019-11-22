@@ -53,7 +53,7 @@ export class EditQuizComponent implements OnInit
     ]
   };
   tags: Tag[];
-  showSearch = false; //TODO: colocar false
+  showSearch = false;
 
   constructor(public dialog: MatDialog, private formBuilder: FormBuilder) { }
 

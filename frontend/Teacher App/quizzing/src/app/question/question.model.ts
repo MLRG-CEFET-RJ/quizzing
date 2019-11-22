@@ -10,4 +10,5 @@ export class Question
   rating: number;
   image: string;
   tags: Tag[];
+  answer: string;
 }

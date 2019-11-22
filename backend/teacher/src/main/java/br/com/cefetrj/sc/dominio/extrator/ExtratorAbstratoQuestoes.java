@@ -129,7 +129,7 @@ public abstract class ExtratorAbstratoQuestoes implements ExtratorQuestoes
 			try
 			{
 				assert documento != null;
-				documento.close();
+ 				documento.close();
 			}
 			catch (Exception e)
 			{

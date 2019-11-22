@@ -1,6 +1,7 @@
 package br.com.cefetrj.ws.quizzing.service;
 
 import br.com.cefetrj.sc.dominio.Prova;
+import br.com.cefetrj.ws.quizzing.pojo.Import;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -15,32 +16,20 @@ import java.util.Base64;
 @Service
 public class FileUploadService
 {
-	private Logger LOGGER = LoggerFactory.getLogger(FileUploadService.class);
 
-	public Response getQuestionsFromFile(String fileAndParams)
+	public Response getQuestionsFromFile(Import data)
 	{
-		try
-		{
-			JSONObject fileAndParamsObject = new JSONObject(fileAndParams);
+		byte[] file = Base64.getDecoder().decode(data.getFile());
+		int[] ignoredPages = Arrays.stream(data.getIgnoredPages().replaceAll(" ", "").split(",")).mapToInt(Integer::parseInt).toArray();
+		String[] ignoredWords = data.getIgnoredWords().split(",");
+		String questionSuffix = data.getQuestionSuffix();
+		String questionPrefix = data.getQuestionPrefix();
+		int maxQuestionsNumber = data.getMaxQuestionsNumber();
+		String optionsIdentifier = data.getOptionsIdentifier();
 
-			byte[] file = Base64.getDecoder().decode(fileAndParamsObject.getString("file"));
-			int[] ignoredPages = Arrays.stream(fileAndParamsObject.getString("ignoredPages").split(",")).mapToInt(Integer::parseInt).toArray();
-			String[] ignoredWords = fileAndParamsObject.getString("ignoredWords").split(",");
-			String questionSuffix = fileAndParamsObject.getString("questionSuffix");
-			String questionPrefix = fileAndParamsObject.getString("questionPrefix");
-			int maxQuestionsNumber = fileAndParamsObject.getInt("maxQuestionsNumber");
-			String optionsIdentifier = fileAndParamsObject.getString("optionsIdentifier");
+		Prova prova = new Prova("file.pdf", "quizzing", 2000, file, optionsIdentifier, questionSuffix, questionPrefix, ignoredPages, maxQuestionsNumber, ignoredWords);
 
-			Prova prova = new Prova("", "", 1, file, optionsIdentifier, questionSuffix, questionPrefix, ignoredPages, maxQuestionsNumber, ignoredWords);
-
-			return Response.ok().entity(prova).build();
-		}
-		catch (JSONException e)
-		{
-			LOGGER.error("Ocorreu um erro ao obter o json com os parametros e o arquivo", e);
-
-			return Response.status(500).entity("{\"message\": \"Internal Server Error\"}").build();
-		}
+		return Response.ok().entity(prova.getQuestoes()).build();
 	}
 
 

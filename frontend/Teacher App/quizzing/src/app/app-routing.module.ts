@@ -11,6 +11,7 @@ import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {AuthGuard} from './_helpers/oauth.guard';
 import {AppComponent} from './app.component';
+import {ResultsComponent} from './activity/results/results.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path: 'question', component: QuestionComponent, canActivate: [AuthGuard]},
   {path: 'quiz', component: QuizComponent, canActivate: [AuthGuard]},
   {path: 'activity', component: ActivityComponent, canActivate: [AuthGuard]},
+  {path: 'activity/:id/results', component: ResultsComponent, canActivate: [AuthGuard]},
   {path: 'question/add', component: AddQuestionComponent, canActivate: [AuthGuard]},
   {path: 'question/edit/:id', component: EditQuestionComponent, canActivate: [AuthGuard]},
   {path: 'quiz/add', component: AddQuizComponent, canActivate: [AuthGuard]},

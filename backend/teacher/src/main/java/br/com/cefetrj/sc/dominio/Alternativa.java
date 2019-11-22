@@ -28,7 +28,7 @@ public class Alternativa implements EntidadeVerificavel
 		return letra;
 	}
 
-	String getConteudo()
+	public String getConteudo()
 	{
 		return conteudo;
 	}
@@ -51,5 +51,15 @@ public class Alternativa implements EntidadeVerificavel
 			notificacao.adicionar("Opção inválida.");
 			throw new EntidadeInconsistenteException(notificacao);
 		}
+	}
+
+	public void setConteudo(String conteudo)
+	{
+		this.conteudo = conteudo;
+	}
+
+	public void setLetra(String letra)
+	{
+		this.letra = letra;
 	}
 }

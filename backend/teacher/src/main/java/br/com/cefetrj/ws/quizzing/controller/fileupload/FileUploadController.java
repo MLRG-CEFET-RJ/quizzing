@@ -1,5 +1,6 @@
 package br.com.cefetrj.ws.quizzing.controller.fileupload;
 
+import br.com.cefetrj.ws.quizzing.pojo.Import;
 import br.com.cefetrj.ws.quizzing.service.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,9 +24,9 @@ public class FileUploadController
 	}
 
 	@POST
-	public Response uploadFile(String fileAndParams)
+	public Response uploadFile(Import data)
 	{
-		return fileUploadService.getQuestionsFromFile(fileAndParams);
+		return fileUploadService.getQuestionsFromFile(data);
 	}
 
 }

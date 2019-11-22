@@ -12,15 +12,17 @@ public class QuestionDTO
 	private String type;
 	private String image;
 	private ArrayList<OptionsDTO> options;
+	private String answer;
 	private Set<Tag> tags;
 
-	public QuestionDTO(Long id, String question, String type, String image, ArrayList<OptionsDTO> options, Set<Tag> tags)
+	public QuestionDTO(Long id, String question, String type, String image, ArrayList<OptionsDTO> options, String answer, Set<Tag> tags)
 	{
 		this.id = id;
 		this.question = question;
 		this.type = type;
 		this.image = image;
 		this.options = options;
+		this.answer = answer;
 		this.tags = tags;
 	}
 
@@ -82,5 +84,15 @@ public class QuestionDTO
 	public void setTags(Set<Tag> tags)
 	{
 		this.tags = tags;
+	}
+
+	public String getAnswer()
+	{
+		return answer;
+	}
+
+	public void setAnswer(String answer)
+	{
+		this.answer = answer;
 	}
 }

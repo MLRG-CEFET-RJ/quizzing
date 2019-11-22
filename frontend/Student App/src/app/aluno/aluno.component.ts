@@ -16,6 +16,8 @@ export class AlunoComponent implements OnInit
   questions = [];
   answers: any = [];
 
+  showResults = false;
+
   constructor(public dialog: MatDialog,
               private router: Router,
               private appService: AppService,
@@ -51,7 +53,9 @@ export class AlunoComponent implements OnInit
   d()
   {
     this.appService.submitAnswers(this.activity.id, {answers:this.answers}).subscribe(
-      result => log(result)
+      result => {
+        log(result)
+      }
     );
   }
 
@@ -70,14 +74,20 @@ export class AlunoComponent implements OnInit
 
   answerQuestion(idQuestion, idOption)
   {
-    this.answers.push({
-      question: idQuestion,
-      answer: idOption
-    });
-  }
-
-  getOptions(options): any[]
-  {
-    return JSON.parse(options).sort((a, b) => (a.letter > b.letter) ? 1 : -1);
+    const index = this.answers.findIndex(e => e.question == idQuestion);
+    if (index === -1)
+    {
+      this.answers.push({
+                          question: idQuestion,
+                          answer: idOption
+                        });
+    }
+    else
+    {
+      this.answers[index] = {
+        question: idQuestion,
+        answer: idOption
+      }
+    }
   }
 }

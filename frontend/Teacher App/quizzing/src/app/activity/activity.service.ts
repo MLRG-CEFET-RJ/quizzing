@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {Activity} from './activity.model';
 import {API} from '../app.api';
 import {Quiz} from '../quiz/quiz.model';
+import {Answers} from './results/answers.model';
 
 @Injectable({providedIn: 'root'})
 export class ActivityService
@@ -28,6 +29,11 @@ export class ActivityService
   stop(activity: Activity): Observable<any>
   {
     return this.http.post(`${API}/activity/stop/${activity.id}`, null, {headers: this.getHeaders()});
+  }
+
+  getResults(id: string): Observable<Answers[]>
+  {
+    return this.http.get<Answers[]>(`${API}/activity/${id}/results`, {headers: this.getHeaders()})
   }
 
   getHeaders(): HttpHeaders

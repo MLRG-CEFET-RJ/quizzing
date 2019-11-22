@@ -80,6 +80,7 @@ export class AddQuestionComponent implements OnInit
     q.image = this.image;
     q.question = form.question;
     q.options = form.options;
+    q.answer = this.getAnswer(q.options);
     this.questionService.create(q).subscribe(
       () =>
       {
@@ -100,5 +101,10 @@ export class AddQuestionComponent implements OnInit
   {
     const binaryString = readerEvt.target.result;
     this.image = btoa(binaryString);  // Converting binary string data.
+  }
+
+  getAnswer(options)
+  {
+    return options.find(o => o.checked === true).id;
   }
 }

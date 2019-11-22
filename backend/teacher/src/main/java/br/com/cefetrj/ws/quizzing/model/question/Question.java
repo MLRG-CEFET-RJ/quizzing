@@ -31,6 +31,8 @@ public class Question implements Serializable
 	@Lob
 	private String options;
 
+	private String answer;
+
 	@Lob
 	@Column(name = "pic")
 	@JsonProperty("image")
@@ -49,10 +51,11 @@ public class Question implements Serializable
 	@JoinTable(name = "question_tags", joinColumns = {@JoinColumn(name = "question_id")}, inverseJoinColumns = {@JoinColumn(name = "tag_id")})
 	private Set<Tag> tags = new HashSet<>();
 
-	public Question(@NotBlank String question, String options, byte[] pic, ApplicationUser user, @NotBlank String type, Set<Tag> tags)
+	public Question(@NotBlank String question, String options, String answer, byte[] pic, ApplicationUser user, @NotBlank String type, Set<Tag> tags)
 	{
 		this.question = question;
 		this.options = options;
+		this.answer = answer;
 		this.pic = pic;
 		this.user = user;
 		this.type = type;
@@ -76,6 +79,16 @@ public class Question implements Serializable
 	public void setOptions(String options)
 	{
 		this.options = options;
+	}
+
+	public String getAnswer()
+	{
+		return answer;
+	}
+
+	public void setAnswer(String answer)
+	{
+		this.answer = answer;
 	}
 
 	public void setId(Long id)

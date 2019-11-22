@@ -1,7 +1,7 @@
 package br.com.cefetrj.ws.quizzing.controller.curation;
 
-import br.com.cefetrj.ws.quizzing.pojo.QuizDTO;
-import br.com.cefetrj.ws.quizzing.service.QuizService;
+import br.com.cefetrj.ws.quizzing.pojo.QuestionDTO;
+import br.com.cefetrj.ws.quizzing.service.CurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,24 +12,25 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @RestController
 @Path("/curation")
 @Produces("application/json")
 public class CurationController
 {
-	private final QuizService quizService;
+	private final CurationService curationService;
 
 	@Autowired
-	public CurationController(QuizService quizService)
+	public CurationController(CurationService curationService)
 	{
-		this.quizService = quizService;
+		this.curationService = curationService;
 	}
 
 	@POST
-	public Response createFromFile(@Context HttpHeaders httpheaders, @Valid QuizDTO quizDTO)
+	public Response createFromFile(@Context HttpHeaders httpheaders, @Valid List<QuestionDTO> questions)
 	{
 		String authorizationHeader = httpheaders.getHeaderString("Authorization");
-		return quizService.createQuiz(authorizationHeader, quizDTO);
+		return curationService.createFromCuration(authorizationHeader, questions);
 	}
 }

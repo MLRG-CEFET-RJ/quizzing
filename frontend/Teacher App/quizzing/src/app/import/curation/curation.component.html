@@ -1,0 +1,20 @@
+<div class="main-component" >
+  
+  <div class="pages section" >
+    <mat-accordion >
+      <mat-expansion-panel *ngFor="let question of exam; let i = index, let first = first" [expanded]="first" >
+        <mat-expansion-panel-header >
+          <mat-panel-title >
+            <h6 ># {{ i + 1}}</h6 >
+          </mat-panel-title >
+        </mat-expansion-panel-header >
+        <div class="row" >
+          <div class="col s12" >
+            <app-text-editor [form]="form" [text]="question.textoBase"></app-text-editor>
+          </div >
+        </div >
+      </mat-expansion-panel >
+    </mat-accordion >
+  </div>
+  
+</div>

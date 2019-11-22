@@ -38,6 +38,9 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {JwtInterceptor} from './_helpers/jwt.interceptor';
 import {ErrorInterceptor} from './_helpers/error.interceptor';
 import {SearchQuestionComponent} from './question/search-question/search-question.component';
+import { ResultsComponent } from './activity/results/results.component';
+import {MatTableModule} from '@angular/material/table';
+import { CurationComponent } from './import/curation/curation.component';
 
 @NgModule({
             declarations:    [
@@ -56,10 +59,12 @@ import {SearchQuestionComponent} from './question/search-question/search-questio
               AddQuizComponent,
               EditQuizComponent,
               CreateQuizComponent,
-              ImportComponent
+              ImportComponent,
+              ResultsComponent,
+              CurationComponent
             ],
             entryComponents: [DialogComponent, CreateQuizComponent],
-            imports:         [
+            imports: [
               HttpClientModule,
               BrowserModule,
               AppRoutingModule,
@@ -80,6 +85,7 @@ import {SearchQuestionComponent} from './question/search-question/search-questio
               FormsModule,
               MatDialogModule,
               MatInputModule,
+              MatTableModule,
             ],
             exports:         [DialogComponent, CreateQuizComponent],
             providers:       [

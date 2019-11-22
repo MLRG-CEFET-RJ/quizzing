@@ -3,6 +3,7 @@ import {Activity} from './activity.model';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
 import {DialogComponent} from '../commons/dialog/dialog.component';
 import {ActivityService} from './activity.service';
+import {Router} from '@angular/router';
 
 @Component({
              selector:    'app-activity',
@@ -15,7 +16,9 @@ export class ActivityComponent implements OnInit
   activities: Activity[];
 
   constructor(public dialog: MatDialog,
-              private activityService: ActivityService) { }
+              private activityService: ActivityService,
+              private router: Router,)
+  { }
 
   ngOnInit()
   {
@@ -26,10 +29,11 @@ export class ActivityComponent implements OnInit
   {
     const matDialogRef = this.openDialog();
 
-    matDialogRef.afterClosed().subscribe(result => {
-      this.activityService.stop(this.activities[index]).subscribe( () =>
-        this.d(result, index));
-    });
+    matDialogRef.afterClosed().subscribe(result =>
+                                         {
+                                           this.activityService.stop(this.activities[index]).subscribe(() =>
+                                                                                                         this.d(result, index));
+                                         });
   }
 
   d(result: boolean, index: number)
@@ -37,7 +41,7 @@ export class ActivityComponent implements OnInit
     if (result)
     {
       this.activities[index].ended = true;
-      alert(`${this.activities[index].id} finalizada!`);
+      alert(`Atividade ${this.activities[index].quiz.name} finalizada!`);
     }
   }
 
@@ -57,8 +61,6 @@ export class ActivityComponent implements OnInit
 
   getReport(activity)
   {
-    console.log("gerando relatório");
-    console.log(activity);
+    this.router.navigate([`activity/${activity.id}/results`]);
   }
-
 }

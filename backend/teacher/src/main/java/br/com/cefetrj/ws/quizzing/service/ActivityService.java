@@ -1,9 +1,11 @@
 package br.com.cefetrj.ws.quizzing.service;
 
 import br.com.cefetrj.ws.quizzing.model.activity.Activity;
+import br.com.cefetrj.ws.quizzing.model.activity.Answers;
 import br.com.cefetrj.ws.quizzing.model.quiz.Quiz;
 import br.com.cefetrj.ws.quizzing.model.user.ApplicationUser;
 import br.com.cefetrj.ws.quizzing.repository.jpaRepository.ActivityRepository;
+import br.com.cefetrj.ws.quizzing.repository.jpaRepository.AnswersRepository;
 import br.com.cefetrj.ws.quizzing.repository.jpaRepository.QuizRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,13 +26,16 @@ public class ActivityService
 
 	private final QuizRespository quizRespository;
 
+	private final AnswersRepository answersRepository;
+
 	private final UserService userService;
 
 	@Autowired
-	public ActivityService(ActivityRepository activityRepository, QuizRespository quizRespository, UserService userService)
+	public ActivityService(ActivityRepository activityRepository, QuizRespository quizRespository, AnswersRepository answersRepository, UserService userService)
 	{
 		this.activityRepository = activityRepository;
 		this.quizRespository = quizRespository;
+		this.answersRepository = answersRepository;
 		this.userService = userService;
 	}
 
@@ -70,13 +75,13 @@ public class ActivityService
 	public Response stopActivity(String userAuthorization, Long id)
 	{
 		ApplicationUser user = getUser(userAuthorization);
-		Activity activityToBeStoped = activityRepository.findById(id).orElseThrow(() -> new NotFoundException("Activity not found"));
-		if (activityToBeStoped.getUser().equals(user))
+		Activity activityToStop = activityRepository.findById(id).orElseThrow(() -> new NotFoundException("Activity not found"));
+		if (activityToStop.getUser().equals(user))
 		{
-			activityToBeStoped.setEnded(true);
-			activityRepository.save(activityToBeStoped);
+			activityToStop.setEnded(true);
+			activityRepository.save(activityToStop);
 
-			return Response.status(OK).entity("{\"message\": \"Activity stoped successfully\"}").build();
+			return Response.status(OK).entity("{\"message\": \"Activity stopped successfully\"}").build();
 		}
 		else
 		{
@@ -84,10 +89,34 @@ public class ActivityService
 		}
 	}
 
+	public Response getResults(String userAuthorization, Long id)
+	{
+		ApplicationUser user = getUser(userAuthorization);
+		Activity activity = activityRepository.findById(id).orElseThrow(() -> new NotFoundException("Activity not found"));
+		if (activity.getUser().equals(user))
+		{
+			if (activity.getEnded())
+			{
+				List<Answers> allByActivity = answersRepository.findAllByActivity(activity);
+				return Response.status(OK).entity(allByActivity).build();
+			}
+			else
+			{
+				return Response.status(BAD_REQUEST).entity("{\"message\": \"Activity must be stopped\"}").build();
+			}
+
+		}
+		else
+		{
+			return Response.status(UNAUTHORIZED).entity("{\"message\": \"This user can not get this results\"}").build();
+		}
+	}
+
 	private String generateCode(Quiz quiz)
 	{
 		DateFormat dateFormat = new SimpleDateFormat("ddMMHHmm");
-		String name = quiz.getName();
+		String name = quiz.getName().replaceAll(" ", "");
+		name = (name.length() > 2 ) ? name.substring(0,3).toUpperCase() : name.toUpperCase();
 		Date date = new Date();
 		String format = dateFormat.format(date);
 		return name + format;

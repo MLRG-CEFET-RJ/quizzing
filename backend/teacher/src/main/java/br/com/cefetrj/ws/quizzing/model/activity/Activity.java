@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -39,6 +40,9 @@ public class Activity implements Serializable
 
 	private Boolean isEnded = false;
 
+	@Temporal(TemporalType.DATE)
+	private Date createdDate;
+
 	@Lob
 	private String results;
 
@@ -50,6 +54,7 @@ public class Activity implements Serializable
 	{
 		this.user = user;
 		this.quiz = quiz;
+		this.createdDate = new Date();
 	}
 
 	public Long getId()
@@ -112,6 +117,16 @@ public class Activity implements Serializable
 		this.results = results;
 	}
 
+	public Date getCreatedDate()
+	{
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate)
+	{
+		this.createdDate = createdDate;
+	}
+
 	@Override
 	public boolean equals(Object o)
 	{
@@ -136,6 +151,6 @@ public class Activity implements Serializable
 	@Override
 	public String toString()
 	{
-		return "Activity{" + "id=" + id + ", code='" + code + '\'' + ", user=" + user + ", quiz=" + quiz + ", isEnded=" + isEnded + '}';
+		return "Activity{" + "id=" + id + ", code='" + code + '\'' + ", user=" + user + ", quiz=" + quiz + ", isEnded=" + isEnded + ", createdDate=" + createdDate + ", results='" + results + '\'' + '}';
 	}
 }

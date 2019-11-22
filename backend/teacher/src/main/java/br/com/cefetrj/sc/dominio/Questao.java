@@ -1,6 +1,7 @@
 package br.com.cefetrj.sc.dominio;
 
 import br.com.cefetrj.sc.exception.EntidadeInconsistenteException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -13,8 +14,12 @@ public class Questao implements Serializable,
 
 
 	private static final long serialVersionUID = 1L;
-	private List<Alternativa> alternativas = new ArrayList<>();
+
+	private ArrayList<Alternativa> alternativas = new ArrayList<>();
+
+	@JsonIgnore
 	private Prova prova;
+
 	private int numero = Integer.MIN_VALUE;
 
 	private String textoBase;
@@ -168,7 +173,31 @@ public class Questao implements Serializable,
 				break;
 			}
 		}
-		System.out.println("===\n");
+	}
+
+	public static long getSerialVersionUID()
+	{
+		return serialVersionUID;
+	}
+
+	public ArrayList<Alternativa> getAlternativas()
+	{
+		return alternativas;
+	}
+
+	public void setAlternativas(ArrayList<Alternativa> alternativas)
+	{
+		this.alternativas = alternativas;
+	}
+
+	public void setProva(Prova prova)
+	{
+		this.prova = prova;
+	}
+
+	public void setNumero(int numero)
+	{
+		this.numero = numero;
 	}
 
 	public Prova getProva()

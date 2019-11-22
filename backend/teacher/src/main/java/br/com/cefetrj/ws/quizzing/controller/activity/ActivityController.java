@@ -54,4 +54,12 @@ public class ActivityController
 		String authorizationHeader = httpheaders.getHeaderString("Authorization");
 		return activityService.stopActivity(authorizationHeader, id);
 	}
+
+	@GET
+	@Path("/{id}/results")
+	public Response getResults(@Context HttpHeaders httpHeaders, @PathParam("id") Long id)
+	{
+		String authorizationHeader = httpHeaders.getHeaderString("Authorization");
+		return activityService.getResults(authorizationHeader, id);
+	}
 }

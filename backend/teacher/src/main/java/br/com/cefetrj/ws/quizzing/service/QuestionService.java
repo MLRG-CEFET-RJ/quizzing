@@ -5,9 +5,7 @@ import br.com.cefetrj.ws.quizzing.model.question.QuestionSolr;
 import br.com.cefetrj.ws.quizzing.model.rating.Rating;
 import br.com.cefetrj.ws.quizzing.model.tag.Tag;
 import br.com.cefetrj.ws.quizzing.model.user.ApplicationUser;
-import br.com.cefetrj.ws.quizzing.pojo.OptionsDTO;
-import br.com.cefetrj.ws.quizzing.pojo.QuestionDTO;
-import br.com.cefetrj.ws.quizzing.pojo.RatingDTO;
+import br.com.cefetrj.ws.quizzing.pojo.*;
 import br.com.cefetrj.ws.quizzing.repository.jpaRepository.QuestionRepository;
 import br.com.cefetrj.ws.quizzing.repository.jpaRepository.RateRepository;
 import br.com.cefetrj.ws.quizzing.repository.jpaRepository.TagRepository;
@@ -74,6 +72,18 @@ public class QuestionService
 		ApplicationUser user = getUser(userAuthorization);
 		Question createdQuestion = newQuestion(user, questionDTO);
 		return Response.status(CREATED).entity(createdQuestion).build();
+	}
+	@Transactional
+	public QuizDTO createQuestions(String userAuthorization, List<QuestionDTO> questions)
+	{
+		ApplicationUser user = getUser(userAuthorization);
+		QuizDTO quizDTO = new QuizDTO();
+		for (QuestionDTO questionDTO : questions)
+		{
+			Question question = newQuestion(user, questionDTO);
+			quizDTO.getIds().add(new Id(question.getId()));
+		}
+		return quizDTO;
 	}
 
 	@Transactional
@@ -170,6 +180,7 @@ public class QuestionService
 		question.setType(questionDTO.getType());
 		ArrayList<OptionsDTO> optionsList = questionDTO.getOptions();
 		question.setOptions(getOptionsFromDTO(optionsList));
+		question.setAnswer(questionDTO.getAnswer());
 		String pic = questionDTO.getImage();
 		if (null != pic)
 		{

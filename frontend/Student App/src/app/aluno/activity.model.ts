@@ -1,4 +1,4 @@
-import {Quiz} from '../quiz/quiz.model';
+import {Quiz} from './quiz.model';
 
 export interface Activity
 {
@@ -6,5 +6,4 @@ export interface Activity
   quiz: Quiz;
   ended: boolean;
   code: string;
-  date: Date;
 }
