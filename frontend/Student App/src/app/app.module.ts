@@ -27,6 +27,8 @@ import {FormsModule} from '@angular/forms';
 import {AlunoComponent} from './aluno/aluno.component';
 import {LoginComponent} from './login/login.component';
 import {HttpClientModule} from '@angular/common/http';
+import { ResultsComponent } from './aluno/results/results.component';
+import {MatTableModule} from '@angular/material/table';
 
 
 @NgModule({
@@ -34,10 +36,11 @@ import {HttpClientModule} from '@angular/common/http';
               DialogComponent,
               AppComponent,
               AlunoComponent,
-              LoginComponent
+              LoginComponent,
+              ResultsComponent
             ],
             entryComponents: [DialogComponent],
-            imports:         [
+            imports: [
               HttpClientModule,
               BrowserModule,
               AppRoutingModule,
@@ -57,7 +60,8 @@ import {HttpClientModule} from '@angular/common/http';
               KatexModule,
               MatDialogModule,
               MatInputModule,
-              FormsModule
+              FormsModule,
+              MatTableModule
             ],
             exports:         [DialogComponent, AlunoComponent],
             providers:       [],

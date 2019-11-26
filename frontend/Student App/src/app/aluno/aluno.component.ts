@@ -3,7 +3,6 @@ import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
 import {DialogComponent} from '../commons/dialog/dialog.component';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AppService} from '../app.service';
-import {log} from 'util';
 
 @Component({
              selector:    'app-aluno',
@@ -17,6 +16,7 @@ export class AlunoComponent implements OnInit
   answers: any = [];
 
   showResults = false;
+  results: any;
 
   constructor(public dialog: MatDialog,
               private router: Router,
@@ -54,7 +54,8 @@ export class AlunoComponent implements OnInit
   {
     this.appService.submitAnswers(this.activity.id, {answers:this.answers}).subscribe(
       result => {
-        log(result)
+        this.results = result;
+        this.showResults = true;
       }
     );
   }

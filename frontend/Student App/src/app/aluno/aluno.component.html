@@ -1,5 +1,5 @@
 <div class="main-component" >
-  <div class="pages section" >
+  <div class="pages section" *ngIf="!showResults">
     
     <div class="pages-head section" >
       <h3 >{{ activity.quiz.name }}</h3 >
@@ -36,5 +36,7 @@
     </button >
   
   </div >
-
+  <div class="pages section" *ngIf="showResults" >
+    <app-results [results]="results"></app-results>
+  </div>
 </div >

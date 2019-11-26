@@ -1,0 +1,15 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
+  <div *ngFor="let col of displayedColumns | slice:0:displayedColumns.length-1; let i = index" >
+    <ng-container [matColumnDef]="col" >
+      <th mat-header-cell *matHeaderCellDef > {{col}} </th >
+      <td mat-cell [className]="getClass(element.ans[i])" *matCellDef="let element" > {{element.ans[i].letter}} </td >
+    </ng-container >
+  </div >
+  <ng-container matColumnDef="total" >
+    <th mat-header-cell *matHeaderCellDef > Total</th >
+    <td mat-cell *matCellDef="let element" > {{element.total}}%</td >
+  </ng-container >
+  
+  <tr mat-header-row *matHeaderRowDef="displayedColumns" ></tr >
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr >
+</table >
