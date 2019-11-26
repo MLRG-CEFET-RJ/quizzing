@@ -26,6 +26,7 @@ public class Question implements Serializable
 	private Long id;
 
 	@NotBlank
+	@Lob
 	private String question;
 
 	@Lob

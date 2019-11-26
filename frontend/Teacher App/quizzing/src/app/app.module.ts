@@ -41,6 +41,7 @@ import {SearchQuestionComponent} from './question/search-question/search-questio
 import { ResultsComponent } from './activity/results/results.component';
 import {MatTableModule} from '@angular/material/table';
 import { CurationComponent } from './import/curation/curation.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
             declarations:    [
@@ -86,6 +87,7 @@ import { CurationComponent } from './import/curation/curation.component';
               MatDialogModule,
               MatInputModule,
               MatTableModule,
+              MatPaginatorModule,
             ],
             exports:         [DialogComponent, CreateQuizComponent],
             providers:       [

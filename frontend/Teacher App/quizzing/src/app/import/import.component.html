@@ -7,12 +7,12 @@
 		</div >
 
 		<div class='center'>
-		<!--	Palavras ignoradas: <input [(ngModel)]="ignoredWord" type="text" placeholder="Ex: casa;carro;avião">
+		  Palavras ignoradas: <input [(ngModel)]="ignoredWord" type="text" placeholder="Ex: casa;carro;avião">
 			Indeificador de opções: <input [(ngModel)]="optionsIdentifier" type="text"  placeholder="Ex: a-;b-;c-;d-;">
 			Prefixo de questão: <input [(ngModel)]="prefixQuestion" type="text"placeholder="Ex: 1)">
 			Sufixo de questão: <input [(ngModel)]="sufixQuestion" type="text"placeholder="Ex: .">
 			Páginas ignoradas: <input [(ngModel)]="ignoradePages" type="text" placeholder="Ex: 1;2;3">
-			Total de questões: <input [(ngModel)]="maxQuestionsNumber" type="number">-->
+			Total de questões: <input [(ngModel)]="maxQuestionsNumber" type="number">
 			Arquivo PDF: <input id="inputFile" type="file" placeholder="Upload file" accept=".pdf" (change)="converToBase64()"><br>
 			<input id="fileBase64" [(ngModel)]="fileBase64" type="hidden">
 			<button color="primary" mat-fab class="btn waves-effect waves-light right" (click)="submit()">Enviar</button>

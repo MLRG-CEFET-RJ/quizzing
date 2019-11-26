@@ -1,20 +1,76 @@
 <div class="main-component" >
-  
-  <div class="pages section" >
-    <mat-accordion >
-      <mat-expansion-panel *ngFor="let question of exam; let i = index, let first = first" [expanded]="first" >
-        <mat-expansion-panel-header >
-          <mat-panel-title >
-            <h6 ># {{ i + 1}}</h6 >
-          </mat-panel-title >
-        </mat-expansion-panel-header >
-        <div class="row" >
-          <div class="col s12" >
-            <app-text-editor [form]="form" [text]="question.textoBase"></app-text-editor>
-          </div >
-        </div >
-      </mat-expansion-panel >
-    </mat-accordion >
+	
+	<mat-paginator [length]="totalSize" [pageSize]="1" (page) = "pageEventHandle($event)"></mat-paginator>
+
+	<div class="pages section" >
+
+		<form [formGroup]="form" (ngSubmit)="submit()" >
+			
+			<div class="row" >
+				<div class="file-field input-field col s2" >
+					<div class="btn indigo" >
+						<i class="material-icons" >collections</i >
+						<input formControlName="image" type="file" accept="image/png" (change)="getFiles($event)" >
+					</div >
+				</div >
+			</div >
+
+			 <div class="row" >
+				<div class="input-field col s12" >
+					<span >Pergunta</span >
+					<app-text-editor [form]="form" controlName="question" [text]="exam[currentPage].textoBase"></app-text-editor >
+				</div >
+			</div >
+	
+			<div >
+				<span >Opções:</span >
+				<div *ngFor="let option of t.controls; let i = index" >
+					
+					<div class="row" [formGroup]="option" >
+						
+						<div class="input-field col s2" >
+							<span class="badge" >{{letters[i]}}</span >
+						</div >
+						
+						<div class="input-field col s8" >
+							<app-text-editor [form]="option" controlName="option" [text]="currentOption[i].option" ></app-text-editor >
+						</div >
+						
+						<div class="input-field col s2" >
+							<mat-checkbox color="primary" class="filled-in" formControlName="checked" ></mat-checkbox >
+						</div >
+						
+						<input formControlName="id" type="hidden" [(ngModel)]="i" >
+						<input formControlName="letter" type="hidden" [(ngModel)]="letters[i]" >
+					</div >
+				</div >
+				
+				<a *ngIf="letters.length<26" mat-button (click)="addOption()" >
+					<mat-icon >add</mat-icon >
+				</a >
+				<a *ngIf="letters.length > 2" mat-button (click)="removeOption()" >
+					<mat-icon >remove</mat-icon >
+				</a >
+			</div >
+			
+			<div class="row" >
+				<div class="col s6" >
+					<app-chip (getTags)="addTags($event)" ></app-chip >
+				</div >
+			</div >
+		</form >
+    
+    <div class="row">
+      <button color="primary" mat-raised-button class="btn waves-effect waves-light right" (click)="submit()" >
+        Salvar Questão
+      </button >
+    </div>
+    
+    <div class="row">
+      <button color="primary" mat-raised-button class="btn waves-effect waves-light right" (click)="submitQuiz()" >
+        Finalizar Curadoria
+      </button >
+    </div>
   </div>
-  
+	
 </div>
