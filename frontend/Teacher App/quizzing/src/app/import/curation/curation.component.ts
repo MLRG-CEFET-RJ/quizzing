@@ -44,21 +44,9 @@ export class CurationComponent implements OnInit
   ngOnInit()
   {
     this.totalSize = this.exam.length;
+    this.extracted();
 
-    for (let index = 0; index < this.exam[this.currentPage].alternativas.length; index++)
-    {
-      let id = index + 1;
-      let option: Option = {
-        option:  this.exam[this.currentPage].alternativas[index].conteudo,
-        id:      "" + id + "",
-        letter:  this.exam[this.currentPage].alternativas[index].letra,
-        checked: false
-      };
-
-      this.currentOption.push(option);
-      this.quiz.ids = [];
-    }
-
+    this.quiz.ids = [];
 
     this.form = this.formBuilder.group(
       {
@@ -72,9 +60,26 @@ export class CurationComponent implements OnInit
     this.currentOption.sort((a, b) => a.letter.charCodeAt(0) - b.letter.charCodeAt(0)).forEach(value => this.getOption(value));
   }
 
+  private extracted()
+  {
+    this.currentOption = [];
+    for (let index = 0; index < this.exam[this.currentPage].alternativas.length; index++)
+    {
+      let id = index + 1;
+      let option: Option = {
+        option:  this.exam[this.currentPage].alternativas[index].conteudo,
+        id:      "" + id + "",
+        letter:  this.exam[this.currentPage].alternativas[index].letra,
+        checked: false
+      };
+      this.currentOption.push(option);
+    }
+  }
+
   pageEventHandle($event)
   {
     this.currentPage = $event.pageIndex;
+    this.extracted();
     this.tags = null;
   }
 

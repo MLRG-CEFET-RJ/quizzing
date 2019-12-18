@@ -28,7 +28,7 @@ services:
       - question
   teacher:
     build:
-      context: teacher/
+      context: backend/teacher/
       dockerfile: Dockerfile
     restart: always
     ports:
@@ -41,7 +41,7 @@ services:
       - solr
   student:
     build:
-      context: student/
+      context: backend/student/
       dockerfile: Dockerfile
     restart: always
     ports:
@@ -52,6 +52,20 @@ services:
     depends_on:
       - db
       - solr
+  teacher-web:
+    build:
+      context: frontend/Teacher App/quizzing
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "80:80"
+  student-web:
+    build:
+      context: frontend/Student App/
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "81:81"
 volumes:
   mysql-data:
   data:
