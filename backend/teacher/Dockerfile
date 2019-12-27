@@ -9,5 +9,5 @@ RUN mvn package
 FROM openjdk:8-jdk-alpine
 WORKDIR /app
 VOLUME /tmp
-COPY --from=MAVEN_BUILD /build/target/app-1.0.jar /app/
+COPY --from=MAVEN_BUILD /build/target/app-1.0.jar app.jar
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
