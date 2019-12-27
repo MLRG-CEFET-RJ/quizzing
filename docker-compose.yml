@@ -58,14 +58,14 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - "82:80"
+      - "8082:80"
   student-web:
     build:
       context: frontend/Student App/
       dockerfile: Dockerfile
     restart: always
     ports:
-      - "80:80"
+      - "8083:80"
 volumes:
   mysql-data:
   data:
